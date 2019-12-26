@@ -70,24 +70,55 @@
                   <span class="phone hidden-sm">Hotline: 0971 432 782</span>
                 </div>
   
+  <form id="frmLogout" method="post" action="/account/logout"></form>
+  {{#if isAuthenticated}}
+  <div class="headerlinkmenu col-lg-8 col-md-7 col-sm-8 col-xs-12">
+                  <div class="links">
+                    <div class="myaccount">
+                      <a title="My Account" href="bidder-info.html">
+                        <i class="fa fa-user"></i>
+                        
+                        <span class="hidden-xs">{{authUser.fullname}}</span>
+                      </a>
+                    </div>
+  
+                    <div class="login">
+                      <a href="javascript: $('#frmLogout').submit();">
+                        <i class="fa fa-unlock-alt"></i>
+                        <span class="hidden-xs">Log Out</span>
+                      </a>
+                    </div>
+                    </div>
+                </div>
+                
+  {{else}}
                 <!-- top links -->
                 <div class="headerlinkmenu col-lg-8 col-md-7 col-sm-8 col-xs-12">
                   <div class="links">
                     <div class="myaccount">
                       <a title="My Account" href="bidder-info.html">
                         <i class="fa fa-user"></i>
+                        
                         <span class="hidden-xs">My Account</span>
                       </a>
                     </div>
   
                     <div class="login">
-                      <a href="sign-in.html">
+                      <a href="/account/login">
                         <i class="fa fa-unlock-alt"></i>
                         <span class="hidden-xs">Log In</span>
                       </a>
                     </div>
+                    <div class="login">
+                      <a href="/account/register">
+                        <i class="fa fa-unlock-alt"></i>
+                        <span class="hidden-xs">Register</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
+
+                {{/if}}
               </div>
             </div>
           </div>
@@ -96,7 +127,7 @@
               <div class="col-sm-3 col-md-3 col-xs-12">
                 <!-- Header Logo -->
                 <div class="logo">
-                  <a title="e-commerce" href="index.html">
+                  <a title="e-commerce" href="/">
                     <img alt="responsive theme logo" src="/images/logo.png">
                   </a>
                 </div>
@@ -212,7 +243,7 @@
               <ul>
                 <li class="mt-root demo_custom_link_cms">
                   <div class="mt-root-item">
-                    <a href="index.html">
+                    <a href="/">
                       <div class="title title_font">
                         <span class="title-text">Home</span>
                       </div>

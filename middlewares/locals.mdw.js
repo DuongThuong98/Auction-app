@@ -5,8 +5,8 @@ module.exports = function (app) {
     // const rows = await categoryModel.allWithDetails();
     // res.locals.lcCategories = rows;
     const rows = await categoryModel.cap2();
-    console.log(rows);
-    console.log(rows[0].mangcap2);
+    // console.log(rows);
+    // console.log(rows[0].mangcap2);
     res.locals.lcCategories = rows;
     
     if (typeof (req.session.isAuthenticated) === 'undefined') {

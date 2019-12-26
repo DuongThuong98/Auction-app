@@ -17,9 +17,13 @@ router.post('/register', async (req, res) => {
   const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
   const entity = req.body;
-  entity.f_Password = hash;
-  entity.f_Permission = 0;
-  entity.f_DOB = dob;
+  entity.u_password = hash;
+  entity.u_status = 0;
+  entity.u_dob = dob;
+  entity.u_role = 3;//khách hàng
+  entity.u_status = 1; //active 
+  entity.good_point = 0;
+  entity.bad_point = 0;
 
   delete entity.raw_password;//xóa đi để vào nó không add vô database
   delete entity.dob;
@@ -39,14 +43,14 @@ router.post('/login', async (req, res) => {
   if (user === null)
     throw new Error('Invalid username or password.');
 
-  const rs = bcrypt.compareSync(req.body.password, user.f_Password);
+  const rs = bcrypt.compareSync(req.body.password, user.u_password);
   if (rs === false)
     return res.render('vwAccount/login', {
       layout: false,
       err_message: 'Login failed'
     });
 
-  delete user.f_Password;
+  delete user.u_password;
   req.session.isAuthenticated = true;
   req.session.authUser = user;
 
@@ -54,6 +58,7 @@ router.post('/login', async (req, res) => {
   res.redirect(url);
 })
 
+//tại sao chỗ này phải là post quên rồi?
 router.post('/logout', (req, res) => {
   req.session.isAuthenticated = false;
   req.session.authUser = null;

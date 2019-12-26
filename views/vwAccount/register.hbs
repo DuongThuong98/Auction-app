@@ -1,6 +1,33 @@
 {{#section 'css'}}
 <link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
+<style>
+  .page-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .checkbox>label {
+    font-weight: bold;
+    margin-left: 15px;
+  }
+
+  /* .password-group{
+        display: none; */
+  /* } */
+
+  .box-authentication {
+    width: 550px;
+    margin-left: 70px !important;
+  }
+
+  .page-content {
+    width: 40%;
+    margin: auto;
+  }
+</style>
+
 {{/section}}
 
 {{#section 'js'}}
@@ -20,7 +47,74 @@
 </script>
 {{/section}}
 
-<div class="card shadow mb-4">
+
+
+
+
+
+
+<!-- Main Container -->
+<section class="main-container col1-layout">
+  <div class="main container">
+    <div class="page-content">
+      <div class="account-login">
+        <div class="box-authentication">
+          <h2 style="font-weight: bold;">ĐĂNG KÝ TÀI KHOẢN</h2>
+          <p class="before-login-text">Hãy điền đầy tủ thông tin nào</p>
+          <form onsubmit="return validate();" method="POST" novalidate id="frmRegister" name="frmRegister">
+            <h5 class="mb-3">Account</h5>
+            <div class="form-group">
+              <label for="txtUsername">Username</label>
+              <input type="text" class="form-control" id="txtUsername" name="username" placeholder="john" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="txtPassword">Password</label>
+              <input type="password" class="form-control" id="txtPassword" name="raw_password">
+            </div>
+            <div class="form-group">
+              <label for="txtConfirm">Confirm</label>
+              <input type="password" class="form-control" id="txtConfirm">
+            </div>
+
+            <hr class="mb-4">
+            <h5 class="mb-3">Information</h5>
+            <div class="form-group">
+              <label for="txtName">Name</label>
+              <input type="text" class="form-control" id="txtName" name="fullname" placeholder="John Witch">
+            </div>
+            <div class="form-group">
+              <label for="txtEmail">Email</label>
+              <input type="text" class="form-control" id="txtEmail" name="email" placeholder="jw@movie.db">
+            </div>
+            <div class="form-group">
+              <label for="txtDOB">Date of Birth</label>
+              <input type="text" class="form-control" id="txtDOB" name="dob">
+            </div>
+            <button type="submit" class="btn btn-outline-success">
+              <i class="fa fa-check" aria-hidden="true"></i>
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- Main Container End -->
+
+
+
+
+
+
+
+
+
+
+
+{{!-- biên giớiiiiiiiiiiiii --}}
+{{!-- <div class="card shadow mb-4">
   <h4 class="card-header">
     Register
   </h4>
@@ -63,4 +157,4 @@
   <div class="card-footer text-muted">
     Footer
   </div>
-</div>
+</div> --}}
