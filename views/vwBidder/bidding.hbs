@@ -1,0 +1,123 @@
+
+
+{{#section 'css'}}
+<style>
+  .item-brief {
+    padding-left: 3px;
+
+  }
+
+  .product-item {
+    /* margin-top: 10px; */
+    /* background-color: rgb(245, 240, 139); */
+    border-style: groove;
+    /* border-color: honeydew; */
+    border-width: 1px;
+  }
+
+  .form-control {
+    width: 200px;
+  }
+
+  .page-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-group {
+    width: fit-content;
+  }
+
+  td {
+    margin: auto;
+    vertical-align: middle;
+  }
+
+  .th-delate {
+    font-size: x-large;
+  }
+</style>
+{{/section}}
+
+<section class="main-container col2-right-layout">
+  <div class="main container">
+    <div class="row">
+      <div class="col-main col-sm-9 col-xs-12">
+        <div class="my-account">
+          <div class="page-title">
+            <h2>Danh sách sản phẩm đang đấu</h2>
+          </div>
+          <div class="wishlist-item table-responsive">
+            <table class="col-md-12">
+              <thead>
+                <tr>
+                  <th class="th-delate">Xóa</th>
+                  <th class="th-product">Ảnh đại diện</th>
+                  <th class="th-details">Thông tin sản phẩm</th>
+                  <th class="th-price">Giá đấu</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
+                  <td class="th-product"><a href="#"><img src="/images/products/img03.jpg" alt="cart"></a></td>
+                  <td class="th-details">
+                    <h2><a href="#">Lorem Ipsum is simply</a></h2>
+                  </td>
+                  <td class="th-price">$125.00</td>
+
+                </tr>
+                <tr>
+                  <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
+                  <td class="th-product"><a href="#"><img src="/images/products/img13.jpg" alt="cart"></a></td>
+                  <td class="th-details">
+                    <h2><a href="#">Leo quis molestie</a></h2>
+                  </td>
+                  <td class="th-price">$99.00</td>
+
+                </tr>
+                <tr>
+                  <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
+                  <td class="th-product"><a href="#"><img src="/images/products/img02.jpg" alt="cart"></a></td>
+                  <td class="th-details">
+                    <h2><a href="#">Lorem Ipsum is simply</a></h2>
+                  </td>
+                  <td class="th-price">$179.89</td>
+
+                </tr>
+                <tr>
+                  <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
+                  <td class="th-product"><a href="#"><img src="/images/products/img01.jpg" alt="cart"></a></td>
+                  <td class="th-details">
+                    <h2><a href="#">Leo quis molestie</a></h2>
+                  </td>
+                  <td class="th-price">$199.00</td>
+
+                </tr>
+              </tbody>
+            </table>
+            <a href="checkout.html" class="delete-all">Xóa tất cả</a>
+          </div>
+        </div>
+      </div>
+      <aside class="right sidebar col-sm-3 col-xs-12">
+        <div class="sidebar-account block">
+          <div class="sidebar-bar-title">
+            <h3>Tài khoản của tôi</h3>
+          </div>
+          <div class="block-content">
+            <ul>
+              <li><a href="info">Thông tin tài khoản</a></li>
+              <li><a href="wishlist">Danh sách yêu thích</a></li>
+              <li class="current"><a href="bidding">Sản phẩm đang tham gia đấu giá</a></li>
+              <li ><a href="won">Sản phẩm đã thắng</a></li>
+              <li class="last"><a href="evaluate">Xem nhận xét</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,66 @@
+{{#section 'css'}}
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+{{/section}}
+
+{{#section 'js'}}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script>
+  $('#txtDOB').datetimepicker({
+    // format: 'd/m/Y H:i'
+    format: 'd/m/Y',
+    timepicker: false,
+    mask: true,
+  });
+
+  function validate() {
+    return true;
+  }
+</script>
+{{/section}}
+
+<div class="card shadow mb-4">
+  <h4 class="card-header">
+    Register
+  </h4>
+  <div class="card-body">
+    <form onsubmit="return validate();" method="POST" novalidate id="frmRegister" name="frmRegister">
+      <h5 class="mb-3">Account</h5>
+      <div class="form-group">
+        <label for="txtUsername">Username</label>
+        <input type="text" class="form-control" id="txtUsername" name="f_Username" placeholder="john" autofocus>
+      </div>
+      <div class="form-group">
+        <label for="txtPassword">Password</label>
+        <input type="password" class="form-control" id="txtPassword" name="raw_password">
+      </div>
+      <div class="form-group">
+        <label for="txtConfirm">Confirm</label>
+        <input type="password" class="form-control" id="txtConfirm">
+      </div>
+
+      <hr class="mb-4">
+      <h5 class="mb-3">Information</h5>
+      <div class="form-group">
+        <label for="txtName">Name</label>
+        <input type="text" class="form-control" id="txtName" name="f_Name" placeholder="John Witch">
+      </div>
+      <div class="form-group">
+        <label for="txtEmail">Email</label>
+        <input type="text" class="form-control" id="txtEmail" name="f_Email" placeholder="jw@movie.db">
+      </div>
+      <div class="form-group">
+        <label for="txtDOB">Date of Birth</label>
+        <input type="text" class="form-control" id="txtDOB" name="dob">
+      </div>
+      <button type="submit" class="btn btn-outline-success">
+        <i class="fa fa-check" aria-hidden="true"></i>
+        Register
+      </button>
+    </form>
+  </div>
+  <div class="card-footer text-muted">
+    Footer
+  </div>
+</div>

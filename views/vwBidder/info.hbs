@@ -1,0 +1,188 @@
+{{#section 'css'}}
+<style>
+    .item-brief {
+        padding-left: 3px;
+
+    }
+
+    .product-item {
+        /* margin-top: 10px; */
+        /* background-color: rgb(245, 240, 139); */
+        border-style: groove;
+        /* border-color: honeydew; */
+        border-width: 1px;
+    }
+
+    /* 
+    .form-control {
+        width: 200px;
+    } */
+
+
+    .page-title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .form-group {
+        width: fit-content;
+    }
+
+    .checkbox>label {
+        font-weight: bold;
+        margin-left: 15px;
+    }
+
+    /* .password-group{
+        display: none; */
+    /* } */
+</style>
+{{/section}}
+
+
+{{#section 'js'}}
+<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+        $('.password-group').hide();
+        // console.log('a');
+    });
+    jQuery(document).ready(function () {
+
+        $('#is_change_pass').click(function () {
+            $('.password-group').toggle(500);
+            // alert("fdf");
+        })
+
+    });
+
+
+</script>
+{{/section}}
+
+
+<!-- Main Container -->
+<section class="main-container col2-right-layout">
+    <div class="main container">
+        <div class="row">
+            <div class="col-main col-sm-9 col-xs-12">
+
+                <!-- <div class="col-main col-sm-12 col-xs-12"></div> -->
+                <div class="page-content checkout-page">
+                    <div class="page-title">
+                        <h2>Checkout</h2>
+                    </div>
+                    <div class="box-border">
+                        <ul>
+                            <li class="row">
+                                <div class="col-sm-6">
+                                    <label for="first_name" class="required">First Name</label>
+                                    <input type="text" class="input form-control" name="" id="first_name"
+                                        value="Duong Van Thuong">
+                                </div>
+                                <!--/ [col] -->
+                                <div class="col-sm-6">
+                                    <label for="last_name" class="required">Last Name</label>
+                                    <input type="text" name="" class="input form-control" id="last_name"
+                                        value="Duong Van Thuong">
+                                </div>
+                                <!--/ [col] -->
+                            </li>
+                            <!--/ .row -->
+                            <li class="row">
+                                <div class="col-sm-6">
+                                    <label for="company_name">Điện thoại</label>
+                                    <input type="text" name="" class="input form-control" id="phone_number"
+                                        value="0123 456 789">
+                                </div>
+                                <!--/ [col] -->
+                                <div class="col-sm-6">
+                                    <label for="email_address" class="required">Email Address</label>
+                                    <input type="text" class="input form-control" name="" id="email_address"
+                                        value="DOREMON@gamil.com">
+                                </div>
+                                <!--/ [col] -->
+                            </li>
+                            <!--/ .row -->
+                            <li class="row">
+                                <div class="col-xs-12">
+                                    <label for="address" class="required">Address</label>
+                                    <input type="text" class="input form-control" name="" id="address"
+                                        value="27/12, Tân Kỳ">
+                                </div>
+                            </li><!-- / .row -->
+
+                            <br>
+                            <li class="row">
+
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="is_change_pass" name="is_change_pass">
+                                        Thay đổi mật khẩu</label>
+                                </div>
+                            </li>
+
+
+                            <div class="password-group" style="display: block;">
+                                <div class="form-group">
+                                    <label class="control-label" for="old_password">Mật khẩu cũ</label>
+                                    <div class="input-wrap">
+                                        <input type="password" name="old_password" class="form-control"
+                                            id="old_password" value="" autocomplete="off"
+                                            placeholder="Nhập mật khẩu cũ">
+                                        <span class="help-block"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label" for="new-password">Mật khẩu mới</label>
+                                    <div class="input-wrap">
+                                        <input type="password" name="new_password" class="form-control"
+                                            id="new_password" value="" autocomplete="off"
+                                            placeholder="Mật khẩu từ 6 đến 32 ký tự">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label" for="re_new_password">Nhập lại</label>
+                                    <div class="input-wrap">
+                                        <input type="password" name="re_new_password" class="form-control"
+                                            id="re_new_password" value="" autocomplete="off"
+                                            placeholder="Nhập lại mật khẩu mới">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of password-group -->
+
+                            <li>
+                                <button class="button" id="change_info"><i class="fa fa-angle-double-right"></i>&nbsp;
+                                    <span>Sửa thông tin</span></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <aside class="right sidebar col-sm-3 col-xs-12">
+                <div class="sidebar-account block">
+                    <div class="sidebar-bar-title">
+                        <h3>Tài khoản cá nhân</h3>
+                    </div>
+                    <div class="block-content">
+                        <ul>
+                           <li class="current"><a href="info">Thông tin tài khoản</a></li>
+            <li><a href="wishlist">Danh sách yêu thích</a></li>
+            <li ><a href="bidding">Sản phẩm đang tham gia đấu giá</a></li>
+            <li><a href="won">Sản phẩm đã thắng</a></li>
+            <li class="last"><a href="evaluate">Xem nhận xét</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </div>
+</section>
+<!-- Main Container End -->
