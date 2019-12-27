@@ -9,7 +9,20 @@ module.exports = {
     const rows = await db.load(`select count(*) as total from products where id_type = ${catId}`)
     return rows[0].total;
   },
-  pageByCat: (catId, offset) => db.load(`select * from products where id_type = ${catId} limit ${config.paginate.limit} offset ${offset}`),
+  pageByCat: (catId, offset) => db.load(`select * from products 
+                                        where id_type = ${catId} 
+                                        limit ${config.paginate.limit} offset ${offset}`),
+
+  countByCat_1: async catId => {
+    const rows = await db.load(`select count(*) as total from products where id_type_1 = ${catId}`)
+    return rows[0].total;
+  },
+
+  pageByCat_1: (catId, offset) => db.load(`select * from products 
+                                            where id_type_1 = ${catId} 
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
+                                            
 
   single: id => db.load(`select * from products where ProID = ${id}`),
   add: entity => db.add('products', entity),

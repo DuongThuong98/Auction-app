@@ -56,20 +56,20 @@
   {{else}}
               <div class="product-grid-area">
                 <ul class="products-grid">
-                  
+                   {{#each this.products}}
                   <li class="item item col-lg-3 col-md-3 col-sm-3 col-xs-4">
                     <div class="product-item">
                       <div class="item-inner">
                         <div class="product-thumbnail">
                           <div class="icon-hot-label hot-right">HOT</div>
                           <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="detail_product.html">
-                              <figure> <img class="first-img" src="/images/products/img15.jpg" alt="html template"> <img
-                                  class="hover-img" src="/images/products/img15.jpg" alt="html template"></figure>
+                              <figure> <img class="first-img" src="/images/products-images/{{image}}" alt="html template"> <img
+                                  class="hover-img" src="/images/products-images/{{image}}" alt="html template"></figure>
                             </a>
                          
                           </div>
                           <div class="jtv-box-timer">
-                            <div class="countbox_1 jtv-timer-grid"  style="margin-bottom: 50px;">
+                            <div class="countbox_1 jtv-timer-grid" timerun="" style="margin-bottom: 50px;">
                               <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
                               <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
                               <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
@@ -89,12 +89,12 @@
                         </div>
                         <div class="item-info">
                           <div class="info-inner">
-                            <div class="item-title"> <a title="Ipsums Dolors Untra" href="detail_product.html">Ipsums
-                                Dolors Untra </a> </div>
+                            <div class="item-title"> 
+                              <a title="Ipsums Dolors Untra" href="detail_product.html"> {{p_name}} </a> </div>
                             <div class="item-content">
                               
                               <div class="item-price">
-                                <div class="price-box"> <span class="regular-price"><label>Giá cao nhất: </label> <span class="price">$125.00</span>
+                                <div class="price-box"> <span class="regular-price"><label>Giá cao nhất:  </label> <span class="price">{{format current_bid}} đ</span>
                                   </span> </div>
                               </div>
                             </div>
@@ -118,15 +118,19 @@
                     </div>
                   </li>
                  
+                 {{/each}}
                  
 
-
-
-            
                 </ul>
               </div>
               <div class="pagination-area ">
                 <ul>
+                  <li><a href="">Đầu</a></li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-angle-left"></i>
+                    </a>
+                  </li>
                   <li>
                     <a class="active" href="#">1</a>
                   </li>
@@ -141,6 +145,7 @@
                       <i class="fa fa-angle-right"></i>
                     </a>
                   </li>
+                  <li><a href="">Cuối</a></li>
                 </ul>
               </div>
               {{/if}}

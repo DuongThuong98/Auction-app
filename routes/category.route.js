@@ -1,5 +1,6 @@
 const express = require('express');
 const productModel = require('../models/product.model');
+const categoryModel = require('../models/category.model');
 const config = require('../config/default.json');
 
 
@@ -23,11 +24,22 @@ router.get('/:id/products', async (req, res) => {
   if (page < 1) page = 1;
   const offset = (page - 1) * config.paginate.limit;
 
-  const [total, rows] = await Promise.all([
+  let [total, rows] = await Promise.all([
     productModel.countByCat(catId),
     productModel.pageByCat(catId, offset)
   ]);
 
+  if(rows.length===0)
+  {
+    const [total1, rows1] = await Promise.all([
+      productModel.countByCat_1(catId),
+      productModel.pageByCat_1(catId, offset)
+    ]);
+    total=total1;
+    rows=rows1;
+  }
+
+  console.log(rows);
   // const total = await productModel.countByCat(catId);
   let nPages = Math.floor(total / limit);
   if (total % limit > 0) nPages++;
@@ -38,6 +50,8 @@ router.get('/:id/products', async (req, res) => {
       isCurrentPage: i === +page
     })
   }
+
+
 
   //  const rows = await productModel.pageByCat(req.params.id,offset);
   res.render('vwProducts/allByCat', {
