@@ -428,14 +428,16 @@
  {{{_sections.js}}}
 
   <script>
-    var dthen1 = new Date("12/25/20 11:59:00 PM");
-    start = "06/04/18 03:02:11 AM";
+    var dthen1 = new Date("12/25/20 00:00:00 AM");
+    start = "12/20/20/ 00:00:00 AM";
     start_date = Date.parse(start);
     var dnow1 = new Date(start_date);
     if (CountStepper > 0)
       ddiff = new Date((dnow1) - (dthen1));
     else
       ddiff = new Date((dthen1) - (dnow1));
+
+      {{!-- alert(); --}}
     gsecs1 = Math.floor(ddiff.valueOf() / 1000);
 
     var iid1 = "countbox_1";

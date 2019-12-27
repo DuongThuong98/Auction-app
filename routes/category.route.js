@@ -55,7 +55,6 @@ router.get('/:id/products', async (req, res) => {
   //   empty: rows.length === 0
   // });
 
-  x = [];
 })
 
 module.exports = router;

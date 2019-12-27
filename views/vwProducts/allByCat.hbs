@@ -1,73 +1,153 @@
-<div class="card shadow mb-4">
-  <h4 class="card-header">
-    Products
-  </h4>
+{{#section 'css'}}
+<style>
+  .item-brief {
+    padding-left: 3px;
 
-  {{#if this.empty}}
+  }
+
+  .product-item {
+    /* margin-top: 10px; */
+    /* background-color: rgb(245, 240, 139); */
+    border-style: groove;
+    /* border-color: honeydew; */
+    border-width: 1px;
+  }
+
+  .form-control {
+    width: 200px;
+  }
+
+  .page-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-group {
+    width: fit-content;
+  }
+</style>
+{{/section}}
+
+<!-- Main Container -->
+    <div class="main-container col2-left-layout">
+      <div class="container">
+        <div class="row">
+          <div class="col-main col-xs-12">
+            <div class="shop-inner">
+
+              <div class="page-title">
+                <h2 style="width: fit-content;">Apple</h2>
+                <div class="form-group">
+                  <label for="sel1" style="float: left; margin-top: 5px; margin-right: 4px;">Sắp xếp:</label>
+                  <select class="form-control" id="sel1">
+                    <option>Thời gian giảm dần </option>
+                    <option>Giá tăng dần</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                </div>
+              </div>
+ {{#if this.empty}}
   <div class="card-body">
     <p class="card-text">
       Không có dữ liệu.
     </p>
   </div>
   {{else}}
-  <div class="card-body">
-    <div class="row">
-      {{#each this.products}}
-      <div class="col-sm-4 mb-3">
-        <div class="card h-100">
-          <img src="/imgs/sp/{{ProID}}/main_thumbs.jpg" alt="{{ProName}}" title="{{ProName}}" class="card-img-top">
-          <div class="card-body">
-            <h6 class="card-title">{{ProName}}</h6>
-            <h5 class="card-title text-danger">{{format Price}}</h5>
-            <p class="card-text">{{TinyDes}}</p>
+              <div class="product-grid-area">
+                <ul class="products-grid">
+                  
+                  <li class="item item col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                    <div class="product-item">
+                      <div class="item-inner">
+                        <div class="product-thumbnail">
+                          <div class="icon-hot-label hot-right">HOT</div>
+                          <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="detail_product.html">
+                              <figure> <img class="first-img" src="/images/products/img15.jpg" alt="html template"> <img
+                                  class="hover-img" src="/images/products/img15.jpg" alt="html template"></figure>
+                            </a>
+                         
+                          </div>
+                          <div class="jtv-box-timer">
+                            <div class="countbox_1 jtv-timer-grid"  style="margin-bottom: 50px;">
+                              <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
+                              <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
+                              <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
+                              <div class="sec box-time-date"><span class="time-num">58</span>Secs</div>
+                            </div>
+                          </div>
+                          <div class="pr-info-area">
+                            <div class="pr-button">
+                              <div class="mt-button add_to_wishlist"> <a href="wishlist.html"> <i
+                                    class="fa fa-heart"></i> </a> </div>
+                              <div class="mt-button add_to_compare"> <a href="compare.html"> <i
+                                    class="fa fa-signal"></i> </a> </div>
+                              <div class="mt-button quick-view"> <a href="quick_view.html"> <i class="fa fa-search"></i>
+                                </a> </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="item-info">
+                          <div class="info-inner">
+                            <div class="item-title"> <a title="Ipsums Dolors Untra" href="detail_product.html">Ipsums
+                                Dolors Untra </a> </div>
+                            <div class="item-content">
+                              
+                              <div class="item-price">
+                                <div class="price-box"> <span class="regular-price"><label>Giá cao nhất: </label> <span class="price">$125.00</span>
+                                  </span> </div>
+                              </div>
+                            </div>
+                            <div class="item-brief" style="text-align: left;">
+                              <label>MBidder: </label>
+                              <span>Thưởng</span>
+                              <br>
+                              <label>Mua ngay: </label>
+                              <span class="price">$1050.00</span>
+                              <br>
+                              <label>Ngày đăng: </label>
+                              <span
+                                style="padding: 5px; background-color: rgb(5, 27, 126); color: cornsilk;">11/11/2019</span>
+                              <br>
+                            
+                              <label>Số lượt ra giá: </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                 
+                 
+
+
+
+            
+                </ul>
+              </div>
+              <div class="pagination-area ">
+                <ul>
+                  <li>
+                    <a class="active" href="#">1</a>
+                  </li>
+                  <li>
+                    <a href="#">2</a>
+                  </li>
+                  <li>
+                    <a href="#">3</a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-angle-right"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              {{/if}}
+            </div>
           </div>
-          <div class="card-footer text-center">
-            <a class="btn btn-sm btn-outline-primary" href="/products/{{ProID}}" role="button">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-              Details
-            </a>
-            <a class="btn btn-sm btn-outline-success" href="#" role="button">
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-              Add to cart
-            </a>
-          </div>
+
         </div>
       </div>
-      {{/each}}
     </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <nav>
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="?page={{prev_value}}">
-                <i class="fa fa-backward" aria-hidden="true"></i>
-              </a>
-            </li>
-            {{#each this.page_numbers}}
-            {{#if isCurrentPage}}
-            <li class="page-item active" aria-current="page">
-              <a class="page-link" href="javascript:;">{{value}} <span class="sr-only">(current)</span></a>
-            </li>
-            {{else}}
-            <li class="page-item">
-              <a class="page-link" href="?page={{value}}">{{value}}</a>
-            </li>
-            {{/if}}
-            {{/each}}
-            <li class="page-item">
-              <a class="page-link" href="?page={{next_value}}">
-                <i class="fa fa-forward" aria-hidden="true"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-  {{/if}}
-
-  <div class="card-footer text-muted">
-    Footer
-  </div>
-</div>
+    <!-- Main Container End -->

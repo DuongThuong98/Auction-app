@@ -8,6 +8,6 @@
     "database": "qlbh"
   },
   "paginate": {
-    "limit": 6
+    "limit": 3
   }
 }
