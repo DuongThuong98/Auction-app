@@ -13,10 +13,15 @@ router.get('/:id', async (req, res) => {
   // }
 
   const proId = req.params.id;
-  // const rows = await productModel.single(proId);
+  const rows = await productModel.single(proId);
+  console.log(rows);
   res.render('vwProducts/detail', {
-    // product: rows[0]
+     product: rows[0]
   });
+
+  
+   // res.render('vwProducts/detail');
+  
 })
 
 module.exports = router;

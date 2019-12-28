@@ -24,9 +24,9 @@ module.exports = {
 
                                             
 
-  single: id => db.load(`select * from products where ProID = ${id}`),
+  single: p_id => db.load(`select * from products where id = ${p_id}`),
   add: entity => db.add('products', entity),
-  del: id => db.del('products', { ProID: id }),
+  del: p_id => db.del('products', { id: p_id }),
   patch: entity => {
     const condition = { ProID: entity.ProID };
     delete entity.ProID;
