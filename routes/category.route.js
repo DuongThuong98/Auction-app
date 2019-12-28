@@ -51,7 +51,11 @@ router.get('/:id/products', async (req, res) => {
     })
   }
 
+// if(nPages > 1 && page > 1) is_not_start = true;
+// if(nPages > page && page > 1) is_not_last = true;
 
+// console.log(is_not_last);
+// console.log(is_not_start);
 
   //  const rows = await productModel.pageByCat(req.params.id,offset);
   res.render('vwProducts/allByCat', {
@@ -60,6 +64,9 @@ router.get('/:id/products', async (req, res) => {
     page_numbers,
     prev_value: +page - 1,
     next_value: +page + 1,
+    is_not_start: nPages > 1 && page > 1,
+    is_not_last: nPages > page && nPages > 1 ,
+    nPages,
   });
 
 

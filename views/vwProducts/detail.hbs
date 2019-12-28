@@ -1,13 +1,632 @@
-<div class="card shadow">
-  <h4 class="card-header">
-    <i class="fa fa-home" aria-hidden="true"></i>
-    Home
-  </h4>
-  <div class="card-body">
-    {{!-- 3 dấu {{{}}} thì nó hiểu luôn html --}}
-    {{{this.product.FullDes}}}
-  </div>
-  <div class="card-footer text-muted">
-    Footer
-  </div>
-</div>
+{{#section 'css'}}
+<style>
+  .rounded {
+    height: 80px;
+    width: 80px;
+    border-style: dotted;
+  }
+
+  .my-price,
+  .bidder-name,
+  .seller-name {
+    display: flex;
+    justify-content: space-between !important;
+
+  }
+
+  .quick-price .price {
+    color: #777777 !important;
+    font-size: 17px !important;
+    font-weight: normal;
+    margin-left: 6px;
+  }
+
+  .quick-price {
+    margin-top: 4px;
+  }
+
+  .bidder-name,
+  .seller-name,
+  .time-left {
+    font-size: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e5e5;
+    margin-bottom: 15px
+  }
+
+  .product-cart-option {
+    border-top: 1px solid #e5e5e5;
+    display: inline-block;
+  }
+
+  .wishlist-group {
+    padding-top: 10px !important;
+  }
+
+  .bidder-name h2,
+  .seller-name h2 {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #333e48;
+    margin-bottom: 5px;
+    font-weight: bold
+  }
+
+  #customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #customers td,
+  #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #customers tr:hover {
+    background-color: #ddd;
+  }
+
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+  }
+</style>
+{{/section}}
+ 
+ <!-- Main Container -->
+    <div class="main-container col1-layout">
+      <div class="container">
+        <div class="row">
+          <div class="col-main">
+            <div class="product-view-area">
+              <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
+                <div class="icon-sale-label sale-left">Sale</div>
+                <div class="large-image"> <a href="/images/products/img03.jpg" class="cloud-zoom" id="zoom1"
+                    rel="useWrapper: false, adjustY:0, adjustX:20" style="position: relative; display: block;"> <img
+                      class="zoom-img" src="/images/products/img03.jpg" alt="products"
+                      style="display: block; visibility: visible;"> </a> </div>
+                <div class="flexslider flexslider-thumb">
+
+                  <div class="flex-viewport" style="overflow: hidden; position: relative;">
+                    <ul class="previews-list slides"
+                      style="width: 1000%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
+                      <li style="width: 100px; float: left; display: block;"><a href="/images/products/img01.jpg"
+                          class="cloud-zoom-gallery"
+                          rel="useZoom: 'zoom1', smallImage: 'images/products/img01.jpg' "><img
+                            src="/images/products/img01.jpg" alt="Thumbnail 2" draggable="false"></a></li>
+                      <li style="width: 100px; float: left; display: block;"><a href="/images/products/img07.jpg"
+                          class="cloud-zoom-gallery"
+                          rel="useZoom: 'zoom1', smallImage: 'images/products/img07.jpg' "><img
+                            src="/images/products/img07.jpg" alt="Thumbnail 1" draggable="false"></a></li>
+                      <li style="width: 100px; float: left; display: block;"><a href="/images/products/img02.jpg"
+                          class="cloud-zoom-gallery"
+                          rel="useZoom: 'zoom1', smallImage: 'images/products/img02.jpg' "><img
+                            src="/images/products/img02.jpg" alt="Thumbnail 1" draggable="false"></a></li>
+                      <li style="width: 100px; float: left; display: block;"><a href="/images/products/img03.jpg"
+                          class="cloud-zoom-gallery"
+                          rel="useZoom: 'zoom1', smallImage: 'images/products/img03.jpg' "><img
+                            src="/images/products/img03.jpg" alt="Thumbnail 2" draggable="false"></a></li>
+                      <li style="width: 100px; float: left; display: block;"><a href="/images/products/img04.jpg"
+                          class="cloud-zoom-gallery"
+                          rel="useZoom: 'zoom1', smallImage: 'images/products/img04.jpg' "><img
+                            src="/images/products/img04.jpg" alt="Thumbnail 2" draggable="false"></a></li>
+                    </ul>
+                  </div>
+                  <ul class="flex-direction-nav">
+                    <li><a class="flex-prev flex-disabled" href="#" tabindex="-1"></a></li>
+                    <li><a class="flex-next" href="#"></a></li>
+                  </ul>
+                </div>
+
+                <!-- end: more-images -->
+
+              </div>
+              <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 product-details-area">
+
+                <div class="product-name">
+                  <h1>Lorem Ipsum is simply</h1>
+                </div>
+                <div class="price-box">
+                  <div class="my-price">
+                    <p class="special-price">
+                      <label>Giá cao nhất: </label>
+                      <span class="price"> $329.99 </span>
+                    </p>
+                    <span class="quick-price">
+                      <label>Mua ngay: </label>
+                      <span class="price"> $659.99 </span>
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="bidder-name">
+                  <span>
+                    <label>Người mua:</label>
+                    <span>Lorem ipsum dolor.</span>
+                  </span>
+                  <span>
+                    <i class="far fa-heart" style="color: crimson; font-size: 20px; font-weight: bold;"></i> +6.7
+                  </span>
+                </div>
+                <div class="seller-name">
+                  <span>
+                    <label>Người bán:</label>
+                    <span>Lorem ipsum dolor.</span>
+                  </span>
+                  <span>
+                    <i class="far fa-heart" style="color: rgb(44, 5, 216); font-size: 20px;"></i> +7.2
+                  </span>
+                </div>
+
+                <div class="product-variation">
+                  <form action="#" method="post">
+                    <div class="cart-plus-minus">
+                      <label for="qty">Quantity:</label>
+                      <div class="numbers-row">
+                        <div
+                          onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) && qty > 0 ) result.value--;return false;"
+                          class="dec qtybutton"><i class="fa fa-minus">&nbsp;</i></div>
+                        <input type="text" class="qty" title="Qty" value="1" maxlength="12" id="qty" name="qty">
+                        <div
+                          onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
+                          class="inc qtybutton"><i class="fa fa-plus">&nbsp;</i></div>
+                      </div>
+                    </div>
+                    <button class="button pro-add-to-cart" title="Add to Cart" type="button"><span><i
+                          class="fa fa-shopping-cart"></i> BIDD</span></button>
+                  </form>
+                </div>
+
+                <div class="upload-date">
+                  <span style="float: left;">CÒN: </span>
+                  <div class="countbox_1 jtv-timer-grid" style="  display: flex;
+                  flex-direction: row;
+                  justify-content: space-around;
+                  margin-bottom: 10px;
+                  width: 400px; 
+                  float: left;">
+                    <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
+                    <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
+                    <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
+                    <div class="sec box-time-date"><span class="time-num">58</span>Secs</div>
+                  </div>
+                </div>
+
+                <div class="product-cart-option">
+                  <ul class="wishlist-group">
+                    <li><a href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a></li>
+
+                    <li><a href="#"><i class="fa fa-envelope"></i><span>Email to a Friend</span></a></li>
+                  </ul>
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="product-overview-tab">
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="product-tab-inner">
+                    <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
+                      <li class="active"> <a href="#description" data-toggle="tab"> Mô tả chi tiết </a> </li>
+                      <li> <a href="#reviews" data-toggle="tab">Reviews</a> </li>
+
+                    </ul>
+                    <div id="productTabContent" class="tab-content">
+                      <div class="tab-pane fade in active" id="description">
+                        <div class="std">
+                          <p>Proin lectus ipsum, gravida et mattis vulputate,
+                            tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in
+                            faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend
+                            laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla
+                            luctus malesuada tincidunt. Nunc facilisis sagittis ullamcorper. Proin
+                            lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et
+                            lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et
+                            ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus
+                            adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada
+                            tincidunt. Nunc facilisis sagittis ullamcorper. Proin lectus ipsum,
+                            gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc.
+                            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
+                            cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl
+                            ut dolor dignissim semper. Nulla luctus malesuada tincidunt.</p>
+                          <p> Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate,
+                            tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus
+                            et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl
+                            ut dolor dignissim semper. Nulla luctus malesuada tincidunt. Class aptent taciti sociosqu ad
+                            litora torquent per conubia nostra, per inceptos himenaeos. Integer enim purus, posuere at
+                            ultricies eu, placerat a felis. Suspendisse aliquet urna pretium eros convallis interdum.
+                            Quisque in arcu id dui vulputate mollis eget non arcu. Aenean et nulla purus. Mauris vel
+                            tellus non nunc mattis lobortis.</p>
+                          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat
+                            vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi. Cras neque metus,
+                            consequat et blandit et, luctus a nunc. Etiam gravida vehicula tellus, in imperdiet ligula
+                            euismod eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                            turpis egestas. </p>
+                        </div>
+                      </div>
+
+
+                      <div id="reviews" class="tab-pane fade">
+                        <div class="col-sm-12 col-lg-12 col-md-12">
+                          <table id="customers" style="margin: auto; width: 75%;">
+                            <tr>
+                              <th>Người mua</th>
+                              <th>Thời điểm</th>
+                              <th>Giá</th>
+                            </tr>
+
+                            <tr>
+                              <td><span>***</span>Đức Anh</td>
+                              <td>1/11/2019 10:43</td>
+                              <td> 6,000,000</td>
+                            </tr>
+                            <tr>
+                              <td><span>***</span>Đăng Khoa</td>
+                              <td>1/11/2019 9:43</td>
+                              <td>5,900,000</td>
+                            </tr>
+                            <tr>
+                              <td><span>***</span>Văn Thưởng</td>
+                              <td>1/11/2019 8:43</td>
+                              <td> 5,800,000</td>
+                            </tr>
+                            <tr>
+                              <td><span>***</span>Trọng Nghĩa</td>
+                              <td>1/11/2019 7:43</td>
+                              <td>5,700,000</td>
+                            </tr>
+
+
+                          </table>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+    <!-- Main Container End -->
+
+ <!-- Related Product Slider -->
+    <section class="upsell-product-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+
+            <div class="page-header">
+              <h2>Sản phẩm liên quan</h2>
+            </div>
+            <div class="slider-items-products">
+              <div id="upsell-product-slider" class="product-flexslider hidden-buttons">
+                <div class="slider-items slider-width-col4">
+              
+                    <div class="product-item">
+                      <div class="item-inner">
+                        <div class="product-thumbnail">
+                          <div class="icon-hot-label hot-right">HOT</div>
+                          <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="detail_product.html">
+                              <figure> <img class="first-img" src="/images/products/img15.jpg" alt="html template"> <img
+                                  class="hover-img" src="/images/products/img15.jpg" alt="html template"></figure>
+                            </a>
+                            <button type="button" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> Add
+                                to Cart</span> </button>
+                          </div>
+                          <div class="jtv-box-timer">
+                            <div class="countbox_1 jtv-timer-grid"  style="margin-bottom: 50px;">
+                              <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
+                              <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
+                              <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
+                              <div class="sec box-time-date"><span class="time-num">58</span>Secs</div>
+                            </div>
+                          </div>
+                          <div class="pr-info-area">
+                            <div class="pr-button">
+                              <div class="mt-button add_to_wishlist"> <a href="wishlist.html"> <i
+                                    class="fa fa-heart"></i> </a> </div>
+                              <div class="mt-button add_to_compare"> <a href="compare.html"> <i
+                                    class="fa fa-signal"></i> </a> </div>
+                              <div class="mt-button quick-view"> <a href="quick_view.html"> <i class="fa fa-search"></i>
+                                </a> </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="item-info">
+                          <div class="info-inner">
+                            <div class="item-title"> <a title="Ipsums Dolors Untra" href="detail_product.html">Ipsums
+                                Dolors Untra </a> </div>
+                            <div class="item-content">
+                              
+                              <div class="item-price">
+                                <div class="price-box"> <span class="regular-price"><label>Giá cao nhất: </label> <span class="price">$125.00</span>
+                                  </span> </div>
+                              </div>
+                            </div>
+                            <div class="item-brief" style="text-align: left;">
+                              <label>MBidder: </label>
+                              <span>Thưởng</span>
+                              <br>
+                              <label>Mua ngay: </label>
+                              <span class="price">$1050.00</span>
+                              <br>
+                              <label>Ngày đăng: </label>
+                              <span
+                                style="padding: 5px; background-color: rgb(5, 27, 126); color: cornsilk;">11/11/2019</span>
+                              <br>
+                            
+                              <label>Số lượt ra giá: </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product-item">
+                      <div class="item-inner">
+                        <div class="product-thumbnail">
+                          <div class="icon-hot-label hot-right">HOT</div>
+                          <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="detail_product.html">
+                              <figure> <img class="first-img" src="/images/products/img15.jpg" alt="html template"> <img
+                                  class="hover-img" src="/images/products/img15.jpg" alt="html template"></figure>
+                            </a>
+                            <button type="button" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> Add
+                                to Cart</span> </button>
+                          </div>
+                          <div class="jtv-box-timer">
+                            <div class="countbox_1 jtv-timer-grid"  style="margin-bottom: 50px;">
+                              <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
+                              <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
+                              <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
+                              <div class="sec box-time-date"><span class="time-num">58</span>Secs</div>
+                            </div>
+                          </div>
+                          <div class="pr-info-area">
+                            <div class="pr-button">
+                              <div class="mt-button add_to_wishlist"> <a href="wishlist.html"> <i
+                                    class="fa fa-heart"></i> </a> </div>
+                              <div class="mt-button add_to_compare"> <a href="compare.html"> <i
+                                    class="fa fa-signal"></i> </a> </div>
+                              <div class="mt-button quick-view"> <a href="quick_view.html"> <i class="fa fa-search"></i>
+                                </a> </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="item-info">
+                          <div class="info-inner">
+                            <div class="item-title"> <a title="Ipsums Dolors Untra" href="detail_product.html">Ipsums
+                                Dolors Untra </a> </div>
+                            <div class="item-content">
+                              
+                              <div class="item-price">
+                                <div class="price-box"> <span class="regular-price"><label>Giá cao nhất: </label> <span class="price">$125.00</span>
+                                  </span> </div>
+                              </div>
+                            </div>
+                            <div class="item-brief" style="text-align: left;">
+                              <label>MBidder: </label>
+                              <span>Thưởng</span>
+                              <br>
+                              <label>Mua ngay: </label>
+                              <span class="price">$1050.00</span>
+                              <br>
+                              <label>Ngày đăng: </label>
+                              <span
+                                style="padding: 5px; background-color: rgb(5, 27, 126); color: cornsilk;">11/11/2019</span>
+                              <br>
+                            
+                              <label>Số lượt ra giá: </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product-item">
+                      <div class="item-inner">
+                        <div class="product-thumbnail">
+                          <div class="icon-hot-label hot-right">HOT</div>
+                          <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="detail_product.html">
+                              <figure> <img class="first-img" src="/images/products/img15.jpg" alt="html template"> <img
+                                  class="hover-img" src="/images/products/img15.jpg" alt="html template"></figure>
+                            </a>
+                            <button type="button" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> Add
+                                to Cart</span> </button>
+                          </div>
+                          <div class="jtv-box-timer">
+                            <div class="countbox_1 jtv-timer-grid"  style="margin-bottom: 50px;">
+                              <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
+                              <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
+                              <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
+                              <div class="sec box-time-date"><span class="time-num">58</span>Secs</div>
+                            </div>
+                          </div>
+                          <div class="pr-info-area">
+                            <div class="pr-button">
+                              <div class="mt-button add_to_wishlist"> <a href="wishlist.html"> <i
+                                    class="fa fa-heart"></i> </a> </div>
+                              <div class="mt-button add_to_compare"> <a href="compare.html"> <i
+                                    class="fa fa-signal"></i> </a> </div>
+                              <div class="mt-button quick-view"> <a href="quick_view.html"> <i class="fa fa-search"></i>
+                                </a> </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="item-info">
+                          <div class="info-inner">
+                            <div class="item-title"> <a title="Ipsums Dolors Untra" href="detail_product.html">Ipsums
+                                Dolors Untra </a> </div>
+                            <div class="item-content">
+                              
+                              <div class="item-price">
+                                <div class="price-box"> <span class="regular-price"><label>Giá cao nhất: </label> <span class="price">$125.00</span>
+                                  </span> </div>
+                              </div>
+                            </div>
+                            <div class="item-brief" style="text-align: left;">
+                              <label>MBidder: </label>
+                              <span>Thưởng</span>
+                              <br>
+                              <label>Mua ngay: </label>
+                              <span class="price">$1050.00</span>
+                              <br>
+                              <label>Ngày đăng: </label>
+                              <span
+                                style="padding: 5px; background-color: rgb(5, 27, 126); color: cornsilk;">11/11/2019</span>
+                              <br>
+                            
+                              <label>Số lượt ra giá: </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product-item">
+                      <div class="item-inner">
+                        <div class="product-thumbnail">
+                          <div class="icon-hot-label hot-right">HOT</div>
+                          <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="detail_product.html">
+                              <figure> <img class="first-img" src="/images/products/img15.jpg" alt="html template"> <img
+                                  class="hover-img" src="/images/products/img15.jpg" alt="html template"></figure>
+                            </a>
+                            <button type="button" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> Add
+                                to Cart</span> </button>
+                          </div>
+                          <div class="jtv-box-timer">
+                            <div class="countbox_1 jtv-timer-grid"  style="margin-bottom: 50px;">
+                              <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
+                              <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
+                              <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
+                              <div class="sec box-time-date"><span class="time-num">58</span>Secs</div>
+                            </div>
+                          </div>
+                          <div class="pr-info-area">
+                            <div class="pr-button">
+                              <div class="mt-button add_to_wishlist"> <a href="wishlist.html"> <i
+                                    class="fa fa-heart"></i> </a> </div>
+                              <div class="mt-button add_to_compare"> <a href="compare.html"> <i
+                                    class="fa fa-signal"></i> </a> </div>
+                              <div class="mt-button quick-view"> <a href="quick_view.html"> <i class="fa fa-search"></i>
+                                </a> </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="item-info">
+                          <div class="info-inner">
+                            <div class="item-title"> <a title="Ipsums Dolors Untra" href="detail_product.html">Ipsums
+                                Dolors Untra </a> </div>
+                            <div class="item-content">
+                              
+                              <div class="item-price">
+                                <div class="price-box"> <span class="regular-price"><label>Giá cao nhất: </label> <span class="price">$125.00</span>
+                                  </span> </div>
+                              </div>
+                            </div>
+                            <div class="item-brief" style="text-align: left;">
+                              <label>MBidder: </label>
+                              <span>Thưởng</span>
+                              <br>
+                              <label>Mua ngay: </label>
+                              <span class="price">$1050.00</span>
+                              <br>
+                              <label>Ngày đăng: </label>
+                              <span
+                                style="padding: 5px; background-color: rgb(5, 27, 126); color: cornsilk;">11/11/2019</span>
+                              <br>
+                            
+                              <label>Số lượt ra giá: </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product-item">
+                      <div class="item-inner">
+                        <div class="product-thumbnail">
+                          <div class="icon-hot-label hot-right">HOT</div>
+                          <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="detail_product.html">
+                              <figure> <img class="first-img" src="/images/products/img15.jpg" alt="html template"> <img
+                                  class="hover-img" src="/images/products/img15.jpg" alt="html template"></figure>
+                            </a>
+                            <button type="button" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> Add
+                                to Cart</span> </button>
+                          </div>
+                          <div class="jtv-box-timer">
+                            <div class="countbox_1 jtv-timer-grid"  style="margin-bottom: 50px;">
+                              <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
+                              <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
+                              <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
+                              <div class="sec box-time-date"><span class="time-num">58</span>Secs</div>
+                            </div>
+                          </div>
+                          <div class="pr-info-area">
+                            <div class="pr-button">
+                              <div class="mt-button add_to_wishlist"> <a href="wishlist.html"> <i
+                                    class="fa fa-heart"></i> </a> </div>
+                              <div class="mt-button add_to_compare"> <a href="compare.html"> <i
+                                    class="fa fa-signal"></i> </a> </div>
+                              <div class="mt-button quick-view"> <a href="quick_view.html"> <i class="fa fa-search"></i>
+                                </a> </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="item-info">
+                          <div class="info-inner">
+                            <div class="item-title"> <a title="Ipsums Dolors Untra" href="detail_product.html">Ipsums
+                                Dolors Untra </a> </div>
+                            <div class="item-content">
+                              
+                              <div class="item-price">
+                                <div class="price-box"> <span class="regular-price"><label>Giá cao nhất: </label> <span class="price">$125.00</span>
+                                  </span> </div>
+                              </div>
+                            </div>
+                            <div class="item-brief" style="text-align: left;">
+                              <label>MBidder: </label>
+                              <span>Thưởng</span>
+                              <br>
+                              <label>Mua ngay: </label>
+                              <span class="price">$1050.00</span>
+                              <br>
+                              <label>Ngày đăng: </label>
+                              <span
+                                style="padding: 5px; background-color: rgb(5, 27, 126); color: cornsilk;">11/11/2019</span>
+                              <br>
+                            
+                              <label>Số lượt ra giá: </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Related Product Slider End -->
