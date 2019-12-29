@@ -54,6 +54,7 @@
             </p>
           </div>
           {{else}}
+          <div hidden class="current_time" content="{{current_time}}"></div>
           <div class="product-grid-area">
             <ul class="products-grid">
               {{#each this.products}}
@@ -69,7 +70,7 @@
 
                       </div>
                       <div class="jtv-box-timer">
-                        <div class="countbox_1 jtv-timer-grid" timerun="" style="margin-bottom: 50px;">
+                        <div class="countbox_1 jtv-timer-grid" timerun="{{f_expired_at}}" style="margin-bottom: 50px;">
                           <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
                           <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
                           <div class="min box-time-date"><span class="time-num">54</span>Mins</div>

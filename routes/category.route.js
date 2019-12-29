@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const productModel = require('../models/product.model');
 const categoryModel = require('../models/category.model');
 const config = require('../config/default.json');
@@ -51,12 +52,19 @@ router.get('/:id/products', async (req, res) => {
     })
   }
 
-// if(nPages > 1 && page > 1) is_not_start = true;
-// if(nPages > page && page > 1) is_not_last = true;
+  //format time hợp lệ
+  for(i = 0;i<rows.length;i++)
+  {
+    //console.log(rows[i].expired_at);
+    rows[i].f_expired_at= moment(rows[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM-DD-YYYY LTS');
+  }
 
-// console.log(is_not_last);
-// console.log(is_not_start);
+  
+  //console.log(moment(rows[1].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM-DD-YYYY LTS'));
 
+  //rows[0].f_e_at= moment(rows[0].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM-DD-YYYY LTS');
+  //console.log(rows[0]);
+  current_time = moment().format('MM-DD-YYYY LTS'); 
   //  const rows = await productModel.pageByCat(req.params.id,offset);
   res.render('vwProducts/allByCat', {
     products: rows,
@@ -67,14 +75,11 @@ router.get('/:id/products', async (req, res) => {
     is_not_start: nPages > 1 && page > 1,
     is_not_last: nPages > page && nPages > 1 ,
     nPages,
+    current_time
   });
 
 
-  // const rows = await productModel.allByCat(req.params.id);
-  // res.render('vwProducts/allByCat', {
-  //   products: rows,
-  //   empty: rows.length === 0
-  // });
+  
 
 })
 

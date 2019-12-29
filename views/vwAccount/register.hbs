@@ -61,6 +61,13 @@
         <div class="box-authentication">
           <h2 style="font-weight: bold;">ĐĂNG KÝ TÀI KHOẢN</h2>
           <p class="before-login-text">Hãy điền đầy tủ thông tin nào</p>
+
+           {{#if err_message}}
+       
+          {{err_message}}
+       
+        {{/if}}
+
           <form onsubmit="return validate();" method="POST" novalidate id="frmRegister" name="frmRegister">
             <h5 class="mb-3">Account</h5>
             <div class="form-group">

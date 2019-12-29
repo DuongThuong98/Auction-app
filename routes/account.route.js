@@ -12,6 +12,16 @@ router.get('/register', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
+
+  //kiểm tra username, email
+  const username = await userModel.singleByUsername(req.body.username);
+  const email = await userModel.singleByEmail(req.body.email);
+  if (username !== null || email !== null )
+    {
+      console.log(email);
+      return res.render('vwAccount/register',{err_message: 'Username hoặc email bị trùng'});
+    }
+
   const N = 10;
   const hash = bcrypt.hashSync(req.body.raw_password, N);
   const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
@@ -28,7 +38,7 @@ router.post('/register', async (req, res) => {
   delete entity.raw_password;//xóa đi để vào nó không add vô database
   delete entity.dob;
 
-  const result = await userModel.add(entity);
+  //const result = await userModel.add(entity);
   console.log(entity);
   res.render('vwAccount/register');
 });

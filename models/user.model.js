@@ -9,6 +9,12 @@ module.exports = {
       return null;
     return rows[0];
   },
+  singleByEmail: async email => {
+    const rows = await db.load(`select * from users where email = '${email}'`);
+    if (rows.length === 0)
+      return null;
+    return rows[0];
+  },
   add: entity => db.add('users', entity),
   del: id => db.del('users', { f_ID: id }),
 };
