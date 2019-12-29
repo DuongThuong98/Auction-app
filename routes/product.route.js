@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const productModel = require('../models/product.model');
 const config = require('../config/default.json');
 
@@ -15,6 +16,9 @@ router.get('/:id', async (req, res) => {
   const proId = req.params.id;
   const rows = await productModel.single(proId);
   console.log(rows);
+//   const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
+ const toe= moment(rows[0].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM-DD-YYYY LTS');
+  console.log(toe);
   res.render('vwProducts/detail', {
      product: rows[0]
   });

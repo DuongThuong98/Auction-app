@@ -15,8 +15,8 @@
   <!-- Mobile specific metas  , -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Favicon  -->
-  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  {{!-- <!-- Favicon  -->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"> --}}
 
   <!-- Google Fonts -->
   <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700italic,700,400italic' rel='stylesheet' type='text/css'>
@@ -140,6 +140,20 @@
                   <div id="search">
                     <form>
                       <div class="input-group">
+                         <select class="cate-dropdown hidden-xs" name="category_id">
+                        <option>All Categories</option>
+                        <option>women</option>
+                        <option>&nbsp;&nbsp;&nbsp;Accessories </option>
+                        <option>&nbsp;&nbsp;&nbsp;Dresses</option>
+                        <option>&nbsp;&nbsp;&nbsp;Top</option>
+                        <option>&nbsp;&nbsp;&nbsp;Handbags </option>
+                        <option>&nbsp;&nbsp;&nbsp;Shoes </option>
+                        <option>&nbsp;&nbsp;&nbsp;Clothing </option>
+                        <option>Men</option>
+                        <option>Electronics</option>
+                        <option>&nbsp;&nbsp;&nbsp;Mobiles </option>
+                        <option>&nbsp;&nbsp;&nbsp;Music &amp; Audio </option>
+                      </select>
                         <input type="text" class="form-control" placeholder="Search" name="search">
                         <button class="btn-search" type="button">
                           <i class="fa fa-search"></i>
@@ -428,8 +442,8 @@
  {{{_sections.js}}}
 
   <script>
-    var dthen1 = new Date("12/25/20 00:00:00 AM");
-    start = "12/20/20/ 00:00:00 AM";
+    var dthen1 = new Date("12/25/2020 00:00:00 AM");
+    start = "12/20/2020 00:00:00 AM";
     start_date = Date.parse(start);
     var dnow1 = new Date(start_date);
     if (CountStepper > 0)
@@ -450,28 +464,7 @@
             // console.log('a');
           });
   </script>
-  <!-- Revolution Slider -->
-  <script type="text/javascript">
-    jQuery(document).ready(function () {
-      jQuery('.tp-banner').revolution(
-        {
-          delay: 9000,
-          startwidth: 1170,
-          startheight: 530,
-          hideThumbs: 10,
-
-          navigationType: "bullet",
-          navigationStyle: "preview1",
-
-          hideArrowsOnMobile: "on",
-
-          touchenabled: "on",
-          onHoverStop: "on",
-          spinner: "spinner4"
-        });
-    });
-  </script>
-
+  
 
 
 </body>

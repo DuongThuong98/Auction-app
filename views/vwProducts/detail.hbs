@@ -83,11 +83,14 @@
 {{/section}}
  
 {{#section 'js'}}
- <!--cloud-zoom js -->
-  {{!-- <script type="text/javascript" src="/js/cloud-zoom.js"></script> --}}
 
+ <!-- flexslider js -->
+  <script type="text/javascript" src="/js/jquery.flexslider.js"></script>
+ <!--cloud-zoom js -->
+  <script type="text/javascript" src="/js/cloud-zoom.js"></script>
+{{!-- 
     <script type="text/javascript">
-    jQuery(document).ready(function () {
+   // jQuery(document).ready(function () {
       $('.rounded').click(function () {
         var source = $(this).attr('src');
         alert(source);
@@ -95,8 +98,10 @@
         //$('.zoom-img').attr('src', source); 
       })
 
-    });
-  </script>
+    }); --}}
+  {{!-- </script> --}}
+
+   
 {{/section}}
 
  <!-- Main Container -->
@@ -107,9 +112,9 @@
             <div class="product-view-area">
               <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
                 <div class="icon-sale-label sale-left">Sale</div>
-                <div class="large-image"> <a href="/images/products/img03.jpg" class="cloud-zoom" id="zoom1"
+                <div class="large-image"> <a href="/images/products-images/{{this.product.image}}" class="cloud-zoom" id="zoom1"
                     rel="useWrapper: false, adjustY:0, adjustX:20" style="position: relative; display: block;"> <img
-                      class="zoom-img" src="/images/products/img03.jpg" alt="products"
+                      class="zoom-img" src="/images/products-images/{{this.product.image}}" alt="products"
                       style="display: block; visibility: visible;"> </a> </div>
                 <div class="flexslider flexslider-thumb">
 
@@ -118,23 +123,23 @@
                       style="width: 1000%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
                       <li style="width: 100px; float: left; display: block;"><a href="/images/products/img01.jpg"
                           class="cloud-zoom-gallery"
-                          rel="useZoom: 'zoom1', smallImage: 'images/products/img01.jpg' "><img
+                          rel="useZoom: 'zoom1', smallImage: '/images/products/img01.jpg' "><img
                             src="/images/products/img01.jpg" alt="Thumbnail 2" draggable="false"></a></li>
                       <li style="width: 100px; float: left; display: block;"><a href="/images/products/img07.jpg"
                           class="cloud-zoom-gallery"
-                          rel="useZoom: 'zoom1', smallImage: 'images/products/img07.jpg' "><img
+                          rel="useZoom: 'zoom1', smallImage: '/images/products/img07.jpg' "><img
                             src="/images/products/img07.jpg" alt="Thumbnail 1" draggable="false"></a></li>
                       <li style="width: 100px; float: left; display: block;"><a href="/images/products/img02.jpg"
                           class="cloud-zoom-gallery"
-                          rel="useZoom: 'zoom1', smallImage: 'images/products/img02.jpg' "><img
+                          rel="useZoom: 'zoom1', smallImage: '/images/products/img02.jpg' "><img
                             src="/images/products/img02.jpg" alt="Thumbnail 1" draggable="false"></a></li>
                       <li style="width: 100px; float: left; display: block;"><a href="/images/products/img03.jpg"
                           class="cloud-zoom-gallery"
-                          rel="useZoom: 'zoom1', smallImage: 'images/products/img03.jpg' "><img
+                          rel="useZoom: 'zoom1', smallImage: '/images/products/img03.jpg' "><img
                             src="/images/products/img03.jpg" alt="Thumbnail 2" draggable="false"></a></li>
                       <li style="width: 100px; float: left; display: block;"><a href="/images/products/img04.jpg"
                           class="cloud-zoom-gallery"
-                          rel="useZoom: 'zoom1', smallImage: 'images/products/img04.jpg' "><img
+                          rel="useZoom: 'zoom1', smallImage: '/images/products/img04.jpg' "><img
                             src="/images/products/img04.jpg" alt="Thumbnail 2" draggable="false"></a></li>
                     </ul>
                   </div>
@@ -150,18 +155,20 @@
               <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 product-details-area">
 
                 <div class="product-name">
-                  <h1>{{this.product.p_name}}y</h1>
+                  <h1>{{this.product.p_name}}</h1>
                 </div>
                 <div class="price-box">
                   <div class="my-price">
                     <p class="special-price">
                       <label>Giá cao nhất: </label>
-                      <span class="price"> $329.99 </span>
+                      <span class="price"> {{format this.product.current_bid}} đ </span>
                     </p>
+                    {{#if this.product.purchase_bid}}
                     <span class="quick-price">
                       <label>Mua ngay: </label>
-                      <span class="price"> $659.99 </span>
+                      <span class="price"> {{format this.product.purchase_bid}} đ </span>
                     </span>
+                    {{/if}}
                   </div>
                 </div>
                 
@@ -177,7 +184,7 @@
                 <div class="seller-name">
                   <span>
                     <label>Người bán:</label>
-                    <span>Lorem ipsum dolor.</span>
+                    <span>{{this.product.id_seller}}</span>
                   </span>
                   <span>
                     <i class="far fa-heart" style="color: rgb(44, 5, 216); font-size: 20px;"></i> +7.2
@@ -244,33 +251,7 @@
                     <div id="productTabContent" class="tab-content">
                       <div class="tab-pane fade in active" id="description">
                         <div class="std">
-                          <p>Proin lectus ipsum, gravida et mattis vulputate,
-                            tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in
-                            faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend
-                            laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla
-                            luctus malesuada tincidunt. Nunc facilisis sagittis ullamcorper. Proin
-                            lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et
-                            lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et
-                            ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus
-                            adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada
-                            tincidunt. Nunc facilisis sagittis ullamcorper. Proin lectus ipsum,
-                            gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc.
-                            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
-                            cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl
-                            ut dolor dignissim semper. Nulla luctus malesuada tincidunt.</p>
-                          <p> Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate,
-                            tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus
-                            et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl
-                            ut dolor dignissim semper. Nulla luctus malesuada tincidunt. Class aptent taciti sociosqu ad
-                            litora torquent per conubia nostra, per inceptos himenaeos. Integer enim purus, posuere at
-                            ultricies eu, placerat a felis. Suspendisse aliquet urna pretium eros convallis interdum.
-                            Quisque in arcu id dui vulputate mollis eget non arcu. Aenean et nulla purus. Mauris vel
-                            tellus non nunc mattis lobortis.</p>
-                          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat
-                            vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi. Cras neque metus,
-                            consequat et blandit et, luctus a nunc. Etiam gravida vehicula tellus, in imperdiet ligula
-                            euismod eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
-                            turpis egestas. </p>
+                          {{{this.product.detail}}}
                         </div>
                       </div>
 

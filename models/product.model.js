@@ -28,7 +28,7 @@ module.exports = {
   add: entity => db.add('products', entity),
   del: p_id => db.del('products', { id: p_id }),
   patch: entity => {
-    const condition = { ProID: entity.ProID };
+    const condition = { id: entity.ProID };
     delete entity.ProID;
     return db.patch('products', entity, condition);
   },
