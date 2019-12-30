@@ -56,7 +56,7 @@ router.get('/:id/products', async (req, res) => {
   for(i = 0;i<rows.length;i++)
   {
     //console.log(rows[i].expired_at);
-    rows[i].f_expired_at= moment(rows[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM-DD-YYYY LTS');
+    rows[i].f_expired_at= moment(rows[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
   }
 
   
@@ -64,7 +64,7 @@ router.get('/:id/products', async (req, res) => {
 
   //rows[0].f_e_at= moment(rows[0].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM-DD-YYYY LTS');
   //console.log(rows[0]);
-  current_time = moment().format('MM-DD-YYYY LTS'); 
+  current_time = moment().format('MM/DD/YYYY LTS'); 
   //  const rows = await productModel.pageByCat(req.params.id,offset);
   res.render('vwProducts/allByCat', {
     products: rows,

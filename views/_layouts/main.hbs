@@ -9,9 +9,10 @@
   <![endif]-->
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>MyStore premium HTML5 &amp; CSS3 template</title>
-  <meta name="description" content="best template, template free, responsive theme, fashion store, responsive theme, responsive html theme, Premium website templates, web templates, Multi-Purpose Responsive HTML5 Template">
-  <meta name="keywords" content="bootstrap, ecommerce, fashion, layout, responsive, responsive template, responsive template download, responsive theme, retail, shop, shopping, store, Premium website templates, web templates, Multi-Purpose Responsive HTML5 Template"
-  />
+  <meta name="description"
+    content="best template, template free, responsive theme, fashion store, responsive theme, responsive html theme, Premium website templates, web templates, Multi-Purpose Responsive HTML5 Template">
+  <meta name="keywords"
+    content="bootstrap, ecommerce, fashion, layout, responsive, responsive template, responsive template download, responsive theme, retail, shop, shopping, store, Premium website templates, web templates, Multi-Purpose Responsive HTML5 Template" />
   <!-- Mobile specific metas  , -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,9 +20,12 @@
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"> --}}
 
   <!-- Google Fonts -->
-  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700italic,700,400italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Arimo:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Dosis:400,300,200,500,600,700,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700italic,700,400italic' rel='stylesheet'
+    type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Arimo:400,400italic,700,700italic' rel='stylesheet'
+    type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Dosis:400,300,200,500,600,700,800' rel='stylesheet'
+    type='text/css'>
 
   <!-- CSS Style -->
 
@@ -60,87 +64,87 @@
 
     <!-- Header -->
     <header>
-        <div class="header-container">
-          <div class="header-top">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-4 col-sm-4 hidden-xs">
-                  <!-- Default Welcome Message -->
-                  <div class="welcome-msg ">Chào mừng đến Auction! </div>
-                  <span class="phone hidden-sm">Hotline: 0971 432 782</span>
-                </div>
-  
-  <form id="frmLogout" method="post" action="/account/logout"></form>
-  {{#if isAuthenticated}}
-  <div class="headerlinkmenu col-lg-8 col-md-7 col-sm-8 col-xs-12">
-                  <div class="links">
-                    <div class="myaccount">
-                      <a title="My Account" href="bidder-info.html">
-                        <i class="fa fa-user"></i>
-                        
-                        <span class="hidden-xs">{{authUser.fullname}}</span>
-                      </a>
-                    </div>
-  
-                    <div class="login">
-                      <a href="javascript: $('#frmLogout').submit();">
-                        <i class="fa fa-unlock-alt"></i>
-                        <span class="hidden-xs">Log Out</span>
-                      </a>
-                    </div>
-                    </div>
-                </div>
-                
-  {{else}}
-                <!-- top links -->
-                <div class="headerlinkmenu col-lg-8 col-md-7 col-sm-8 col-xs-12">
-                  <div class="links">
-                    <div class="myaccount">
-                      <a title="My Account" href="bidder-info.html">
-                        <i class="fa fa-user"></i>
-                        
-                        <span class="hidden-xs">My Account</span>
-                      </a>
-                    </div>
-  
-                    <div class="login">
-                      <a href="/account/login">
-                        <i class="fa fa-unlock-alt"></i>
-                        <span class="hidden-xs">Log In</span>
-                      </a>
-                    </div>
-                    <div class="login">
-                      <a href="/account/register">
-                        <i class="fa fa-unlock-alt"></i>
-                        <span class="hidden-xs">Register</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                {{/if}}
-              </div>
-            </div>
-          </div>
+      <div class="header-container">
+        <div class="header-top">
           <div class="container">
             <div class="row">
-              <div class="col-sm-3 col-md-3 col-xs-12">
-                <!-- Header Logo -->
-                <div class="logo">
-                  <a title="e-commerce" href="/">
-                    <img alt="responsive theme logo" src="/images/logo.png">
-                  </a>
-                </div>
-                <!-- End Header Logo -->
+              <div class="col-lg-4 col-sm-4 hidden-xs">
+                <!-- Default Welcome Message -->
+                <div class="welcome-msg ">Chào mừng đến Auction! </div>
+                <span class="phone hidden-sm">Hotline: 0971 432 782</span>
               </div>
-              <div class="col-xs-9 col-sm-6 col-md-6">
-                <!-- Search -->
-  
-                <div class="top-search">
-                  <div id="search">
-                    <form>
-                      <div class="input-group">
-                         <select class="cate-dropdown hidden-xs" name="category_id">
+
+              <form id="frmLogout" method="post" action="/account/logout"></form>
+              {{#if isAuthenticated}}
+              <div class="headerlinkmenu col-lg-8 col-md-7 col-sm-8 col-xs-12">
+                <div class="links">
+                  <div class="myaccount">
+                    <a title="My Account" href="bidder-info.html">
+                      <i class="fa fa-user"></i>
+
+                      <span class="hidden-xs">{{authUser.fullname}}</span>
+                    </a>
+                  </div>
+
+                  <div class="login">
+                    <a href="javascript: $('#frmLogout').submit();">
+                      <i class="fa fa-unlock-alt"></i>
+                      <span class="hidden-xs">Log Out</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {{else}}
+              <!-- top links -->
+              <div class="headerlinkmenu col-lg-8 col-md-7 col-sm-8 col-xs-12">
+                <div class="links">
+                  <div class="myaccount">
+                    <a title="My Account" href="bidder-info.html">
+                      <i class="fa fa-user"></i>
+
+                      <span class="hidden-xs">My Account</span>
+                    </a>
+                  </div>
+
+                  <div class="login">
+                    <a href="/account/login">
+                      <i class="fa fa-unlock-alt"></i>
+                      <span class="hidden-xs">Log In</span>
+                    </a>
+                  </div>
+                  <div class="login">
+                    <a href="/account/register">
+                      <i class="fa fa-unlock-alt"></i>
+                      <span class="hidden-xs">Register</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-3 col-md-3 col-xs-12">
+              <!-- Header Logo -->
+              <div class="logo">
+                <a title="e-commerce" href="/">
+                  <img alt="responsive theme logo" src="/images/logo.png">
+                </a>
+              </div>
+              <!-- End Header Logo -->
+            </div>
+            <div class="col-xs-9 col-sm-6 col-md-6">
+              <!-- Search -->
+
+              <div class="top-search">
+                <div id="search">
+                  <form>
+                    <div class="input-group">
+                      <select class="cate-dropdown hidden-xs" name="category_id">
                         <option>All Categories</option>
                         <option>women</option>
                         <option>&nbsp;&nbsp;&nbsp;Accessories </option>
@@ -154,47 +158,47 @@
                         <option>&nbsp;&nbsp;&nbsp;Mobiles </option>
                         <option>&nbsp;&nbsp;&nbsp;Music &amp; Audio </option>
                       </select>
-                        <input type="text" class="form-control" placeholder="Search" name="search">
-                        <button class="btn-search" type="button">
-                          <i class="fa fa-search"></i>
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-  
-                <!-- End Search -->
-              </div>
-              <!-- top cart -->
-  
-              <div class="col-lg-3 col-xs-3 top-cart">
-                <div class="top-cart-contain">
-                  <div class="mini-cart">
-                    <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle">
-                      <a href="#">
-                        
-                        <div class="cart-icon" style="margin-right: 10px;margin-top: 5px;">
-                          <!-- <i class="fa fa-shopping-cart"></i> -->
-                          <i class="fas fa-clipboard-list fa-3x"></i>
-                          
-                        </div>
-                        <div class="shoppingcart-inner hidden-xs">
-                          <span class="cart-title">Wish List</span>
-                          <span class="cart-total">4 Item(s)</span>
-  
-               
-                        </div>
-                      </a>
+                      <input type="text" class="form-control" placeholder="Search" name="search">
+                      <button class="btn-search" type="button">
+                        <i class="fa fa-search"></i>
+                      </button>
                     </div>
-  
+                  </form>
+                </div>
+              </div>
+
+              <!-- End Search -->
+            </div>
+            <!-- top cart -->
+
+            <div class="col-lg-3 col-xs-3 top-cart">
+              <div class="top-cart-contain">
+                <div class="mini-cart">
+                  <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle">
+                    <a href="#">
+
+                      <div class="cart-icon" style="margin-right: 10px;margin-top: 5px;">
+                        <!-- <i class="fa fa-shopping-cart"></i> -->
+                        <i class="fas fa-clipboard-list fa-3x"></i>
+
+                      </div>
+                      <div class="shoppingcart-inner hidden-xs">
+                        <span class="cart-title">Wish List</span>
+                        <span class="cart-total">4 Item(s)</span>
+
+
+                      </div>
+                    </a>
                   </div>
+
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </header>
-      <!-- end header -->
+      </div>
+    </header>
+    <!-- end header -->
 
     <!-- Navbar -->
     <nav>
@@ -230,23 +234,23 @@
                                     <span>{{cap2_name}}</span>
                                   </a>
                                 </li>
-                               {{/each}}
+                                {{/each}}
                               </ul>
                             </div>
                           </div>
                         </div>
                       </div>
                     </li>
-                    
+
                     {{else}}
                     <li class="nosub">
                       <a href="/categories/{{cap1.id}}/products">
                         <i class="icon fa {{cap1.icon}} fa-fw"></i>{{cap1.cate_name}}</a>
                     </li>
                     {{/if}}
-                   {{/each}}
-                     
-               
+                    {{/each}}
+
+
                   </ul>
                 </div>
               </div>
@@ -299,10 +303,10 @@
     </nav>
     <!-- end nav -->
 
-   
 
-     <!-- main container -->
-             {{{body}}}
+
+    <!-- main container -->
+    {{{body}}}
 
     <!-- end main container -->
 
@@ -358,7 +362,7 @@
           </div>
         </div>
       </div>
-     
+
       <div class="footer-coppyright">
         <div class="container">
           <div class="row">
@@ -424,7 +428,7 @@
     /* <![CDATA[ */
     var mega_menu = '0';
 
-  /* ]]> */
+    /* ]]> */
   </script>
 
   <!-- jquery.mobile-menu js -->
@@ -438,41 +442,43 @@
 
   <!-- countdown js -->
   <script type="text/javascript" src="/js/countdown.js"></script>
- 
- {{{_sections.js}}}
 
-  <script>
-   
-    var dthen1 = new Date("12/25/2020 00:00:00 AM");
-    start = "12/20/2020 00:00:00 AM";
-    start_date = Date.parse(start);
-    var dnow1 = new Date(start_date);
-    if (CountStepper > 0)
-      ddiff = new Date((dnow1) - (dthen1));
-    else
-      ddiff = new Date((dthen1) - (dnow1));
+  {{{_sections.js}}}
 
-      {{!-- alert(); --}}
-    gsecs1 = Math.floor(ddiff.valueOf() / 1000);
-
-    var iid1 = "countbox_1";
-    CountBack_slider(gsecs1, "countbox_1", 1);
-  </script>
-
-  {{!-- <script>
-     jQuery(document).ready(function(){
-      $('.countbox_1').ready(function(){alert($(this).attr('timerun'))});
-    });
-    
-  </script> --}}
-
-  <script>
-      jQuery(document).ready(function(){
-            $('.mega-menu-category').hide();
-            // console.log('a');
-          });
-  </script>
   
+
+  <script>
+    jQuery(document).ready(function () {
+      var current_time = $('.current_time').attr('content');
+      //.log(current_time);
+      $('.countbox_1').each(function () {
+        var timerun = $(this).attr('timerun');
+        //console.log(timerun);
+        //console.log('countbox_1' + ':' + $(this).attr('value'));
+        var dthen1 = new Date(timerun);
+        start_date = Date.parse(current_time);
+        var dnow1 = new Date(start_date);
+        if (dthen1 > dnow1) {
+          if (CountStepper > 0)
+            ddiff = new Date((dnow1) - (dthen1));
+          else
+            ddiff = new Date((dthen1) - (dnow1));
+
+          gsecs1 = Math.floor(ddiff.valueOf() / 1000);
+
+          var iid1 = $(this).attr('value');
+          CountBack_slider(gsecs1, iid1, 1);
+        }
+      });
+    });
+  </script>
+
+  <script>
+    jQuery(document).ready(function () {
+      $('.mega-menu-category').hide();
+    });
+  </script>
+
 
 
 </body>
