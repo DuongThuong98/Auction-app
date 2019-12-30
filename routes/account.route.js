@@ -21,26 +21,29 @@ router.post('/register', async (req, res) => {
       console.log(email);
       return res.render('vwAccount/register',{err_message: 'Username hoặc email bị trùng'});
     }
+    else{
 
-  const N = 10;
-  const hash = bcrypt.hashSync(req.body.raw_password, N);
-  const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      const N = 10;
+      const hash = bcrypt.hashSync(req.body.raw_password, N);
+      const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    
+      const entity = req.body;
+      entity.u_password = hash;
+      entity.u_status = 0;
+      entity.u_dob = dob;
+      entity.u_role = 3;//khách hàng
+      entity.u_status = 1; //active 
+      entity.good_point = 0;
+      entity.bad_point = 0;
+    
+      delete entity.raw_password;//xóa đi để vào nó không add vô database
+      delete entity.dob;
+    
+      const result = await userModel.add(entity);
+      console.log(entity);
+      res.render('vwAccount/register');
+    }
 
-  const entity = req.body;
-  entity.u_password = hash;
-  entity.u_status = 0;
-  entity.u_dob = dob;
-  entity.u_role = 3;//khách hàng
-  entity.u_status = 1; //active 
-  entity.good_point = 0;
-  entity.bad_point = 0;
-
-  delete entity.raw_password;//xóa đi để vào nó không add vô database
-  delete entity.dob;
-
-  //const result = await userModel.add(entity);
-  console.log(entity);
-  res.render('vwAccount/register');
 });
 
 

@@ -194,34 +194,38 @@
                 <div class="product-variation">
                   <form action="#" method="post">
                     <div class="cart-plus-minus">
-                      <label for="qty">Quantity:</label>
+                      <label for="qty">Số tiền:</label>
                       <div class="numbers-row">
                         <div
-                          onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) && qty > 0 ) result.value--;return false;"
+                          onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) && qty > 0 ) result.value=result.value - 100000;return false;"
                           class="dec qtybutton"><i class="fa fa-minus">&nbsp;</i></div>
-                        <input type="text" class="qty" title="Qty" value="1" maxlength="12" id="qty" name="qty">
+                        <input type="text" class="qty" title="Qty" value="{{this.product.current_bid}}" maxlength="12" id="qty" name="qty">
                         <div
-                          onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
+                          onclick="var result = document.getElementById('qty'); 
+                          var qty = result.value;
+                           if( !isNaN( qty )) 
+                            result.value += Number(100000);
+                            return false;"
                           class="inc qtybutton"><i class="fa fa-plus">&nbsp;</i></div>
                       </div>
                     </div>
                     <button class="button pro-add-to-cart" title="Add to Cart" type="button"><span><i
-                          class="fa fa-shopping-cart"></i> BIDD</span></button>
+                          class="fa fa-shopping-cart"></i>RA GIÁ<span></button>
                   </form>
                 </div>
-
+                  <div hidden class="current_time" content="{{current_time}}"></div>
                 <div class="upload-date">
                   <span style="float: left;">CÒN: </span>
-                  <div class="countbox_1 jtv-timer-grid" style="  display: flex;
+                  <div class="countbox_1 jtv-timer-grid count_{{this.product.id}}" value="count_{{this.product.id}}" timerun="{{this.product.f_expired_at}}" style="  display: flex;
                   flex-direction: row;
                   justify-content: space-around;
                   margin-bottom: 10px;
                   width: 400px; 
                   float: left;">
-                    <div class="day box-time-date"><span class="time-num time-day">935</span>Days</div>
-                    <div class="hour box-time-date"><span class="time-num">20</span>Hrs</div>
-                    <div class="min box-time-date"><span class="time-num">54</span>Mins</div>
-                    <div class="sec box-time-date"><span class="time-num">58</span>Secs</div>
+                    <div class="day box-time-date"><span class="time-num time-day">00</span>Days</div>
+                    <div class="hour box-time-date"><span class="time-num">00</span>Hrs</div>
+                    <div class="min box-time-date"><span class="time-num">00</span>Mins</div>
+                    <div class="sec box-time-date"><span class="time-num">00</span>Secs</div>
                   </div>
                 </div>
 

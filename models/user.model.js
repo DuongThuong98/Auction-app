@@ -15,8 +15,22 @@ module.exports = {
       return null;
     return rows[0];
   },
+  singleByID: async u_id => {
+    const rows = await db.load(`select * from users where id = '${u_id}'`);
+    if (rows.length === 0)
+      return null;
+    return rows[0];
+  },
+
+
   add: entity => db.add('users', entity),
-  del: id => db.del('users', { f_ID: id }),
+  del: u_id => db.del('users', { id: u_id }),
+  patch: entity => {
+    const condition = { id: entity.id };
+    //delete entity.id;
+    // console.log(condition, entity);
+    return db.patch('users', entity, condition);
+  },
 };
 
 // cap2: async(level) => {
