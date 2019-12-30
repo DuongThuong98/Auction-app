@@ -82,7 +82,7 @@
                     <a title="My Account" href="/bidder/info">
                       <i class="fa fa-user"></i>
 
-                      <span class="hidden-xs">{{authUser.fullname}}</span>
+                      <span class="hidden-xs my-acc">{{authUser.fullname}}</span>
                     </a>
                   </div>
 
@@ -103,7 +103,7 @@
                     <a title="My Account" href="/bidder/info">
                       <i class="fa fa-user"></i>
 
-                      <span class="hidden-xs">My Account</span>
+                      <span class="hidden-xs my-acc">My Account</span>
                     </a>
                   </div>
 
@@ -404,6 +404,28 @@
   </div>
 
 
+<div id="myMessage" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"> message </h4>
+        </div>
+        <div class="modal-body">
+          <p> Sản phẩm <i>...</i> đã thêm vào danh sách yêu thích</p>
+          <p><a href="/bidder/wishlist"> Xem danh sách</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
   <!-- JS -->
 
   <!-- jquery js -->
@@ -445,7 +467,7 @@
 
   {{{_sections.js}}}
 
-  
+
 
   <script>
     jQuery(document).ready(function () {
@@ -479,7 +501,40 @@
     });
   </script>
 
-
+  <script>
+    jQuery(document).ready(function () {
+      $('.add_to_wishlist').click(function () {
+        var myAcc = $('.my-acc').text();
+        if (myAcc === 'My Account') {
+          window.location = "../../account/login";
+        }
+        console.log(myAcc);
+        var idProduct = $(this).attr('data-id');
+        $.ajax({
+          url: '/bidder/wishlist',
+          type: 'POST',
+          data: {
+            id: idProduct, // $_POST['id'] = 22
+            action: 'add'
+          },
+          dataType: 'JSON',
+          success: function (response) {
+            // response : obj
+            console.log(response);
+            if(response.success){
+              $('.modal-title').text(response.message)
+              $('.modal-body i').text(response.data)
+            }
+            else{
+              $('.modal-title').text('Error!')
+              $('.modal-body').text(response.message)
+            }
+            $('#myMessage').modal('show')
+          }
+        })
+      });
+    })
+  </script>
 
 </body>
 

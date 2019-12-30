@@ -83,3 +83,17 @@ router.get('/profile', restrict, (req, res) => {
   res.render('vwAccount/profile');
 });
 module.exports = router;
+
+// $.ajax({
+//   url: '/bidder/wishlist',
+//   type: 'POST',
+//   data: {
+//     id: idProduct, // $_POST['id'] = 22
+//     action: 'add'
+//   },
+//   dataType: 'JSON',
+//   success: function(response){
+//     // response : obj
+//     console.log(response);
+//   }
+// })
