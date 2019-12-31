@@ -12,6 +12,15 @@ module.exports = {
   pageByCat: (catId, offset) => db.load(`select * from products 
                                         where id_type = ${catId} 
                                         limit ${config.paginate.limit} offset ${offset}`),
+  pageByCat_A2: (catId, offset) => db.load(`select * from products 
+                                        where id_type = ${catId}
+                                        order by current_bid
+                                        limit ${config.paginate.limit} offset ${offset}`),
+  pageByCat_A1: (catId, offset) => db.load(`select * from products 
+                                        where id_type = ${catId}
+                                        order by expired_at desc
+                                        limit ${config.paginate.limit} offset ${offset}`),
+
 
   countByCat_1: async catId => {
     const rows = await db.load(`select count(*) as total from products where id_type_1 = ${catId}`)
@@ -22,7 +31,17 @@ module.exports = {
                                             where id_type_1 = ${catId} 
                                             limit ${config.paginate.limit} offset ${offset}`),
 
-                                  
+  pageByCat_1_A2: (catId, offset) => db.load(`select * from products 
+                                            where id_type_1 = ${catId} 
+                                            order by current_bid
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
+  pageByCat_1_A1: (catId, offset) => db.load(`select * from products 
+                                            where id_type_1 = ${catId} 
+                                            order by expired_at desc
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
+
 
   single: p_id => db.load(`select * from products where id = ${p_id}`),
   add: entity => db.add('products', entity),
@@ -33,5 +52,5 @@ module.exports = {
     return db.patch('products', entity, condition);
   },
 
- 
+
 };
