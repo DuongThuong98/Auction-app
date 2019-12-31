@@ -240,17 +240,4 @@ router.get('/won', async (req, res) => {
 
 module.exports = router;
 
-// $.ajax({
-//   url: '/bidder/bidding',
-//   type: 'POST',
-//   data: {
-//     id: idProduct, // $_POST['id'] = 22
-//     action: 'add',
-//     bidPrice,
-//   },
-//   dataType: 'JSON',
-//   success: function (response) {
-//     // response : obj
-//     console.log(response);
-//   }
-// })
+

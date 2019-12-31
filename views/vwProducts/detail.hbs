@@ -143,7 +143,18 @@
           dataType: 'JSON',
           success: function (response) {
             // response : obj
-            console.log(response);
+            //console.log(response);
+             if(response.success){
+              $('.modal-title').text(response.message)
+              $('.modal-body ').html("<p> Đấu giá sp "+response.data+" thành công</p>")
+            }
+            else{
+              $('.modal-title').text('Error!')
+              $('.modal-body').text(response.message)
+            }
+            $('#myMessage').modal('show');
+            $('.reload_page_button').click(function(){window.location='/products/'+response.data;});
+            
           }
         })
       }
@@ -151,6 +162,8 @@
 
 
     });
+
+    
   })
 </script>
 {{/section}}
@@ -291,7 +304,7 @@
               <div class="product-tab-inner">
                 <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
                   <li class="active"> <a href="#description" data-toggle="tab"> Mô tả chi tiết </a> </li>
-                  <li> <a href="#reviews" data-toggle="tab">Reviews</a> </li>
+                  <li> <a href="#reviews" data-toggle="tab">Lịch sử </a> </li>
 
                 </ul>
                 <div id="productTabContent" class="tab-content">
@@ -310,26 +323,17 @@
                           <th>Thời điểm</th>
                           <th>Giá</th>
                         </tr>
+                        {{#if this.empty_his}}
+
+                        {{else}}
+                        {{#each this.history}}
                         <tr>
-                          <td><span>***</span>Đức Anh</td>
-                          <td>1/11/2019 10:43</td>
-                          <td> 6,000,000</td>
+                          <td><span>***</span>{{fullname}}</td>
+                          <td>{{time}}</td>
+                          <td> {{bidPrice}}</td>
                         </tr>
-                        <tr>
-                          <td><span>***</span>Đăng Khoa</td>
-                          <td>1/11/2019 9:43</td>
-                          <td>5,900,000</td>
-                        </tr>
-                        <tr>
-                          <td><span>***</span>Văn Thưởng</td>
-                          <td>1/11/2019 8:43</td>
-                          <td> 5,800,000</td>
-                        </tr>
-                        <tr>
-                          <td><span>***</span>Trọng Nghĩa</td>
-                          <td>1/11/2019 7:43</td>
-                          <td>5,700,000</td>
-                        </tr>
+                        {{/each}}
+                      {{/if}}
 
 
                       </table>

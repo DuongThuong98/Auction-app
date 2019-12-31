@@ -21,6 +21,12 @@ module.exports = {
       return null;
     return rows[0];
   },
+  singleNameByID: async u_id => {
+    const rows = await db.load(`select fullname from users where id = '${u_id}'`);
+    if (rows.length === 0)
+      return null;
+    return rows[0];
+  },
 
 
   add: entity => db.add('users', entity),
