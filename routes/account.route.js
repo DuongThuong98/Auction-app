@@ -31,7 +31,7 @@ router.post('/register', async (req, res) => {
       entity.u_password = hash;
       entity.u_status = 0;
       entity.u_dob = dob;
-      entity.u_role = 3;//khách hàng
+      entity.u_role = 2;//bidder  
       entity.u_status = 1; //active 
       entity.good_point = 0;
       entity.bad_point = 0;
@@ -85,16 +85,3 @@ router.get('/profile', restrict, (req, res) => {
 });
 module.exports = router;
 
-// $.ajax({
-//   url: '/bidder/wishlist',
-//   type: 'POST',
-//   data: {
-//     id: idProduct, // $_POST['id'] = 22
-//     action: 'add'
-//   },
-//   dataType: 'JSON',
-//   success: function(response){
-//     // response : obj
-//     console.log(response);
-//   }
-// })

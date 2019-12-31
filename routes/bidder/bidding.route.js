@@ -4,6 +4,7 @@ const moment = require('moment');
 const userModel = require('../../models/user.model');
 const productModel = require('../../models/product.model');
 const wishlistModel = require('../../models/wishlist.model');
+const autionHistoryModel = require('../../models/auctionHistory.model');
 
 const router = express.Router();
 
@@ -59,6 +60,76 @@ router.get('/bidding', async (req, res) => {
   res.render('vwBidder/bidding');
 });
 
+router.post('/bidding', async (req, res) => {
+ //console.log(req.body);
+ var status = 0;
+ item = req.body;
+ //const pr = productModel.single(item.id);
+ authUser = req.session.authUser;
+
+ current_time = moment().format('YYYY-MM-DD HH:mm:ss'); 
+
+ if (item.action === 'add') {
+   var entity = {
+     id_bidder: authUser.id,
+     id_product: item.id,
+     bid_price: item.bidPrice,
+     h_time :current_time
+   };
+   const result = await autionHistoryModel.add(entity);
+   const thayDoiCurrentBid = await productModel.patch({ProID: item.id, current_bid: item.bidPrice});
+   console.log(result);
+   if (result.affectedRows == 1 && thayDoiCurrentBid.affectedRows == 1) {
+     status = 2;
+   }
+ }
+
+//  if(item.action === 'delete')
+//  {
+//    const result = await wishlistModel.del(authUser.id,item.id);
+//    if (result.affectedRows == 1) {
+//      status = 3;
+//    }
+//  }
+//  if (status == 1) {
+//    res.json({
+//      success: false,
+//      message: 'Bạn đã thêm sản phẩm này',
+//      data: null
+//    });
+//  }
+//  else {
+   if (status == 2) {
+     
+     res.json({
+       success: true,
+       message: 'Thêm thành công',
+       data: item.id
+     });
+   }
+//    else {
+//      if(status == 3)
+//      {
+//        res.json({
+//          success: true,
+//          message: 'Xóa thành công',
+//          data: wishlist.length-1
+//        });
+//      }
+     else{
+     res.json({
+       success: false,
+       message: 'có lỗi xảy ra',
+       data: null
+     });
+   }
+//    }
+//  }
+
+
+ 
+});
+
 //DANH SÁCH ĐÁNH GIÁ
 
 router.get('/evaluate', async (req, res) => {
@@ -69,7 +140,8 @@ router.get('/evaluate', async (req, res) => {
 
 router.get('/wishlist', async (req, res) => {
   const products = [];
-  let wishlist = await wishlistModel.all();
+  authUser = req.session.authUser;
+  let wishlist = await wishlistModel.allByUserID(authUser.id);
   for (i = 0; i < wishlist.length; i++) {
     const pr = await productModel.single(wishlist[i].id_product);
     if (pr !== null) {
@@ -168,4 +240,17 @@ router.get('/won', async (req, res) => {
 
 module.exports = router;
 
-
+// $.ajax({
+//   url: '/bidder/bidding',
+//   type: 'POST',
+//   data: {
+//     id: idProduct, // $_POST['id'] = 22
+//     action: 'add',
+//     bidPrice,
+//   },
+//   dataType: 'JSON',
+//   success: function (response) {
+//     // response : obj
+//     console.log(response);
+//   }
+// })
