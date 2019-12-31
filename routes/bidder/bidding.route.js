@@ -77,9 +77,9 @@ router.get('/wishlist', async (req, res) => {
     }
   }
   if (typeof (req.session.wishlistLength) === 'undefined') {
-    req.session.wishlistLength = wishlist.length; 
+    req.session.wishlistLength = wishlist.length;
   }
-  
+
   console.log(wishlist);
   console.log(products);
   res.render('vwBidder/wishlist', {
@@ -98,8 +98,7 @@ router.post('/wishlist', async (req, res) => {
   console.log(wishlist);
   for (i = 0; i < wishlist.length; i++) {
     if (wishlist[i].id_product == item.id) {
-      status = 1;
-
+      status = 1;//đã thêm sp này rồi
       break;
     }
   }
@@ -115,6 +114,14 @@ router.post('/wishlist', async (req, res) => {
       status = 2;
     }
   }
+
+  if(item.action === 'delete')
+  {
+    const result = await wishlistModel.del(authUser.id,item.id);
+    if (result.affectedRows == 1) {
+      status = 3;
+    }
+  }
   if (status == 1) {
     res.json({
       success: false,
@@ -122,20 +129,32 @@ router.post('/wishlist', async (req, res) => {
       data: null
     });
   }
-  if (status == 2) {
-    req.session.wishlistLength = wishlist.length; 
-    res.json({
-      success: true,
-      message: 'Thêm thành công',
-      data: item.id
-    });
-  }
   else {
-    res.json({
-      success: false,
-      message: 'có lỗi xảy ra',
-      data: null
-    });
+    if (status == 2) {
+      req.session.wishlistLength = wishlist.length;
+      res.json({
+        success: true,
+        message: 'Thêm thành công',
+        data: item.id
+      });
+    }
+    else {
+      if(status == 3)
+      {
+        res.json({
+          success: true,
+          message: 'Xóa thành công',
+          data: wishlist.length-1
+        });
+      }
+      else{
+      res.json({
+        success: false,
+        message: 'có lỗi xảy ra',
+        data: null
+      });
+    }
+    }
   }
 
 });
@@ -148,3 +167,5 @@ router.get('/won', async (req, res) => {
 
 
 module.exports = router;
+
+

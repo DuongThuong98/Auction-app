@@ -7,7 +7,11 @@ module.exports = {
   all: () => db.load(`select * from wishlist`),                
   single: p_id => db.load(`select * from wishlist where id = ${p_id}`),
   add: entity => db.add('wishlist', entity),
-  del: p_id => db.del('wishlist', { id: p_id }),
+  del: (u_id,p_id) => {
+    condition1 = {id_user: u_id};
+    condition2 = {id_product: p_id};
+    return db.del2('wishlist', condition1,condition2)
+  },
   patch: entity => {
     const condition = { id: entity.ProID };
     delete entity.ProID;

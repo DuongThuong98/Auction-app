@@ -16,6 +16,7 @@ module.exports = {
   load: sql => mysql_query(sql),
   add: (tableName, entity) => mysql_query(`insert into ${tableName} set ?`, entity),
   del: (tableName, condition) => mysql_query(`delete from ${tableName} where ?`, condition),
+  del2:  (tableName, condition1, condition2) => mysql_query(`delete from ${tableName} where ? and ?`,[condition1, condition2]),
   patch: (tableName, entity, condition) => mysql_query(`update ${tableName} set ? where ?`, [entity, condition]),
   //Cách 2:
   // load: sql => new Promise((done, fail) => {
