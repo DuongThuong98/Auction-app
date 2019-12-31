@@ -46,6 +46,14 @@
                 <div class="page-title">
                   <h2>My Wishlist</h2>
                 </div>
+                 {{#if this.empty}}
+          <div class="card-body">
+            <p class="card-text">
+              Không có dữ liệu.
+            </p>
+          </div>
+          {{else}}
+         
                 <div class="wishlist-item table-responsive">
                   <table class="col-md-12">
                     <thead>
@@ -58,38 +66,21 @@
                       </tr>
                     </thead>
                     <tbody>
+                       {{#each this.products}}
                       <tr>
                         <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
-                        <td class="th-product"><a href="#"><img src="/images/products/img03.jpg" alt="cart"></a></td>
-                        <td class="th-details"><h2><a href="#">Lorem Ipsum is simply</a></h2></td>
-                        <td class="th-price">$125.00</td>
+                        <td class="th-product"><a href="/products/{{id}}"><img src="/images/products-images/{{image}}" alt="cart"></a></td>
+                        <td class="th-details"><h2><a href="/products/{{id}}">{{p_name}}</a></h2></td>
+                        <td class="th-price">{{format current_bid}}</td>
                         
                       </tr>
-                      <tr>
-                        <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
-                        <td class="th-product"><a href="#"><img src="/images/products/img13.jpg" alt="cart"></a></td>
-                        <td class="th-details"><h2><a href="#">Leo quis molestie</a></h2></td>
-                        <td class="th-price">$99.00</td>
-                       
-                      </tr>
-                      <tr>
-                        <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
-                        <td class="th-product"><a href="#"><img src="/images/products/img02.jpg" alt="cart"></a></td>
-                        <td class="th-details"><h2><a href="#">Lorem Ipsum is simply</a></h2></td>
-                        <td class="th-price">$179.89</td>
-                      
-                      </tr>
-                      <tr>
-                        <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
-                        <td class="th-product"><a href="#"><img src="/images/products/img01.jpg" alt="cart"></a></td>
-                        <td class="th-details"><h2><a href="#">Leo quis molestie</a></h2></td>
-                        <td class="th-price">$199.00</td>
-                       
-                      </tr>
+                      {{/each}}
                     </tbody>
                   </table>
                   <a href="checkout.html" class="delete-all">Xóa tất cả</a> </div>
               </div>
+              
+              {{/if}}
             </div>
             <aside class="right sidebar col-sm-3 col-xs-12">
               <div class="sidebar-account block">

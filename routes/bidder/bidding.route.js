@@ -68,7 +68,24 @@ router.get('/evaluate', async (req, res) => {
 //DANH SÁCH YÊU THÍCH
 
 router.get('/wishlist', async (req, res) => {
-  res.render('vwBidder/wishlist');
+  const products = [];
+  let wishlist = await wishlistModel.all();
+  for (i = 0; i < wishlist.length; i++) {
+    const pr = await productModel.single(wishlist[i].id_product);
+    if (pr !== null) {
+      products.push(pr[0]);
+    }
+  }
+  if (typeof (req.session.wishlistLength) === 'undefined') {
+    req.session.wishlistLength = wishlist.length; 
+  }
+  
+  console.log(wishlist);
+  console.log(products);
+  res.render('vwBidder/wishlist', {
+    products,
+    empty: products.length === 0,
+  });
 });
 
 router.post('/wishlist', async (req, res) => {
@@ -77,7 +94,7 @@ router.post('/wishlist', async (req, res) => {
   item = req.body;
   //const pr = productModel.single(item.id);
   authUser = req.session.authUser;
-  var wishlist = await wishlistModel.all(authUser.id);
+  var wishlist = await wishlistModel.allByUserID(authUser.id);
   console.log(wishlist);
   for (i = 0; i < wishlist.length; i++) {
     if (wishlist[i].id_product == item.id) {
@@ -106,6 +123,7 @@ router.post('/wishlist', async (req, res) => {
     });
   }
   if (status == 2) {
+    req.session.wishlistLength = wishlist.length; 
     res.json({
       success: true,
       message: 'Thêm thành công',
