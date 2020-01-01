@@ -49,6 +49,10 @@ router.post('/add',upload.array('fuMain',4) ,async (req, res) => {
     // }
     //const result = await categoryModel.add(req.body);
     //console.log(result.insertId);
+    
+ 
+
+  console.log(req.files);
     res.render('vwSeller/addPro');  
 })
 

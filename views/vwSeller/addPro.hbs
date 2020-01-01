@@ -1,6 +1,6 @@
 {{#section 'css'}}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/css/fileinput.min.css" media="all"
-  rel="stylesheet" type="text/css" />
+    rel="stylesheet" type="text/css" />
 <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
 
@@ -71,11 +71,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/js/fileinput.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/themes/fa/theme.min.js"></script>
 <script>
-  $('#fuMain').fileinput({
-    theme: 'fa',
-    dropZoneEnabled: false,
-    allowedFileExtensions: ['png', 'jpg', 'gif'],
-  });
+    $('#fuMain').fileinput({
+        theme: 'fa',
+        dropZoneEnabled: false,
+        allowedFileExtensions: ['png', 'jpg', 'gif'],
+    });
 </script>
 {{/section}}
 
@@ -88,7 +88,7 @@
                     <div class="page-title">
                         <h2>Thêm sản phẩm đấu giá</h2>
                     </div>
-                    <form method="POST" name="frmAddProduct" novalidate enctype="multipart/form-data" >
+                    <form method="POST" name="frmAddProduct" novalidate enctype="multipart/form-data">
                         <div class="box-border">
                             <ul>
                                 <li class="row">
@@ -97,13 +97,13 @@
                                         <input type="text" class="input form-control" name="p_name" id="first_name">
                                     </div>
                                     <!--/ [col] -->
-                                                           <div class="col-sm-6">
+                                    <div class="col-sm-6">
 
                                         <label for="txtDOE" class="required">Ngày hết hạn: </label>
                                         <input type="text" class="form-control" id="txtDOE" name="doe">
 
                                     </div>
-                                    
+
                                     <!--/ [col] -->
                                 </li>
                                 <!--/ .row -->
@@ -131,9 +131,16 @@
                                         <label class="required">Loại:</label>
                                         <select class="input form-control" name="id_type">
                                             <option selected="true" disabled="disabled">Chọn </option>
-                                            <option value="Alabama">Alabama</option>
-                                            <option value="Illinois">Illinois</option>
-                                            <option value="Kansas">Kansas</option>
+                                            {{#each lcCategories}}
+                                                {{#if mangcap2}}
+                                                <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
+                                                    {{#each mangcap2}}
+                                                    <option value="{{cap2_id}}">&nbsp;&nbsp;&nbsp;{{cap2_name}} </option>
+                                                    {{/each}}
+                                                {{else}}
+                                                <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
+                                                {{/if}}
+                                            {{/each}}
                                         </select>
                                     </div>
                                     <!--/ [col] -->
