@@ -7,6 +7,8 @@ module.exports = function (app) {
   app.use('/products', require('../routes/product.route'));
  
   app.use('/bidder',restrict ,require('../routes/bidder/bidding.route'));
+
+  app.use('/seller/product',restrict ,require('../routes/seller/product.route'));
   
 };
 

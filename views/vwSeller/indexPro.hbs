@@ -1,0 +1,159 @@
+{{#section 'css'}}
+  <!-- style CSS -->
+  <link rel="stylesheet" type="text/css" href="/css/blog.css" media="all">
+<style>
+  .item-brief {
+    padding-left: 3px;
+
+  }
+
+  .product-item {
+    /* margin-top: 10px; */
+    /* background-color: rgb(245, 240, 139); */
+    border-style: groove;
+    /* border-color: honeydew; */
+    border-width: 1px;
+  }
+
+  .form-control {
+    width: 200px;
+  }
+
+  .page-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-group {
+    width: fit-content;
+  }
+
+  td {
+    margin: auto;
+    vertical-align: middle;
+  }
+
+  .th-delete {
+    font-size: x-large;
+  }
+</style>
+{{/section}}
+
+{{#section 'js'}}
+<script>
+  jQuery(document).ready(function () {
+    $('.th-delete').click(function () {
+      var myAcc = $('.my-acc').text();
+      if (myAcc === 'My Account') {
+        window.location = "../../account/login";
+      }
+
+      var idProduct = $(this).attr('data-id');
+      $.ajax({
+        url: '/bidder/wishlist',
+        type: 'POST',
+        data: {
+          id: idProduct, // $_POST['id'] = 22
+          action: 'delete'
+        },
+        dataType: 'JSON',
+        success: function (response) {
+          // response : obj
+          console.log(response);
+          if (response.success) {
+            if (response.data == 0) {
+              $('.message-wish').html(`
+              <p style="color:#fed700; font-size:25px">Danh sách yêu thích rỗng</p>
+              <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
+            `)
+            }
+            else {
+              $('.parent-' + idProduct).hide(500)
+              $('.cart-total').text(response.data + ' Item(s)')
+            }
+          }
+        }
+      })
+    });
+  })
+</script>
+
+{{/section}}
+
+<!-- Main Container -->
+<section class="main-container col1-right-layout">
+  <div class="main container">
+    <div class="row cart">
+      <div class="col-main col-sm-9 col-xs-12">
+        <div class="my-account cart">
+          <div class="page-title">
+            <h2>Sản phẩm của tôi</h2>
+            <a class="btn btn-success" href="/seller/product/add" role="button" style="margin-left: 1px;">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Add Category
+          </a>
+          </div>
+          {{#if this.empty}}
+          <div class="card-body">
+           <p style="color:#fed700; font-size:25px">Danh sách rỗng</p>
+              <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
+          </div>
+          {{else}}
+
+        
+        <div class="order-detail-content">
+              <div class="table-responsive">
+                <table class="table table-bordered cart_summary">
+                  <thead>
+                    <tr>
+                      <th class="cart_product">ẢNH</th>
+                      <th>Tên</th>
+                      <th>Gía hiện tại</th>
+                      <th>Gía mua ngay</th>
+                      <th>Thời gian kết thúc</th>
+                      <th>Lượt đấu</th>
+                      <th  class="action"><i class="fa fa-trash-o"></i></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {{#each this.products}}
+                    <tr>
+                      <td class="cart_product"><a href="#"><img src="/images/products-images/{{image}}" alt="Product"></a></td>
+                      <td class="cart_description"><p class="product-name"><a href="#">{{p_name}} </a></p></td>
+                      <td class="price"><span>{{format current_bid}}</span></td>
+                      <td class="price"><span>{{format purchase_bid}}</span></td>
+                      <td class="availability in-stock"><span class="label">In stock</span></td>
+                      <td class="qty"><input class="form-control input-sm" type="text" value="{{bid_count}}"></td>
+                      <td class="action"><a href="#"><i class="icon-close"></i></a></td>
+                    </tr>
+                   {{/each}}
+                  </tbody>
+                 
+                </table>
+              </div>
+            </div>
+
+        {{/if}}
+         </div>
+      </div>
+      <aside class="right sidebar col-sm-3 col-xs-12">
+        <div class="sidebar-account block">
+          <div class="sidebar-bar-title">
+            <h3>Tài khoản của tôi</h3>
+          </div>
+          <div class="block-content">
+            <ul>
+              <li><a href="info">Thông tin tài khoản</a></li>
+              <li class="current"><a href="wishlist">Danh sách yêu thích</a></li>
+              <li><a href="bidding">Sản phẩm đang tham gia đấu giá</a></li>
+           
+            </ul>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>
+<!-- Main Container End -->
+
