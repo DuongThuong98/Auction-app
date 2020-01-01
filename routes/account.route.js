@@ -16,33 +16,32 @@ router.post('/register', async (req, res) => {
   //kiểm tra username, email
   const username = await userModel.singleByUsername(req.body.username);
   const email = await userModel.singleByEmail(req.body.email);
-  if (username !== null || email !== null )
-    {
-      console.log(email);
-      return res.render('vwAccount/register',{err_message: 'Username hoặc email bị trùng'});
-    }
-    else{
+  if (username !== null || email !== null) {
+    console.log(email);
+    return res.render('vwAccount/register', { err_message: 'Username hoặc email bị trùng' });
+  }
+  else {
 
-      const N = 10;
-      const hash = bcrypt.hashSync(req.body.raw_password, N);
-      const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    
-      const entity = req.body;
-      entity.u_password = hash;
-      entity.u_status = 0;
-      entity.u_dob = dob;
-      entity.u_role = 2;//bidder  
-      entity.u_status = 1; //active 
-      entity.good_point = 0;
-      entity.bad_point = 0;
-    
-      delete entity.raw_password;//xóa đi để vào nó không add vô database
-      delete entity.dob;
-    
-      const result = await userModel.add(entity);
-      console.log(entity);
-      res.render('vwAccount/register');
-    }
+    const N = 10;
+    const hash = bcrypt.hashSync(req.body.raw_password, N);
+    const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+    const entity = req.body;
+    entity.u_password = hash;
+    entity.u_status = 0;
+    entity.u_dob = dob;
+    entity.u_role = 2;//bidder  
+    entity.u_status = 1; //active 
+    entity.good_point = 0;
+    entity.bad_point = 0;
+
+    delete entity.raw_password;//xóa đi để vào nó không add vô database
+    delete entity.dob;
+
+    const result = await userModel.add(entity);
+    console.log(entity);
+    res.render('vwAccount/register');
+  }
 
 });
 
@@ -66,7 +65,7 @@ router.post('/login', async (req, res) => {
   delete user.u_password;
   req.session.isAuthenticated = true;
   req.session.authUser = user;
-
+  req.session.u_role = user.u_role;
   const url = req.query.retUrl || '/';
   res.redirect(url);
 })
@@ -76,6 +75,7 @@ router.post('/logout', (req, res) => {
   req.session.isAuthenticated = false;
   req.session.authUser = null;
   req.session.wishlistLength = 0;
+  req.session.u_role = null;
   res.redirect(req.headers.referer);
 });
 

@@ -48,7 +48,7 @@ router.post('/search', async (req, res) => {
   console.log(req.body);
 
   rows = [];
-  res.render('vwProducts/allByCat', {
+  res.render('vwProducts/allBySearch', {
     products: rows,
     empty: rows.length === 0,
   });

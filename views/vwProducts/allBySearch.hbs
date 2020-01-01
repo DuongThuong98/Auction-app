@@ -1,0 +1,171 @@
+{{#section 'css'}}
+<style>
+  .item-brief {
+    padding-left: 3px;
+
+  }
+
+  .product-item {
+    /* margin-top: 10px; */
+    /* background-color: rgb(245, 240, 139); */
+    border-style: groove;
+    /* border-color: honeydew; */
+    border-width: 1px;
+  }
+
+  .form-control {
+    width: 200px;
+  }
+
+  .page-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-group {
+    width: fit-content;
+  }
+</style>
+{{/section}}
+
+<!-- Main Container -->
+<div class="main-container col2-left-layout">
+  <div class="container">
+    <div class="row">
+      <div class="col-main col-xs-12">
+        <div class="shop-inner">
+
+          <div class="page-title">
+            <h2 style="width: fit-content;">Apple</h2>
+            <form action="/products/search" id="frmArrange" method="POST">
+            <div class="form-group">
+              <label for="sel1" style="float: left; margin-top: 5px; margin-right: 4px;">Sắp xếp:</label>
+              <select name="arrange" class="form-control" id="sel1" onchange="this.form.submit();">
+                <option selected="true" disabled="disabled">Chọn </option>
+                <option value="1">Thời gian giảm dần </option>
+                <option value="2">Giá tăng dần</option>
+              </select>
+            </div>
+            </form>
+          </div>
+          {{#if this.empty}}
+          <div class="card-body">
+            <p class="card-text">
+              Không có dữ liệu.
+            </p>
+          </div>
+          {{else}}
+          <div hidden class="current_time" content="{{current_time}}"></div>
+          <div class="product-grid-area">
+            <ul class="products-grid">
+              {{#each this.products}}
+              <li class="item item col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                <div class="product-item">
+                  <div class="item-inner">
+                    <div class="product-thumbnail">
+                      <div class="icon-hot-label hot-right">HOT</div>
+                      <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="/products/{{id}}">
+                          <figure> <img class="first-img" src="/images/products-images/{{image}}" alt="html template">
+                            <img class="hover-img" src="/images/products-images/{{image}}" alt="html template"></figure>
+                        </a>
+
+                      </div>
+                      <div class="jtv-box-timer">
+                        <div class="countbox_1 jtv-timer-grid count_{{id}}" value="count_{{id}}" timerun="{{f_expired_at}}" style="margin-bottom: 50px;">
+                          <div class="day box-time-date"><span class="time-num time-day">00</span>Days</div>
+                          <div class="hour box-time-date"><span class="time-num">00</span>Hrs</div>
+                          <div class="min box-time-date"><span class="time-num">00</span>Mins</div>
+                          <div class="sec box-time-date"><span class="time-num">00</span>Secs</div>
+                        </div>
+                      </div>
+                      <div class="pr-info-area">
+                        <div class="pr-button">
+                          <div class="mt-button add_to_compare" style="visibility: hidden;"> <a href="compare.html"> <i class="fa fa-signal"></i>
+                            </a> </div>
+                          <div class="mt-button add_to_wishlist wish_{{id}}" data-id="{{id}}"> <a href="javascript:;"> <i class="fa fa-heart"></i>
+                            </a> </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item-info">
+                      <div class="info-inner">
+                        <div class="item-title">
+                          <a title="Ipsums Dolors Untra" href="/products/{{id}}"> {{p_name}} </a> </div>
+                        <div class="item-content">
+
+                          <div class="item-price">
+                            <div class="price-box"> <span class="regular-price"><label>Giá cao nhất: </label> <span
+                                  class="price">{{format current_bid}} đ</span>
+                              </span> </div>
+                          </div>
+                        </div>
+                        <div class="item-brief" style="text-align: left;">
+                          <label>MBidder: </label>
+                          <span>Thưởng</span>
+                          <br>
+                          <label>Mua ngay: </label>
+                          <span class="price">$1050.00</span>
+                          <br>
+                          <label>Ngày đăng: </label>
+                          <span
+                            style="padding: 5px; background-color: rgb(5, 27, 126); color: cornsilk;">11/11/2019</span>
+                          <br>
+
+                          <label>Số lượt ra giá: </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              {{/each}}
+
+            </ul>
+          </div>
+
+          <div class="pagination-area ">
+            <ul>
+              {{#if this.is_not_start}}
+              <li><a href="?page=1">Đầu</a></li>
+              <li>
+                <a href="?page={{prev_value}}">
+                  <i class="fa fa-angle-left"></i>
+                </a>
+              </li>
+              {{/if}}
+
+              {{#each this.page_numbers}}
+              {{#if isCurrentPage}}
+
+              <li>
+                <a class="active" href="javascript:;">{{value}}</a>
+              </li>
+              {{else}}
+             
+              <li>
+                <a href="?page={{value}}">{{value}}</a>
+              </li>
+              {{/if}}
+              {{/each}}
+              
+              {{#if this.is_not_last}}
+              <li>
+                <a href="?page={{next_value}}">
+                  <i class="fa fa-angle-right"></i>
+                </a>
+              </li>
+              <li><a href="?page={{this.nPages}}">Cuối</a></li>
+              {{/if}}
+
+            </ul>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Main Container End -->
