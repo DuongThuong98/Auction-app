@@ -41,6 +41,18 @@ console.log(history);
   
 })
 
+
+router.post('/search', async (req, res) => {
+
+  console.log("search");
+  console.log(req.body);
+
+  rows = [];
+  res.render('vwProducts/allByCat', {
+    products: rows,
+    empty: rows.length === 0,
+  });
+})
  
 
 module.exports = router;

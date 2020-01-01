@@ -141,24 +141,15 @@
 
               <div class="top-search">
                 <div id="search">
-                  <form>
+                  <form method="POST" action="/products/search/"> 
                     <div class="input-group">
                       <select class="cate-dropdown hidden-xs" name="category_id">
-                        <option>All Categories</option>
-                        <option>women</option>
+                        <option value="0" selected="true" disabled="disabled">All Categories</option>
+                        <option value="1">women</option>
                         <option>&nbsp;&nbsp;&nbsp;Accessories </option>
-                        <option>&nbsp;&nbsp;&nbsp;Dresses</option>
-                        <option>&nbsp;&nbsp;&nbsp;Top</option>
-                        <option>&nbsp;&nbsp;&nbsp;Handbags </option>
-                        <option>&nbsp;&nbsp;&nbsp;Shoes </option>
-                        <option>&nbsp;&nbsp;&nbsp;Clothing </option>
-                        <option>Men</option>
-                        <option>Electronics</option>
-                        <option>&nbsp;&nbsp;&nbsp;Mobiles </option>
-                        <option>&nbsp;&nbsp;&nbsp;Music &amp; Audio </option>
                       </select>
                       <input type="text" class="form-control" placeholder="Search" name="search">
-                      <button class="btn-search" type="button">
+                      <button class="btn-search" type="submit">
                         <i class="fa fa-search"></i>
                       </button>
                     </div>
