@@ -23,7 +23,7 @@ module.exports = {
   takeCap2fromCap1: (id) => { db.load(`select * from categories where cate_level = ${id}`)},
 
   all: () =>  db.load('select * from categories order by CatID'),
-  single: id => db.load(`select * from categories where CatID = ${id}`),
+  single: id => db.load(`select * from categories where id = ${id}`),
   add: entity => db.add('categories', entity),
   del: id => db.del('categories', { CatID: id }),
   patch: entity => {

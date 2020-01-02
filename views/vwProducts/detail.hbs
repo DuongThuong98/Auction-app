@@ -144,17 +144,17 @@
           success: function (response) {
             // response : obj
             //console.log(response);
-             if(response.success){
+            if (response.success) {
               $('.modal-title').text(response.message)
-              $('.modal-body ').html("<p> Đấu giá sp "+response.data+" thành công</p>")
+              $('.modal-body ').html("<p> Đấu giá sp " + response.data + " thành công</p>")
             }
-            else{
+            else {
               $('.modal-title').text('Error!')
               $('.modal-body').text(response.message)
             }
             $('#myMessage').modal('show');
-            $('.reload_page_button').click(function(){window.location='/products/'+response.data;});
-            
+            $('.reload_page_button').click(function () { window.location = '/products/' + response.data; });
+
           }
         })
       }
@@ -163,7 +163,7 @@
 
     });
 
-    
+
   })
 </script>
 {{/section}}
@@ -185,21 +185,21 @@
               <div class="flex-viewport" style="overflow: hidden; position: relative;">
                 <ul class="previews-list slides"
                   style="width: 1000%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
-                  <li style="width: 100px; float: left; display: block;"><a href="/images/products/img01.jpg"
-                      class="cloud-zoom-gallery" rel="useZoom: 'zoom1', smallImage: '/images/products/img01.jpg' "><img
-                        src="/images/products/img01.jpg" alt="Thumbnail 2" draggable="false"></a></li>
-                  <li style="width: 100px; float: left; display: block;"><a href="/images/products/img07.jpg"
-                      class="cloud-zoom-gallery" rel="useZoom: 'zoom1', smallImage: '/images/products/img07.jpg' "><img
-                        src="/images/products/img07.jpg" alt="Thumbnail 1" draggable="false"></a></li>
-                  <li style="width: 100px; float: left; display: block;"><a href="/images/products/img02.jpg"
-                      class="cloud-zoom-gallery" rel="useZoom: 'zoom1', smallImage: '/images/products/img02.jpg' "><img
-                        src="/images/products/img02.jpg" alt="Thumbnail 1" draggable="false"></a></li>
-                  <li style="width: 100px; float: left; display: block;"><a href="/images/products/img03.jpg"
-                      class="cloud-zoom-gallery" rel="useZoom: 'zoom1', smallImage: '/images/products/img03.jpg' "><img
-                        src="/images/products/img03.jpg" alt="Thumbnail 2" draggable="false"></a></li>
-                  <li style="width: 100px; float: left; display: block;"><a href="/images/products/img04.jpg"
-                      class="cloud-zoom-gallery" rel="useZoom: 'zoom1', smallImage: '/images/products/img04.jpg' "><img
-                        src="/images/products/img04.jpg" alt="Thumbnail 2" draggable="false"></a></li>
+                  <li style="width: 100px; float: left; display: block;"><a
+                      href="/images/products-images/{{this.product.image}}" class="cloud-zoom-gallery"
+                      rel="useZoom: 'zoom1', smallImage: '/images/products-images/{{this.product.image}}' "><img
+                        src="/images/products-images/{{this.product.image}}" alt="Thumbnail 2" draggable="false"></a>
+                  </li>
+                  {{#if this.subImages}}
+                  {{#each this.subImages}}
+                  <li style="width: 100px; float: left; display: block;"><a
+                      href="/images/products-images/{{image}}" class="cloud-zoom-gallery"
+                      rel="useZoom: 'zoom1', smallImage: '/images/products-images/{{image}}' "><img
+                        src="/images/products-images/{{image}}" alt="Thumbnail 2" draggable="false"></a>
+                  </li>
+                  {{/each}}
+                  {{/if}}
+
                 </ul>
               </div>
               <ul class="flex-direction-nav">
@@ -333,7 +333,7 @@
                           <td> {{bidPrice}}</td>
                         </tr>
                         {{/each}}
-                      {{/if}}
+                        {{/if}}
 
 
                       </table>

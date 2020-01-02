@@ -2,6 +2,7 @@ const express = require('express');
 const moment = require('moment');
 const productModel = require('../models/product.model');
 const categoryModel = require('../models/category.model');
+const subImageModel = require('../models/subImage.model')
 const config = require('../config/default.json');
 
 

@@ -2,6 +2,7 @@ const express = require('express');
 const moment = require('moment');
 const productModel = require('../models/product.model');
 const autionHistoryModel = require('../models/auctionHistory.model');
+const subImageModel = require('../models/subImage.model')
 const userModel = require('../models/user.model');
 const config = require('../config/default.json');
 
@@ -11,6 +12,9 @@ router.get('/:id', async (req, res) => {
   const proId = req.params.id;
   const rows = await productModel.single(proId);
   console.log(rows);
+
+  const subImages = await subImageModel.allByProID(proId);
+  console.log(subImages);
 
   const history_rows = await autionHistoryModel.allByIDPro(proId);
   console.log(history_rows);
@@ -35,7 +39,8 @@ console.log(history);
      product: rows[0],
      current_time,
      history,
-     empty_his: history.length ===0
+     empty_his: history.length ===0,
+     subImages
   });
    // res.render('vwProducts/detail');
   

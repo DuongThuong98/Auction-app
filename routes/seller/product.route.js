@@ -4,15 +4,19 @@ const moment = require('moment');
 const multer = require('multer');
 const userModel = require('../../models/user.model');
 const productModel = require('../../models/product.model');
+const categoryModel = require('../../models/product.model');
+const subImageModel = require('../../models/subImage.model');
 const wishlistModel = require('../../models/wishlist.model');
 const autionHistoryModel = require('../../models/auctionHistory.model');
 
 const storage = multer.diskStorage({
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        var duoi = file.originalname.substr(file.originalname.indexOf("."), 5);
+        var fname = file.originalname.substr(0, file.originalname.indexOf(".")) + '-' + Date.now() + duoi;
+        cb(null, fname);
     },
     destination: function (req, file, cb) {
-        cb(null, `public`);
+        cb(null, `public/images/products-images`);
     },
 });
 const upload = multer({ storage });
@@ -21,6 +25,7 @@ const upload = multer({ storage });
 
 
 const router = express.Router();
+
 
 //INFO
 
@@ -41,19 +46,49 @@ router.get('/add', (req, res) => {
 })
 
 
-router.post('/add',upload.array('fuMain',4) ,async (req, res) => {
-    console.log(req.body);
+router.post('/add', upload.array('fuMain', 4), async (req, res) => {
+    //console.log(req.body);
     //console.log("fdd");
     // const entity = {
     //   CatName: req.body.txtCatName
     // }
     //const result = await categoryModel.add(req.body);
     //console.log(result.insertId);
-    
- 
+    const seller = req.session.authUser;
+    const cate = await categoryModel.single(req.body.id_type);
+    const entity = req.body;
+    entity.auto_time_extend = 0;
+    entity.id_seller = seller.id;
+    entity.p_status = 1;
+    entity.deleted = 0;
+    entity.is_new = 1;
+    entity.bid_count = 0;
+    entity.id_type_1 = cate[0].cat_level;
+    entity.id_type = parseInt(req.body.id_type);
+    entity.current_bid = parseInt(req.body.current_bid);
+    entity.purchase_bid = parseInt(req.body.purchase_bid);
+    entity.created_at = moment().format('YYYY-MM-DD HH:mm:ss');
+    entity.expired_at = moment(req.body.doe, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    entity.image = req.files[0].filename;
 
-  console.log(req.files);
-    res.render('vwSeller/addPro');  
+    delete entity.doe;
+    //console.log(entity);
+    //console.log(req.files);
+
+
+    const result = await productModel.add(entity);
+    console.log(result);
+    var status = 0; //0 thất bại //1 thành công
+    if (result.affectedRows == 1) {
+        if (req.files.length > 1) {
+            for (i = 1; i < req.files.length; i++) {
+                const entityImage = { id_product: result.insertId,
+                                      image: req.files[i].filename };
+                subImageModel.add(entityImage);
+            }
+        }
+    }
+    res.render('vwSeller/addPro');
 })
 
 
