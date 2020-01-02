@@ -503,7 +503,8 @@
             console.log(response);
             if(response.success){
               $('.modal-title').text(response.message)
-              $('.modal-body i').text(response.data)
+              $('.modal-body i').text(response.data.id)
+              $('.cart-total').text(response.data.count + ' Item(s)')
             }
             else{
               $('.modal-title').text('Error!')

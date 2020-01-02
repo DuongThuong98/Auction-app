@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const userModel = require('../models/user.model');
+const wishlistModel = require('../models/wishlist.model');
 const restrict = require('../middlewares/auth.mdw');
 
 
@@ -61,8 +62,12 @@ router.post('/login', async (req, res) => {
       layout: false,
       err_message: 'Login failed'
     });
-
+  
   delete user.u_password;
+
+  wishlist= wishlistModel.allByUserID(user.id);
+  console.log(wishlist);
+  req.session.wishlistLength = wishlist.length;
   req.session.isAuthenticated = true;
   req.session.authUser = user;
   req.session.u_role = user.u_role;

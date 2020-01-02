@@ -132,7 +132,7 @@
         }
       }
     }
-    return true;
+    return false;
   }
 </script>
 
@@ -142,7 +142,7 @@
       if (bidValidate()) {
         var idProduct = $(this).attr('data-id');
         var bidPrice = $('.qty').val();
-        var bidCount = parseInt ($('.product-name').attr('data-bid-count'));
+        var bidCount = parseInt($('.product-name').attr('data-bid-count'));
         //console.log(123 % 100000);
         //console.log(bidPrice);
         $.ajax({
@@ -174,7 +174,28 @@
       }
     });
 
+    $('.banned_bidder').click(function () {
+        var idProduct = $('.product-name').attr('data-pro-id');
+        var idBidder = $(this).attr('data-bidder-id')
+        console.log(idProduct);
+        console.log(idBidder);
+        $.ajax({
+          url: '/bidder/bidding',
+          type: 'POST',
+          data: {
+            idProduct, // $_POST['id'] = 22
+            action: 'banned',
+            idBidder
+          },
+          dataType: 'JSON',
+          success: function (response) {
+            // response : obj
+            console.log(response);
 
+          }
+        })
+      
+    });
   })
 </script>
 {{/section}}
@@ -224,7 +245,7 @@
           </div>
           <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 product-details-area">
 
-            <div class="product-name" data-bid-count="{{this.product.bid_count}}">
+            <div class="product-name" data-pro-id="{{this.product.id}}" data-bid-count="{{this.product.bid_count}}">
               <h1>{{this.product.p_name}}</h1>
             </div>
             <div class="price-box">
@@ -341,9 +362,23 @@
                           <th>Người mua</th>
                           <th>Thời điểm</th>
                           <th>Giá</th>
+                          {{#if this.is_the_owner}}
+                          <th>CẤM</th>
+                          {{/if}}
                         </tr>
                         {{#if this.empty_his}}
 
+                        {{else}}
+                        {{#if this.is_the_owner}}
+                        {{#each this.history}}
+                        <tr>
+                          <td><span>***</span>{{fullname}}</td>
+                          <td>{{time}}</td>
+                          <td> {{format bidPrice}} đ</td>
+                          <td><i class="fas fa-share-square banned_bidder" 
+                                   data-bidder-id='{{id_bidder}}' ></i></td>
+                        </tr>
+                        {{/each}}
                         {{else}}
                         {{#each this.history}}
                         <tr>
@@ -352,6 +387,10 @@
                           <td> {{format bidPrice}} đ</td>
                         </tr>
                         {{/each}}
+
+                        {{/if}}
+
+
                         {{/if}}
 
 

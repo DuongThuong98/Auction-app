@@ -60,10 +60,11 @@
           console.log(response);
           if (response.success) {
             if (response.data == 0) {
-              $('.message-wish').html(`
+              $('.my-account').html(`
               <p style="color:#fed700; font-size:25px">Danh sách yêu thích rỗng</p>
               <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
             `)
+              $('.cart-total').text(response.data + ' Item(s)')
             }
             else {
               $('.parent-' + idProduct).hide(500)
@@ -89,11 +90,10 @@
           </div>
           {{#if this.empty}}
           <div class="card-body">
-           <p style="color:#fed700; font-size:25px">Danh sách yêu thích rỗng</p>
-              <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
+            <p style="color:#fed700; font-size:25px">Danh sách yêu thích rỗng</p>
+            <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
           </div>
           {{else}}
-
           <div class="wishlist-item table-responsive">
             <table class="col-md-12">
               <thead>
@@ -122,10 +122,9 @@
             </table>
             <a href="checkout.html" class="delete-all">Xóa tất cả</a>
           </div>
-       
 
-        {{/if}}
-         </div>
+          {{/if}}
+        </div>
       </div>
       <aside class="right sidebar col-sm-3 col-xs-12">
         <div class="sidebar-account block">

@@ -4,6 +4,7 @@ const moment = require('moment');
 const userModel = require('../../models/user.model');
 const productModel = require('../../models/product.model');
 const wishlistModel = require('../../models/wishlist.model');
+const bannedBidderModel = require('../../models/bannedBidder.model');
 const autionHistoryModel = require('../../models/auctionHistory.model');
 
 const router = express.Router();
@@ -77,30 +78,53 @@ router.post('/bidding', async (req, res) => {
       h_time: current_time
     };
     const result = await autionHistoryModel.add(entity);
-    const thayDoiCurrentBidVaBidder = await productModel.patch({ ProID: item.id, 
-                                                                current_bid: item.bidPrice, 
-                                                                id_bidder: authUser.id,
-                                                                bid_count: item.bidCount++});
+    const thayDoiCurrentBidVaBidder = await productModel.patch({
+      ProID: item.id,
+      current_bid: item.bidPrice,
+      id_bidder: authUser.id,
+      bid_count: item.bidCount++
+    });
     console.log(result);
     if (result.affectedRows == 1 && thayDoiCurrentBidVaBidder.affectedRows == 1) {
       status = 2;
     }
   }
 
+  if (item.action === 'banned') {
+    var entity = {
+      id_bidder: item.idProduct,
+      id_product: item.idBidder,
+    };
+    const result = await bannedBidderModel.add(entity);
 
-  if (status == 2) {
+    console.log(result);
+    if (result.affectedRows == 1) {
+      status = 1;
+    }
+  }
+
+  if (status == 1) {
     res.json({
       success: true,
-      message: 'Thêm thành công',
-      data: item.id
+      message: 'Cấm thành công',
+      data: item.idBidder
     });
   }
   else {
-    res.json({
-      success: false,
-      message: 'Có lỗi xảy ra, Bid không thành công',
-      data: null
-    });
+    if (status == 2) {
+      res.json({
+        success: true,
+        message: 'Bidd thành công',
+        data: item.id
+      });
+    }
+    else {
+      res.json({
+        success: false,
+        message: 'Có lỗi xảy ra, Bid/cấm không thành công',
+        data: null
+      });
+    }
   }
 });
 
@@ -166,7 +190,14 @@ router.post('/wishlist', async (req, res) => {
     if (result.affectedRows == 1) {
       status = 3;
     }
+    else
+      status = 0;
   }
+
+  var wishlist = await wishlistModel.allByUserID(authUser.id);
+  req.session.wishlistLength = wishlist.length;
+
+
   if (status == 1) {
     res.json({
       success: false,
@@ -176,11 +207,13 @@ router.post('/wishlist', async (req, res) => {
   }
   else {
     if (status == 2) {
-      req.session.wishlistLength = wishlist.length;
       res.json({
         success: true,
         message: 'Thêm thành công',
-        data: item.id
+        data: {
+          id: item.id,
+          count: wishlist.length
+        }
       });
     }
     else {
@@ -188,7 +221,7 @@ router.post('/wishlist', async (req, res) => {
         res.json({
           success: true,
           message: 'Xóa thành công',
-          data: wishlist.length - 1
+          data: wishlist.length
         });
       }
       else {
@@ -213,3 +246,13 @@ router.get('/won', async (req, res) => {
 module.exports = router;
 
 
+//  if (response.success) {
+//               $('.modal-title').text(response.message)
+//               $('.modal-body ').html("<p> Đấu giá sp " + response.data + " thành công</p>")
+//             }
+//             else {
+//               $('.modal-title').text('Error!')
+//               $('.modal-body').text(response.message)
+//             }
+//             $('#myMessage').modal('show');
+//             $('.reload_page_button').click(function () { window.location = '/products/' + response.data; });
