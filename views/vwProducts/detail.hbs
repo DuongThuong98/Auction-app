@@ -108,28 +108,41 @@
   }
 
   function bidValidate() {
-    var a = parseInt($('#current_bid').attr('value'));// giá cao nhât hiện tại
-    var b = parseInt($('#qty').val()); //giá mà người dùng bid
-    if (b > a && b % 100000 == 0) return true;
-    //console.log(a);
-    //console.log(b);
-    return false;
+    var myAcc = $('.my-acc').text();
+    if (myAcc === 'My Account') {
+      window.location = "../../account/login";
+    }
+    else {
+      if ($('.fa-user').attr('data-id') == $('.bidder-user').attr('data-id')) {
+        alert("Bạn đang là người giữ giá cáo nhất");
+        return false;
+      }
+      else {
+        if ($('.fa-user').attr('data-id') == $('.seller-user').attr('data-id')) {
+          alert("Bạn không được ra giá giá cho sản phẩm của mình");
+          return false
+        }
+        else {
+          var a = parseInt($('#current_bid').attr('value'));// giá cao nhât hiện tại
+          var b = parseInt($('#qty').val()); //giá mà người dùng bid
+          if (b < a && b % 100000 != 0) {
+            alert('Giá đấu phải lớn hơn giá hiện tại và là bội số của 100k');
+            return false;
+          }
+        }
+      }
+    }
+    return true;
   }
 </script>
 
 <script type="text/javascript">
   jQuery(document).ready(function () {
     $('.add_to_bid').click(function () {
-      if (!bidValidate()) {
-        alert('Giá đấu phải lớn hơn giá hiện tại và là bội số của 100k');
-      }
-      else {
-        var myAcc = $('.my-acc').text();
-        if (myAcc === 'My Account') {
-          window.location = "../../account/login";
-        }
+      if (bidValidate()) {
         var idProduct = $(this).attr('data-id');
         var bidPrice = $('.qty').val();
+        var bidCount = parseInt ($('.product-name').attr('data-bid-count'));
         //console.log(123 % 100000);
         //console.log(bidPrice);
         $.ajax({
@@ -138,7 +151,8 @@
           data: {
             id: idProduct, // $_POST['id'] = 22
             action: 'add',
-            bidPrice
+            bidPrice,
+            bidCount,
           },
           dataType: 'JSON',
           success: function (response) {
@@ -158,9 +172,6 @@
           }
         })
       }
-
-
-
     });
 
 
@@ -192,8 +203,8 @@
                   </li>
                   {{#if this.subImages}}
                   {{#each this.subImages}}
-                  <li style="width: 100px; float: left; display: block;"><a
-                      href="/images/products-images/{{image}}" class="cloud-zoom-gallery"
+                  <li style="width: 100px; float: left; display: block;"><a href="/images/products-images/{{image}}"
+                      class="cloud-zoom-gallery"
                       rel="useZoom: 'zoom1', smallImage: '/images/products-images/{{image}}' "><img
                         src="/images/products-images/{{image}}" alt="Thumbnail 2" draggable="false"></a>
                   </li>
@@ -213,7 +224,7 @@
           </div>
           <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 product-details-area">
 
-            <div class="product-name">
+            <div class="product-name" data-bid-count="{{this.product.bid_count}}">
               <h1>{{this.product.p_name}}</h1>
             </div>
             <div class="price-box">
@@ -235,19 +246,27 @@
             <div class="bidder-name">
               <span>
                 <label>Người mua:</label>
-                <span>Lorem ipsum dolor.</span>
+                {{#if this.bidder}}
+                <span class="bidder-user" data-id="{{this.bidder.id}}">{{this.bidder.username}}</span>
+                {{else}}
+                <span>Chưa có mua</span>
+                {{/if}}
               </span>
               <span>
-                <i class="far fa-heart" style="color: crimson; font-size: 20px; font-weight: bold;"></i> +6.7
+                {{#if this.bidder}}
+                <i class="far fa-heart" style="color: crimson;
+                                               font-size: 20px; 
+                                               font-weight: bold;"></i> {{this.bidder.chiSoVuiVe}}
+                {{/if}}
               </span>
             </div>
             <div class="seller-name">
               <span>
                 <label>Người bán:</label>
-                <span>{{this.product.id_seller}}</span>
+                <span class="seller-user" data-id="{{this.seller.id}}">{{this.seller.username}}</span>
               </span>
               <span>
-                <i class="far fa-heart" style="color: rgb(44, 5, 216); font-size: 20px;"></i> +7.2
+                <i class="far fa-heart" style="color: rgb(44, 5, 216); font-size: 20px;"></i> {{this.seller.chiSoVuiVe}}
               </span>
             </div>
 
@@ -330,7 +349,7 @@
                         <tr>
                           <td><span>***</span>{{fullname}}</td>
                           <td>{{time}}</td>
-                          <td> {{bidPrice}}</td>
+                          <td> {{format bidPrice}} đ</td>
                         </tr>
                         {{/each}}
                         {{/if}}

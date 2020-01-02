@@ -61,73 +61,47 @@ router.get('/bidding', async (req, res) => {
 });
 
 router.post('/bidding', async (req, res) => {
- //console.log(req.body);
- var status = 0;
- item = req.body;
- //const pr = productModel.single(item.id);
- authUser = req.session.authUser;
+  //console.log(req.body);
+  var status = 0;
+  item = req.body;
+  //const pr = productModel.single(item.id);
+  authUser = req.session.authUser;
 
- current_time = moment().format('YYYY-MM-DD HH:mm:ss'); 
+  current_time = moment().format('YYYY-MM-DD HH:mm:ss');
 
- if (item.action === 'add') {
-   var entity = {
-     id_bidder: authUser.id,
-     id_product: item.id,
-     bid_price: item.bidPrice,
-     h_time :current_time
-   };
-   const result = await autionHistoryModel.add(entity);
-   const thayDoiCurrentBid = await productModel.patch({ProID: item.id, current_bid: item.bidPrice});
-   console.log(result);
-   if (result.affectedRows == 1 && thayDoiCurrentBid.affectedRows == 1) {
-     status = 2;
-   }
- }
-
-//  if(item.action === 'delete')
-//  {
-//    const result = await wishlistModel.del(authUser.id,item.id);
-//    if (result.affectedRows == 1) {
-//      status = 3;
-//    }
-//  }
-//  if (status == 1) {
-//    res.json({
-//      success: false,
-//      message: 'Bạn đã thêm sản phẩm này',
-//      data: null
-//    });
-//  }
-//  else {
-   if (status == 2) {
-     
-     res.json({
-       success: true,
-       message: 'Thêm thành công',
-       data: item.id
-     });
-   }
-//    else {
-//      if(status == 3)
-//      {
-//        res.json({
-//          success: true,
-//          message: 'Xóa thành công',
-//          data: wishlist.length-1
-//        });
-//      }
-     else{
-     res.json({
-       success: false,
-       message: 'có lỗi xảy ra',
-       data: null
-     });
-   }
-//    }
-//  }
+  if (item.action === 'add') {
+    var entity = {
+      id_bidder: authUser.id,
+      id_product: item.id,
+      bid_price: item.bidPrice,
+      h_time: current_time
+    };
+    const result = await autionHistoryModel.add(entity);
+    const thayDoiCurrentBidVaBidder = await productModel.patch({ ProID: item.id, 
+                                                                current_bid: item.bidPrice, 
+                                                                id_bidder: authUser.id,
+                                                                bid_count: item.bidCount++});
+    console.log(result);
+    if (result.affectedRows == 1 && thayDoiCurrentBidVaBidder.affectedRows == 1) {
+      status = 2;
+    }
+  }
 
 
- 
+  if (status == 2) {
+    res.json({
+      success: true,
+      message: 'Thêm thành công',
+      data: item.id
+    });
+  }
+  else {
+    res.json({
+      success: false,
+      message: 'Có lỗi xảy ra, Bid không thành công',
+      data: null
+    });
+  }
 });
 
 //DANH SÁCH ĐÁNH GIÁ
@@ -187,9 +161,8 @@ router.post('/wishlist', async (req, res) => {
     }
   }
 
-  if(item.action === 'delete')
-  {
-    const result = await wishlistModel.del(authUser.id,item.id);
+  if (item.action === 'delete') {
+    const result = await wishlistModel.del(authUser.id, item.id);
     if (result.affectedRows == 1) {
       status = 3;
     }
@@ -211,21 +184,20 @@ router.post('/wishlist', async (req, res) => {
       });
     }
     else {
-      if(status == 3)
-      {
+      if (status == 3) {
         res.json({
           success: true,
           message: 'Xóa thành công',
-          data: wishlist.length-1
+          data: wishlist.length - 1
         });
       }
-      else{
-      res.json({
-        success: false,
-        message: 'có lỗi xảy ra',
-        data: null
-      });
-    }
+      else {
+        res.json({
+          success: false,
+          message: 'có lỗi xảy ra',
+          data: null
+        });
+      }
     }
   }
 
