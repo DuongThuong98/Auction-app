@@ -112,7 +112,7 @@
                       <th>Gía mua ngay</th>
                       <th>Thời gian kết thúc</th>
                       <th>Lượt đấu</th>
-                      <th  class="action"><i class="fa fa-trash-o"></i></th>
+                      <th  class="action">Sửa</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -124,7 +124,7 @@
                       <td class="price"><span>{{format purchase_bid}}</span></td>
                       <td class="availability in-stock"><span class="label">In stock</span></td>
                       <td class="qty"><input class="form-control input-sm" type="text" value="{{bid_count}}"></td>
-                      <td class="action"><a href="#"><i class="icon-close"></i></a></td>
+                      <td class="action"><a href="/seller/product/edit/{{id}}"><i class="fa fa-edit"></i></a></td>
                     </tr>
                    {{/each}}
                   </tbody>
@@ -143,9 +143,9 @@
           </div>
           <div class="block-content">
             <ul>
-              <li><a href="info">Thông tin tài khoản</a></li>
-              <li class="current"><a href="wishlist">Danh sách yêu thích</a></li>
-              <li><a href="bidding">Sản phẩm đang tham gia đấu giá</a></li>
+              <li class="current"><a href="javascript:;">Sản phẩm đấu giá</a></li>
+              <li><a href="/bidder/soldlist">Danh sách sản phẩm đã có người mua</a></li>
+             
            
             </ul>
           </div>
