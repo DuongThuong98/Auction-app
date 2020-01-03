@@ -43,6 +43,42 @@ module.exports = {
                                             limit ${config.paginate.limit} offset ${offset}`),
 
 
+  countSearchByKey: async key => {
+    const rows = await db.load(`select count(*) as total
+                                 from products where match (p_name,detail)against ('${key}')`)
+    return rows[0].total;
+  },
+
+  pageBySearchkey: (key, offset) => db.load(`select * from products 
+                                            where match (p_name,detail)
+                                            against ('${key}')
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
+  countSearchByKeyCate_1: async (key, id) => {
+    const rows = await db.load(`select count(*) as total
+                                 from products where match (p_name,detail)against ('${key}') 
+                                 and id_type_1 = ${id}`)
+    return rows[0].total;
+  },
+
+  pageBySearchkeyCate_1: (key, id, offset) => db.load(`select * from products 
+                                            where match (p_name,detail)
+                                            against ('${key}') and id_type_1 = ${id}
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
+
+  countSearchByKeyCate_2: async (key, id) => {
+    const rows = await db.load(`select count(*) as total
+                                            from products where match (p_name,detail)against ('${key}') 
+                                            and id_type = ${id}`)
+    return rows[0].total;
+  },
+
+  pageBySearchkeyCate_2: (key, id, offset) => db.load(`select * from products 
+                                                       where match (p_name,detail)
+                                                       against ('${key}') and id_type = ${id}
+                                                       limit ${config.paginate.limit} offset ${offset}`),
+
 
   single: p_id => db.load(`select * from products where id = ${p_id}`),
   add: entity => db.add('products', entity),

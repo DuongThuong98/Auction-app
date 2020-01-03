@@ -141,14 +141,22 @@
 
               <div class="top-search">
                 <div id="search">
-                  <form method="POST" action="/products/search/"> 
+                  <form method="POST" action="/products/search/key">
                     <div class="input-group">
                       <select class="cate-dropdown hidden-xs" name="category_id">
                         <option value="0" selected="true" disabled="disabled">All Categories</option>
-                        <option value="1">women</option>
-                        <option>&nbsp;&nbsp;&nbsp;Accessories </option>
+                        {{#each lcCategories}}
+                        {{#if mangcap2}}
+                        <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
+                        {{#each mangcap2}}
+                        <option value="{{cap2_id}}">&nbsp;&nbsp;&nbsp;{{cap2_name}} </option>
+                        {{/each}}
+                        {{else}}
+                        <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
+                        {{/if}}
+                        {{/each}}
                       </select>
-                      <input type="text" class="form-control" placeholder="Search" name="search">
+                      <input type="text" class="form-control" placeholder="Search" name="searchkey">
                       <button class="btn-search" type="submit">
                         <i class="fa fa-search"></i>
                       </button>
@@ -255,7 +263,7 @@
                     </a>
                   </div>
                 </li>
-             {{#if isSeller}}
+                {{#if isSeller}}
                 <li class="mt-root">
                   <div class="mt-root-item">
                     <a href="/seller/product">
@@ -267,7 +275,7 @@
                 </li>
                 {{/if}}
 
-                 {{#if isAdmin}}
+                {{#if isAdmin}}
                 <li class="mt-root">
                   <div class="mt-root-item">
                     <a href="/admin/users">
@@ -286,14 +294,14 @@
                       <div class="title title_font">
                         <span class="title-text">NÂNG CẤP SELLER</span>
                       </div>
-                    </a>   
+                    </a>
                     {{else}}
-                    <a href="blog_full_width.html" style="visibility: hidden;" >
+                    <a href="blog_full_width.html" style="visibility: hidden;">
                       <div class="title title_font">
                         <span class="title-text" style="visibility: hidden;">Blog</span>
                       </div>
                     </a>
-                      {{/if}}
+                    {{/if}}
 
                   </div>
                 </li>
@@ -406,7 +414,7 @@
   </div>
 
 
-<div id="myMessage" class="modal fade" role="dialog">
+  <div id="myMessage" class="modal fade" role="dialog">
     <div class="modal-dialog modal-md">
 
       <!-- Modal content-->
@@ -523,12 +531,12 @@
           success: function (response) {
             // response : obj
             console.log(response);
-            if(response.success){
+            if (response.success) {
               $('.modal-title').text(response.message)
               $('.modal-body i').text(response.data.id)
               $('.cart-total').text(response.data.count + ' Item(s)')
             }
-            else{
+            else {
               $('.modal-title').text('Error!')
               $('.modal-body').text(response.message)
             }

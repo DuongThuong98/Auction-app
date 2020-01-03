@@ -52,7 +52,7 @@ router.get('/:id/products', async (req, res) => {
   }
 
 
-
+//nếu ko tìm được trong loại 2 thỉ tìm loại 1
   if (rows.length === 0) {
     const [total1, rows1] = await Promise.all([
       productModel.countByCat_1(catId),

@@ -1,6 +1,7 @@
 const express = require('express');
 const moment = require('moment');
 const productModel = require('../models/product.model');
+const categoryModel = require('../models/category.model');
 const autionHistoryModel = require('../models/auctionHistory.model');
 const subImageModel = require('../models/subImage.model')
 const userModel = require('../models/user.model');
@@ -86,17 +87,166 @@ router.get('/:id', async (req, res) => {
 
 })
 
+router.get('/search/key', async (req, res) => {
+  searching = req.session.searchkey
 
-router.post('/search', async (req, res) => {
+  if (searching.searchkey == '') {
+    res.redirect(req.headers.referer);
+  }
+  else {
+
+    const limit = config.paginate.limit;
+
+    let page = req.query.page || 1;
+    if (page < 1) page = 1;
+    const offset = (page - 1) * config.paginate.limit;
+
+    let [total, rows] = await Promise.all([
+      productModel.countSearchByKey(searching.searchkey),
+      productModel.pageBySearchkey(searching.searchkey, offset)
+    ]);
+
+    if (searching.cate != null) {
+      cate = searching.cate;
+      if (cate.cap1) {
+        let [totalTemp, rowsTemp] = await Promise.all([
+          productModel.countSearchByKeyCate_1(searching.searchkey, cate.id),
+          productModel.pageBySearchkeyCate_1(searching.searchkey, cate.id, offset)
+        ]);
+        total = totalTemp;
+        rows = rowsTemp;
+      }
+      else{
+        let [totalTemp, rowsTemp] = await Promise.all([
+          productModel.countSearchByKeyCate_2(searching.searchkey, cate.id),
+          productModel.pageBySearchkeyCate_2(searching.searchkey, cate.id, offset)
+        ]);
+        total = totalTemp;
+        rows = rowsTemp;
+      }
+    }
+
+    console.log(rows);
+
+    let nPages = Math.floor(total / limit);
+    if (total % limit > 0) nPages++;
+    const page_numbers = [];
+    for (i = 1; i <= nPages; i++) {
+      page_numbers.push({
+        value: i,
+        isCurrentPage: i === +page
+      })
+    }
+
+    for (i = 0; i < rows.length; i++) {
+      //console.log(rows[i].expired_at);
+      rows[i].f_expired_at = moment(rows[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
+    }
+
+    current_time = moment().format('MM/DD/YYYY LTS');
+
+    res.render('vwProducts/allBySearch', {
+      products: rows,
+      empty: rows.length === 0,
+      page_numbers,
+      prev_value: +page - 1,
+      next_value: +page + 1,
+      is_not_start: nPages > 1 && page > 1,
+      is_not_last: nPages > page && nPages > 1,
+      nPages,
+      current_time,
+    });
+  }
+
+})
+
+router.post('/search/key', async (req, res) => {
 
   console.log("search");
   console.log(req.body);
+  searching = req.body;
 
-  rows = [];
-  res.render('vwProducts/allBySearch', {
-    products: rows,
-    empty: rows.length === 0,
-  });
+  if (searching.searchkey == '') {
+    res.redirect(req.headers.referer);
+  }
+  else {
+    req.session.searchkey = { searchkey: searching.searchkey };
+    cate = 0;
+    if (searching.category_id != null) {
+      const temp = await categoryModel.single(searching.category_id);
+      if (temp[0].cat_level == 0) {
+        cate = { cap1: true, id: searching.category_id }
+      }
+      else {
+        cate = { cap1: false, id: searching.category_id }
+      }
+      console.log(temp)
+    }
+    console.log(cate);
+
+    const limit = config.paginate.limit;
+
+    let page = req.query.page || 1;
+    if (page < 1) page = 1;
+    const offset = (page - 1) * config.paginate.limit;
+
+    let [total, rows] = await Promise.all([
+      productModel.countSearchByKey(searching.searchkey),
+      productModel.pageBySearchkey(searching.searchkey, offset)
+    ]);
+
+    if (cate != 0) {
+      req.session.searchkey = { searchkey: searching.searchkey,
+                                cate };
+      if (cate.cap1) {
+        let [totalTemp, rowsTemp] = await Promise.all([
+          productModel.countSearchByKeyCate_1(searching.searchkey, cate.id),
+          productModel.pageBySearchkeyCate_1(searching.searchkey, cate.id, offset)
+        ]);
+        total = totalTemp;
+        rows = rowsTemp;
+      }
+      else{
+        let [totalTemp, rowsTemp] = await Promise.all([
+          productModel.countSearchByKeyCate_2(searching.searchkey, cate.id),
+          productModel.pageBySearchkeyCate_2(searching.searchkey, cate.id, offset)
+        ]);
+        total = totalTemp;
+        rows = rowsTemp;
+      }
+    }
+
+    //console.log(rows);
+
+    let nPages = Math.floor(total / limit);
+    if (total % limit > 0) nPages++;
+    const page_numbers = [];
+    for (i = 1; i <= nPages; i++) {
+      page_numbers.push({
+        value: i,
+        isCurrentPage: i === +page
+      })
+    }
+
+    for (i = 0; i < rows.length; i++) {
+      //console.log(rows[i].expired_at);
+      rows[i].f_expired_at = moment(rows[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
+    }
+
+    current_time = moment().format('MM/DD/YYYY LTS');
+
+    res.render('vwProducts/allBySearch', {
+      products: rows,
+      empty: rows.length === 0,
+      page_numbers,
+      prev_value: +page - 1,
+      next_value: +page + 1,
+      is_not_start: nPages > 1 && page > 1,
+      is_not_last: nPages > page && nPages > 1,
+      nPages,
+      current_time,
+    });
+  }
 })
 
 
