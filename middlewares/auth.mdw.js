@@ -1,6 +1,16 @@
-module.exports = (req, res, next) => {
-  if (req.session.isAuthenticated === false)
-    return res.redirect(`/account/login?retUrl=${req.originalUrl}`);
+module.exports = {
+  bidder: (req, res, next) => {
+    if (req.session.isAuthenticated === false)
+      return res.redirect(`/account/login?retUrl=${req.originalUrl}`);
+    next();
+  },
 
-  next();
+  seller: (req, res, next) => {
+    if(req.session.isAuthenticated === false||
+      typeof(req.session.u_role) === 'undefined' || 
+      req.session.u_role !== 1)
+      return res.redirect(`/account/login?retUrl=${req.originalUrl}`);
+    next();
+  }
+
 }

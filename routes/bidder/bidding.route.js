@@ -73,6 +73,9 @@ router.post('/bidding', async (req, res) => {
   if (item.action === 'add') {
     const isBanned = await bannedBidderModel.singleByProAndBidder(item.id, authUser.id);
     console.log(isBanned);
+    //console.log(item.bidCount);
+    count = parseInt(item.bidCount) + 1;//số lượt ra giá cộng thêm 1
+    //console.log(count);
     if (isBanned.length > 0) {
       status = 3;
     }
@@ -88,7 +91,7 @@ router.post('/bidding', async (req, res) => {
         ProID: item.id,
         current_bid: item.bidPrice,
         id_bidder: authUser.id,
-        bid_count: item.bidCount++
+        bid_count: count
       });
       console.log(result);
       if (result.affectedRows == 1 && thayDoiCurrentBidVaBidder.affectedRows == 1) {

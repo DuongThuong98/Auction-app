@@ -17,7 +17,7 @@ module.exports = function (app) {
     res.locals.isAuthenticated = req.session.isAuthenticated;
     res.locals.authUser = req.session.authUser;
 
-    //Có phải là seller hay công
+    //Có phải là seller hay không
     if(typeof(req.session.u_role) === 'undefined' || req.session.u_role !== 1)
     {
       res.locals.isSeller = false;
@@ -26,6 +26,18 @@ module.exports = function (app) {
     {
       res.locals.isSeller = true;
     }
+
+
+    //có phải là admin không
+    if(typeof(req.session.u_role) === 'undefined' || req.session.u_role !== 0)
+    {
+      res.locals.isAdmin = false;
+    }
+    else
+    {
+      res.locals.isAdmin = true;
+    }
+
 
     //cập nhật chỉ mục trên wishlist
     res.locals.wishlistLength = req.session.wishlistLength;

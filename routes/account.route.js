@@ -85,8 +85,8 @@ router.post('/logout', (req, res) => {
 });
 
 
-router.get('/profile', restrict, (req, res) => {
-  res.render('vwAccount/profile');
-});
+// router.get('/profile', restrict, (req, res) => {
+//   res.render('vwAccount/profile');
+// });
 module.exports = router;
 
