@@ -3,9 +3,10 @@ const config = require('../config/default.json');
 
 
 module.exports = {
-  allByUserID: u_id => db.load(`select * from bannedbidder where id_user = ${u_id} `),
   all: () => db.load(`select * from bannedbidder`),                
   single: p_id => db.load(`select * from bannedbidder where id = ${p_id}`),
+  singleByProAndBidder: (p_id,b_id) => db.load(`select * from bannedbidder 
+                                                where id_bidder = ${b_id} and id_product= ${p_id}`),
   add: entity => db.add('bannedbidder', entity),
   del: (u_id,p_id) => {
     condition1 = {id_user: u_id};

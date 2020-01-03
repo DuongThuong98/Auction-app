@@ -52,7 +52,8 @@ router.get('/:id', async (req, res) => {
       fullname: username.fullname,
       time,
       bidPrice: history_rows[i].bid_price,
-      id_bidder: history_rows[i].id_bidder
+      id_bidder: history_rows[i].id_bidder,
+      id_his: history_rows[i].id
     });
   }
   //console.log(history);

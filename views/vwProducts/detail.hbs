@@ -132,7 +132,7 @@
         }
       }
     }
-    return false;
+    return true;
   }
 </script>
 
@@ -176,7 +176,8 @@
 
     $('.banned_bidder').click(function () {
         var idProduct = $('.product-name').attr('data-pro-id');
-        var idBidder = $(this).attr('data-bidder-id')
+        var idBidder = $(this).attr('data-bidder-id');
+        var idHis = $(this).attr('data-his-id');
         console.log(idProduct);
         console.log(idBidder);
         $.ajax({
@@ -185,7 +186,8 @@
           data: {
             idProduct, // $_POST['id'] = 22
             action: 'banned',
-            idBidder
+            idBidder,
+            idHis
           },
           dataType: 'JSON',
           success: function (response) {
@@ -376,7 +378,7 @@
                           <td>{{time}}</td>
                           <td> {{format bidPrice}} đ</td>
                           <td><i class="fas fa-share-square banned_bidder" 
-                                   data-bidder-id='{{id_bidder}}' ></i></td>
+                                   data-bidder-id='{{id_bidder}}' data-his-id='{{id_his}}'></i></td>
                         </tr>
                         {{/each}}
                         {{else}}
