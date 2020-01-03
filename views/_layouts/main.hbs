@@ -278,13 +278,23 @@
                   </div>
                 </li>
                 {{/if}}
+                <form id="frmLevelup" method="post" action="/bidder/levelup"></form>
                 <li class="mt-root demo_custom_link_cms">
                   <div class="mt-root-item">
-                    <a href="blog_full_width.html">
+                    {{#if isBidder}}
+                    <a href="javascript: $('#frmLevelup').submit();">
                       <div class="title title_font">
-                        <span class="title-text">Blog</span>
+                        <span class="title-text">NÂNG CẤP SELLER</span>
+                      </div>
+                    </a>   
+                    {{else}}
+                    <a href="blog_full_width.html" style="visibility: hidden;" >
+                      <div class="title title_font">
+                        <span class="title-text" style="visibility: hidden;">Blog</span>
                       </div>
                     </a>
+                      {{/if}}
+
                   </div>
                 </li>
               </ul>

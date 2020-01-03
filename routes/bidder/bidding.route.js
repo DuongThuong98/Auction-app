@@ -54,6 +54,14 @@ router.post('/info', async (req, res) => {
   });
 });
 
+router.post('/levelup', async (req, res) => {
+  authUser = req.session.authUser;
+  const entity = {id: authUser.id,
+                  u_status: 2};
+  await userModel.patch(entity);
+  res.redirect('/bidder/info');
+})
+
 
 //DANH SÁCH ĐANG ĐẤU GIÁ
 

@@ -17,6 +17,17 @@ module.exports = function (app) {
     res.locals.isAuthenticated = req.session.isAuthenticated;
     res.locals.authUser = req.session.authUser;
 
+
+    //Có phải là bidder hay không
+    if(typeof(req.session.u_role) === 'undefined' || req.session.u_role !== 2)
+    {
+      res.locals.isBidder = false;
+    }
+    else
+    {
+      res.locals.isBidder = true;
+    }
+
     //Có phải là seller hay không
     if(typeof(req.session.u_role) === 'undefined' || req.session.u_role !== 1)
     {
