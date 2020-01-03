@@ -1,8 +1,8 @@
 const db = require('../utils/db');
 
 module.exports = {
-  all: () => db.load('select * from users'),
-  single: id => db.load(`select * from users where f_ID = ${id}`),
+  all: () => db.load('select * from users where u_role <> 0'),
+  single: id => db.load(`select * from users where id = ${id}`),
   singleByUsername: async username => {
     const rows = await db.load(`select * from users where username = '${username}'`);
     if (rows.length === 0)

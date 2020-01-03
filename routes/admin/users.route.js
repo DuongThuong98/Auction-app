@@ -9,17 +9,6 @@ const subImageModel = require('../../models/subImage.model');
 const wishlistModel = require('../../models/wishlist.model');
 const autionHistoryModel = require('../../models/auctionHistory.model');
 
-const storage = multer.diskStorage({
-    filename: function (req, file, cb) {
-        var duoi = file.originalname.substr(file.originalname.indexOf("."), 5);
-        var fname = file.originalname.substr(0, file.originalname.indexOf(".")) + '-' + Date.now() + duoi;
-        cb(null, fname);
-    },
-    destination: function (req, file, cb) {
-        cb(null, `public/images/products-images`);
-    },
-});
-const upload = multer({ storage });
 
 //const upload = multer({dest:'upload/'})
 
@@ -31,11 +20,50 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     const seller = req.session.authUser;
-
+    const rows = await userModel.all();
+    console.log(rows);
     res.render('vwAdmin/indexUsers', {
-        empty: true
+        users: rows,
+        empty: rows.length ===0
     });
 });
 
+router.get('/add', (req, res) => {
+    res.render('vwAdmin/addUser');
+})
 
+router.get('/edit/:id', async (req, res) => {
+    const rows = await userModel.single(req.params.id);
+
+    if (rows.length === 0) {
+        throw new Error('Invalid product id');
+    }
+    
+    //console.log(rows[0]);
+    //console.log(type);
+
+    res.render('vwAdmin/editUser', {user: rows[0]});
+})
+
+router.post('/patch', async (req, res) => {
+    const temp_user = await userModel.singleByID(req.body.id);
+    if (temp_user === null)
+      throw new Error('Có lỗi xảy ra ở User ID');
+    // authUser = req.session.authUser;
+    // console.log(authUser);
+  
+    var form_user = req.body;
+    if (form_user.is_change_pass === 'on') {
+        delete form_user.is_change_pass;
+        const hash = bcrypt.hashSync(form_user.new_password, 10);
+        form_user.u_password = hash;  
+    }
+  
+    
+    delete form_user.new_password;
+    console.log(form_user);
+    console.log(temp_user);
+    userModel.patch(form_user);
+    res.redirect('/admin/users');
+})
 module.exports = router;

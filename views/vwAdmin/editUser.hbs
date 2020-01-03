@@ -1,0 +1,178 @@
+{{#section 'css'}}
+<style>
+    .page-title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .checkbox>label {
+        font-weight: bold;
+        margin-left: 15px;
+    }
+
+    /* .password-group{
+        display: none; */
+    /* } */
+
+    .box-authentication {
+        width: 550px;
+        margin-left: 70px !important;
+    }
+
+    .page-content {
+        width: 90%;
+        margin: auto;
+    }
+</style>
+
+{{#section 'js'}}
+<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+        $('.password-group').hide();
+        // console.log('a');
+    });
+    jQuery(document).ready(function () {
+        $('#is_change_pass').click(function () {
+            $('.password-group').toggle(500);
+            // alert("fdf");
+        })
+    });
+
+    function validate() {
+        if ($('#is_change_pass').is(":checked")) {
+            if ($('#new_password').val()=="" )
+                {
+                    alert("Nhập lại Password")
+                return false;
+                }
+        }
+
+        return true;
+    }
+</script>
+{{/section}}
+
+{{!-- Textarea cho mô tả chi tiết --}}
+
+{{/section}}
+
+
+<seticon class="main-container col2-right-layout">
+    <div class="main container">
+        <div class="row">
+            <div class="col-main col-sm-12 col-xs-12">
+                <div class="page-content checkout-page">
+                    <div class="page-title">
+                        <h2>Bổ sung thông tin</h2>
+                    </div>
+                    <form onsubmit="return validate();"  method="POST" name="frmEditUser" novalidate >
+                                                <div class="box-border">
+                            <ul>
+                                <li class="row">
+                                    <div class="col-sm-6">
+                                        <label for="first_name" class="required">UserName</label>
+                                        <input type="text" class="input form-control" name="username" id="txtusername"
+                                            value="{{user.username}}">
+                                    </div>
+                                    <!--/ [col] -->
+                                    <div class="col-sm-6">
+                                        <label for="last_name" class="required">Họ Tên</label>
+                                        <input type="text" name="fullname" class="input form-control" id="txtfullname"
+                                            value="{{user.fullname}}">
+                                    </div>
+                                    <!--/ [col] -->
+                                </li>
+                            
+                                <li class="row">
+                                    <div class="col-sm-6">
+                                        <label for="company_name">ID USER</label>
+                                        <input type="text" name="id" readonly class="input form-control"
+                                            id="phone_number" value="{{user.id}}">
+                                    </div>
+                                   
+                                    <div class="col-sm-6">
+                                        <label for="email_address" class="required">Email Address</label>
+                                        <input type="text" class="input form-control" name="email" id="email_address"
+                                            value="{{user.email}}">
+                                    </div>
+                                    
+                                </li>
+                              
+                                <li class="row">
+                                    <div class="col-xs-12">
+                                        <label for="address" class="required">Address</label>
+                                        <input type="text" class="input form-control" name="address" id="address"
+                                            value="{{user.address}}">
+                                    </div>
+                                </li>
+
+                                <li class="row">
+                                    <div class="col-sm-3">
+                                        <label for="first_name" class="required">Cấp độ</label>
+                                        <input type="text" class="input form-control" name="u_role" id="txtusername"
+                                            value="{{user.u_role}}">
+                                    </div>
+                                  
+                                    <div class="col-sm-3">
+                                        <label for="last_name" class="required">Trạng thái</label>
+                                        <input type="text" name="u_status" class="input form-control" id="txtfullname"
+                                            value="{{user.u_status}}">
+                                    </div>
+                                     <div class="col-sm-3">
+                                        <label for="first_name" class="required">Điểm tích cực</label>
+                                        <input type="text" class="input form-control" name="good_point" id="txtusername"
+                                            value="{{user.good_point}}">
+                                    </div>
+                                  
+                                    <div class="col-sm-3">
+                                        <label for="last_name" class="required">Điểm tiêu cực</label>
+                                        <input type="text" name="bad_point" class="input form-control" id="txtfullname"
+                                            value="{{user.bad_point}}">
+                                    </div>
+                                  
+                                </li>
+
+                                <br>
+                                <li class="row">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="is_change_pass" name="is_change_pass">
+                                            Reset mật khẩu</label>
+                                    </div>
+                                </li>
+
+
+                                <div class="password-group" style="display: block;">
+                                   
+
+                                    <div class="form-group">
+                                        <label class="control-label" for="new-password">Mật khẩu mới</label>
+                                        <div class="input-wrap">
+                                            <input type="password" name="new_password" class="form-control"
+                                                id="new_password" value="" autocomplete="off"
+                                                placeholder="Mật khẩu từ 6 đến 32 ký tự">
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- end of password-group -->
+
+                                <li>
+                                    <a class="continue-btn" href="/admin/users"><i class="fa fa-arrow-left"> </i>&nbsp;
+                                        Trở về
+                                        list</a>&nbsp;
+                                    <button class="button" formaction="/admin/users/patch"><i class="fa fa-check "></i>&nbsp; <span>BỔ SUNG</span></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </section>
+
+
+                                    

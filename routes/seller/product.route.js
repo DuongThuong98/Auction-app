@@ -107,7 +107,6 @@ router.get('/edit/:id', async (req, res) => {
 })
 
 
-
 router.post('/patch', async (req, res) => {
     const rows = await productModel.single(req.body.id);
 

@@ -1,6 +1,6 @@
 {{#section 'css'}}
-  <!-- style CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/blog.css" media="all">
+<!-- style CSS -->
+<link rel="stylesheet" type="text/css" href="/css/blog.css" media="all">
 <style>
   .item-brief {
     padding-left: 3px;
@@ -52,65 +52,64 @@
         <div class="my-account cart">
           <div class="page-title">
             <h2>Sản phẩm của tôi</h2>
-            <a class="btn btn-success" href="/seller/product/add" role="button" style="margin-left: 1px;">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            Add Category
-          </a>
+            <a class="btn btn-success" href="/admin/users/add" role="button" style="margin-left: 1px;">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              Add Category
+            </a>
           </div>
           {{#if this.empty}}
           <div class="card-body">
-           <p style="color:#fed700; font-size:25px">Danh sách rỗng</p>
-              <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
+            <p style="color:#fed700; font-size:25px">Danh sách rỗng</p>
+            <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
           </div>
           {{else}}
 
-        
-        <div class="order-detail-content">
-              <div class="table-responsive">
-                <table class="table table-bordered cart_summary">
-                  <thead>
-                    <tr>
-                      <th class="cart_product">ẢNH</th>
-                      <th>Tên</th>
-                      <th>Gía hiện tại</th>
-                      <th>Gía mua ngay</th>
-                      <th>Thời gian kết thúc</th>
-                      <th>Lượt đấu</th>
-                      <th  class="action">Sửa</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {{#each this.products}}
-                    <tr>
-                      <td class="cart_product"><a href="#"><img src="/images/products-images/{{image}}" alt="Product"></a></td>
-                      <td class="cart_description"><p class="product-name"><a href="#">{{p_name}} </a></p></td>
-                      <td class="price"><span>{{format current_bid}}</span></td>
-                      <td class="price"><span>{{format purchase_bid}}</span></td>
-                      <td class="availability in-stock"><span class="label">In stock</span></td>
-                      <td class="qty"><input class="form-control input-sm" type="text" value="{{bid_count}}"></td>
-                      <td class="action"><a href="/seller/product/edit/{{id}}"><i class="fa fa-edit"></i></a></td>
-                    </tr>
-                   {{/each}}
-                  </tbody>
-                 
-                </table>
-              </div>
-            </div>
 
-        {{/if}}
-         </div>
+          <div class="order-detail-content">
+            <div class="table-responsive">
+              <table class="table table-bordered cart_summary">
+                <thead>
+                  <tr>
+                    <th class="cart_product">Mã số</th>
+                    <th>Tên Username</th>
+                    <th>Cấp độ</th>
+                    <th>Trạng thái</th>
+                    <th class="action">Sửa</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each this.users}}
+                  <tr>
+                    <td class="cart_product"><a href="#">{{id}}</a>
+                    </td>
+                    <td class="cart_description">
+                      <p class="product-name"><a href="#">{{username}} </a></p>
+                    </td>
+                    <td class="availability in-stock"><span class="label">{{u_role}}</span></td>
+                    <td class="price"><span>{{u_status}}</span></td>
+                    <td class="action"><a href="/admin/users/edit/{{id}}"><i class="fa fa-edit"></i></a></td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+          {{/if}}
+        </div>
       </div>
       <aside class="right sidebar col-sm-3 col-xs-12">
         <div class="sidebar-account block">
           <div class="sidebar-bar-title">
-            <h3>Tài khoản của tôi</h3>
+            <h3>Danh mục</h3>
           </div>
           <div class="block-content">
             <ul>
-              <li class="current"><a href="javascript:;">Sản phẩm đấu giá</a></li>
-              <li><a href="/bidder/soldlist">Danh sách sản phẩm đã có người mua</a></li>
-             
-           
+              <li class="current"><a href="javascript:;">Quản lý User</a></li>
+              <li><a href="/admin/categories">Quản lý danh mục</a></li>
+
+
             </ul>
           </div>
         </div>
@@ -120,4 +119,3 @@
   </div>
 </section>
 <!-- Main Container End -->
-
