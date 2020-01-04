@@ -98,7 +98,29 @@ app.get('/', async (req, res) => {
     req.session.task = 1;
     //console.log('fafefsdsa');
   }
-  res.render('home');
+
+  topFiveDeadline = await productModel.topFiveDeadline();
+  topFiveBidCount = await productModel.topFiveBidCount();
+  topFiveHighBid = await productModel.topFiveHighBid();
+  current_time = moment().format('MM/DD/YYYY LTS');
+  //thời gian hợp lệ
+  for (i = 0; i < topFiveDeadline.length; i++) {
+    //console.log(rows[i].expired_at);
+    topFiveDeadline[i].f_expired_at = moment(topFiveDeadline[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
+  }
+
+  for (i = 0; i < topFiveBidCount.length; i++) {
+    //console.log(rows[i].expired_at);
+    topFiveBidCount[i].f_expired_at = moment(topFiveBidCount[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
+  }
+
+  for (i = 0; i < topFiveHighBid.length; i++) {
+    //console.log(rows[i].expired_at);
+    topFiveHighBid[i].f_expired_at = moment(topFiveHighBid[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
+  }
+
+
+  res.render('home',{topFiveDeadline, topFiveBidCount,topFiveHighBid,current_time});
 })
 
 app.get('/about', (req, res) => {

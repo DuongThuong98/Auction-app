@@ -78,7 +78,20 @@ module.exports = {
                                                        where match (p_name,detail)
                                                        against ('${key}') and id_type = ${id}
                                                        limit ${config.paginate.limit} offset ${offset}`),
+  topFiveDeadline: () => db.load(`select * from products 
+                                  where p_status = 1 
+                                  order by expired_at
+                                  limit 5 offset 0`),
 
+  topFiveBidCount: () => db.load(`select * from products 
+                                  where p_status = 1 
+                                  order by current_bid desc
+                                  limit 5 offset 0`),
+
+  topFiveHighBid: () => db.load(`select * from products 
+                                  where p_status = 1 
+                                  order by bid_count desc
+                                  limit 5 offset 0`),
 
   single: p_id => db.load(`select * from products where id = ${p_id}`),
   add: entity => db.add('products', entity),
