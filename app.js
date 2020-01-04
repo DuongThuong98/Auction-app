@@ -4,6 +4,9 @@ const hbs_sections = require('express-handlebars-sections');
 const session = require('express-session');
 const morgan = require('morgan');
 const numeral = require('numeral');
+const cron = require('node-cron');
+
+
 require('express-async-errors');
 
 const app = express();
@@ -45,6 +48,13 @@ require('./middlewares/routes.mdw')(app);
 
 app.get('/', (req, res) => {
   // res.end('hello from expressjs');
+  if (req.session.task !== 1) {
+    var task = cron.schedule('* * * * *', () => {
+      console.log('running a task every minute');
+    });
+    req.session.task = 1;
+    console.log('fafefsdsa');
+  }
   res.render('home');
 })
 

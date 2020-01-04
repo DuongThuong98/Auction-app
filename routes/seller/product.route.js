@@ -70,14 +70,17 @@ router.post('/add', upload.array('fuMain', 4), async (req, res) => {
     entity.created_at = moment().format('YYYY-MM-DD HH:mm:ss');
     entity.expired_at = moment(req.body.doe, 'DD/MM/YYYY').format('YYYY-MM-DD');
     entity.image = req.files[0].filename;
+    entity.id_bidder = 0;
 
+    console.log(cate[0]);
+    console.log(cate[0].cat_level);
     delete entity.doe;
-    //console.log(entity);
+    console.log(entity);
     //console.log(req.files);
 
 
     const result = await productModel.add(entity);
-    console.log(result);
+     console.log(result);
     var status = 0; //0 thất bại //1 thành công
     if (result.affectedRows == 1) {
         if (req.files.length > 1) {
