@@ -6,7 +6,7 @@ const productModel = require('../../models/product.model');
 const wishlistModel = require('../../models/wishlist.model');
 const bannedBidderModel = require('../../models/bannedBidder.model');
 const autionHistoryModel = require('../../models/auctionHistory.model');
-
+const emailHelper = require('../../helpers/email.helper');
 const router = express.Router();
 
 //INFO
@@ -80,7 +80,23 @@ router.post('/bidding', async (req, res) => {
 
   current_time = moment().format('YYYY-MM-DD HH:mm:ss');
 
+  emailArray = [];
   if (item.action === 'add') {
+    //cố tìm email của người sở hữu sản phẩm, ngưới giữ giá trước đó và người chuẩn bị giữ giá
+    const p = await productModel.single(item.id);
+    const seller = await userModel.single(p[0].id_seller);
+    const sellerEmail = seller[0].email;
+    const holdNowBid = await userModel.single(p[0].id_bidder);
+    const holdNowBidEmail = 'none';
+    if(holdNowBid.length > 0)
+    {
+      holdNowBidMail = holdNowBid[0].email;
+    }
+    const bidderEmail = authUser.email;
+    emailArray.push(sellerEmail,holdNowBidEmail,bidderEmail);
+
+    
+
     const isBanned = await bannedBidderModel.singleByProAndBidder(item.id, authUser.id);
     console.log(isBanned);
     //console.log(item.bidCount);
@@ -109,14 +125,18 @@ router.post('/bidding', async (req, res) => {
       }
     }
   }
-
+  
   if (item.action === 'banned') {
     item.id = item.idProduct; //để xuống dưới báo lỗi 2 banned và add cho dễ
     count = parseInt(item.bidCount) - 1;//số lượt ra giá cộng thêm 1
-    console.log(count);
+    //console.log(count);
     const lichSuChuanBiXoa = await autionHistoryModel.single(item.idHis);
+    const banner = await userModel.single(lichSuChuanBiXoa[0].id_bidder); //nguoi82 bị cấm dùng TA sai :( )
+    const bannerEmail = banner[0].email;
+    emailArray.push(bannerEmail);
     //console.log(lichSuChuanBiXoa);
     //await autionHistoryModel.delByID(item.idHis);
+
     const history_rows = await autionHistoryModel.allByIDPro(item.idProduct);
     const hisLength = history_rows.length;
     if (hisLength > 1) {
@@ -152,7 +172,10 @@ router.post('/bidding', async (req, res) => {
     }
   }
 
+  console.log(emailArray);
+
   if (status == 1) {
+    emailHelper.sendmail(emailArray[0],'[Banner]Thông báo cho người bán có người bị đá','<p>Người bị đá</p>');
     res.json({
       success: true,
       message: 'Cấm thành công',
@@ -161,6 +184,10 @@ router.post('/bidding', async (req, res) => {
   }
   else {
     if (status == 2) {
+      emailHelper.sendmail(emailArray[0],'[Seller]Thông báo cho người bán có người đặt giá','<p>Nguòi bán</p>');
+      if(emailArray[1] != 'none')
+      {emailHelper.sendmail(emailArray[1],'[OldBidder]Thông báo cho người bán có người đặt giá','<p>Nguòi tiền bid</p>');}
+      emailHelper.sendmail(emailArray[2],'[Bidder]Thông báo cho người bán có người đặt giá','<p>Nguòi giữ giá</p>');
       res.json({
         success: true,
         message: 'Bidd thành công',

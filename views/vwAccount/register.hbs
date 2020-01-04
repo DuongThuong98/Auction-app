@@ -42,12 +42,11 @@
   });
 
   function validate() {
-     if ($('#txtPassword').val() == "" || 
-        $('#txtPassword').val()!==$('#txtConfirm').val() )
-                {
-                    alert("Nhập lại Password hoặc RePassword")
-                return false;
-                }
+    if ($('#txtPassword').val() == "" ||
+      $('#txtPassword').val() !== $('#txtConfirm').val()) {
+      alert("Nhập lại Password hoặc RePassword")
+      return false;
+    }
     return true;
   }
 </script>
@@ -65,16 +64,27 @@
     <div class="page-content">
       <div class="account-login">
         <div class="box-authentication">
+
+          <div class="alert alert-success alert-dismissible" style="width:300px">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> This alert box could indicate a successful or positive action.
+          </div>
+     
+          <div class="alert alert-danger alert-dismissible" style="width:300px">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
+          </div>
           <h2 style="font-weight: bold;">ĐĂNG KÝ TÀI KHOẢN</h2>
 
-           {{#if err_message}}
-       
+          {{#if err_message}}
+
           {{err_message}}
-       
-        {{/if}}
+
+          {{/if}}
 
           <form onsubmit="return validate();" method="POST" novalidate id="frmRegister" name="frmRegister">
             <h5 class="mb-3">Account</h5>
+            
             <div class="form-group">
               <label for="txtUsername">Username</label>
               <input type="text" class="form-control" id="txtUsername" name="username" placeholder="john" autofocus>
