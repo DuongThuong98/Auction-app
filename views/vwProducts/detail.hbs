@@ -113,8 +113,13 @@
       window.location = "../../account/login";
     }
     else {
+      if($('.product-name').attr('data-pro-status') != 1 )
+      {
+        alert("Sản phẩm đã hết phiên đấu giá");
+        return false;
+      }
       if ($('.fa-user').attr('data-id') == $('.bidder-user').attr('data-id')) {
-        alert("Bạn đang là người giữ giá cáo nhất");
+        alert("Bạn đang là người giữ giá cao nhất");
         return false;
       }
       else {
@@ -178,6 +183,7 @@
         var idProduct = $('.product-name').attr('data-pro-id');
         var idBidder = $(this).attr('data-bidder-id');
         var idHis = $(this).attr('data-his-id');
+        var bidCount = parseInt($('.product-name').attr('data-bid-count'));
         console.log(idProduct);
         console.log(idBidder);
         $.ajax({
@@ -187,12 +193,23 @@
             idProduct, // $_POST['id'] = 22
             action: 'banned',
             idBidder,
-            idHis
+            idHis,
+            bidCount,
           },
           dataType: 'JSON',
           success: function (response) {
             // response : obj
-            console.log(response);
+            //console.log(response);
+            if (response.success) {
+              $('.modal-title').text(response.message)
+              $('.modal-body ').html("<p>Cấm thành công</p>")
+            }
+            else {
+              $('.modal-title').text('Error!')
+              $('.modal-body').text(response.message)
+            }
+            $('#myMessage').modal('show');
+            $('.reload_page_button').click(function () { window.location = '/products/' + response.data; });
 
           }
         })
@@ -247,7 +264,7 @@
           </div>
           <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 product-details-area">
 
-            <div class="product-name" data-pro-id="{{this.product.id}}" data-bid-count="{{this.product.bid_count}}">
+            <div class="product-name" data-pro-status="{{this.product.p_status}}" data-pro-id="{{this.product.id}}" data-bid-count="{{this.product.bid_count}}">
               <h1>{{this.product.p_name}}</h1>
             </div>
             <div class="price-box">

@@ -126,7 +126,7 @@ router.post('/patch', async (req, res) => {
     console.log(req.body);
     console.log(rows[0].detail);
     entity = {detail: rows[0].detail,
-                ProID: req.body.id};
+              ProID: req.body.id};
     productModel.patch(entity);
     //res.render('vwSeller/editPro', { product: rows[0], typeName: type[0].cate_name });
     res.redirect('/seller/product');

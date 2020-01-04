@@ -46,14 +46,57 @@ app.set('view engine', 'hbs');
 require('./middlewares/locals.mdw')(app);
 require('./middlewares/routes.mdw')(app);
 
-app.get('/', (req, res) => {
+const productModel = require('./models/product.model');
+const moment = require('moment');
+
+app.get('/', async (req, res) => {
   // res.end('hello from expressjs');
   if (req.session.task !== 1) {
-    var task = cron.schedule('* * * * *', () => {
-      console.log('running a task every minute');
+    cron.schedule('*/30 * * * *', async () => {
+      temp = await productModel.all();
+      // var now = new Date;
+      var now = new Date();
+      //console.log(now.valueOf());
+      for (i = 0; i < temp.length; i++) {
+        var expired = new Date(temp[i].expired_at);
+        var created = new Date(temp[i].created_at);
+        var newTime = now - created;
+        if (now >= expired && temp[i].id_bidder != 0) {
+          temp[i].p_status = 2;
+          var entity = {
+            p_status: temp[i].p_status,
+            ProID: temp[i].id
+          };
+          await productModel.patch(entity);
+        }
+        else {
+          if (now >= expired && temp[i].id_bidder == 0) {
+            temp[i].p_status = 0;
+            var entity = {
+              p_status: temp[i].p_status,
+              id: temp[i].id
+            };
+            await productModel.patch(entity);
+          }
+          //console.log("còn hạn");
+        }
+
+        if (newTime > 43200000)//thời gian thêm vào đã qua 12h = 43200000
+        {
+          var entity = {
+            is_new: 0,
+            ProID: temp[i].id
+          };
+          await productModel.patch(entity);
+        }
+        //console.log(newTime.valueOf())
+      }
+
+      //console.log(temp);
+      console.log('running a task every 30 seconds');
     });
     req.session.task = 1;
-    console.log('fafefsdsa');
+    //console.log('fafefsdsa');
   }
   res.render('home');
 })

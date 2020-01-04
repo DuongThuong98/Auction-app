@@ -15,7 +15,7 @@ router.get('/:id', async (req, res) => {
   console.log(rows);
 
   const subImages = await subImageModel.allByProID(proId);
-  console.log(subImages);
+  //console.log(subImages);
 
   const history_rows = await autionHistoryModel.allByIDPro(proId);
   //console.log(history_rows);

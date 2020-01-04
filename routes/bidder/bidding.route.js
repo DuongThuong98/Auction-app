@@ -56,8 +56,10 @@ router.post('/info', async (req, res) => {
 
 router.post('/levelup', async (req, res) => {
   authUser = req.session.authUser;
-  const entity = {id: authUser.id,
-                  u_status: 2};
+  const entity = {
+    id: authUser.id,
+    u_status: 2
+  };
   await userModel.patch(entity);
   res.redirect('/bidder/info');
 })
@@ -110,34 +112,40 @@ router.post('/bidding', async (req, res) => {
 
   if (item.action === 'banned') {
     item.id = item.idProduct; //để xuống dưới báo lỗi 2 banned và add cho dễ
-    // const lichSuChuanBiXoa = await autionHistoryModel.single(item.idHis);
-    // await autionHistoryModel.delByID(item.idHis);
-    // const history_rows = await autionHistoryModel.allByIDPro(item.idProduct);
-    // if(history_rows.length>0)
-    // {
-    //   const thayDoiCurrentBidVaBidder = await productModel.patch({
-    //     ProID: item.idProduct,
-    //     current_bid: history_rows[history_rows.length-1].bid_price,
-    //     id_bidder: history_rows[history_rows.length-1].id_bidder,
-    //     bid_count: item.bidCount--
-    //   });
-    // }
-    // else{
-    //   const thayDoiCurrentBidVaBidder = await productModel.patch({
-    //     ProID: item.idProduct,
-    //     current_bid: lichSuChuanBiXoa.bid_price,
-    //     id_bidder: '0',
-    //     bid_count: item.bidCount--
-    //   });
-    // }
+    count = parseInt(item.bidCount) - 1;//số lượt ra giá cộng thêm 1
+    console.log(count);
+    const lichSuChuanBiXoa = await autionHistoryModel.single(item.idHis);
+    //console.log(lichSuChuanBiXoa);
+    //await autionHistoryModel.delByID(item.idHis);
+    const history_rows = await autionHistoryModel.allByIDPro(item.idProduct);
+    const hisLength = history_rows.length;
+    if (hisLength > 1) {
+      if (history_rows[hisLength - 1].id_bidder == lichSuChuanBiXoa[0].id_bidder)//nếu bidder bị cấm là bidder cao nhất
+      {
+        const thayDoiCurrentBidVaBidder = await productModel.patch({
+          ProID: item.idProduct,
+          current_bid: history_rows[hisLength - 2].bid_price,
+          id_bidder: history_rows[hisLength - 2].id_bidder,
+          bid_count: count
+        });
+      }
+    }
+    else {
+      current_bid_temp = lichSuChuanBiXoa[0].bid_price - 100000;
+      const thayDoiCurrentBidVaBidder = await productModel.patch({
+        ProID: item.idProduct,
+        current_bid: current_bid_temp,
+        id_bidder: 0,
+        bid_count: count
+      });
+    }
+    await autionHistoryModel.delByID(item.idHis);
 
     var entity = {
-      id_bidder: item.idBidder,
-      id_product: item.idProduct,
+      id_bidder: lichSuChuanBiXoa[0].id_bidder,
+      id_product: lichSuChuanBiXoa[0].id_product,
     };
     const result = await bannedBidderModel.add(entity);
-
-
     console.log(result);
     if (result.affectedRows == 1) {
       status = 1;
@@ -148,7 +156,7 @@ router.post('/bidding', async (req, res) => {
     res.json({
       success: true,
       message: 'Cấm thành công',
-      data: item.idBidder
+      data: item.id
     });
   }
   else {
