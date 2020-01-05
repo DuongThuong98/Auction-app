@@ -6,6 +6,7 @@ const productModel = require('../../models/product.model');
 const wishlistModel = require('../../models/wishlist.model');
 const bannedBidderModel = require('../../models/bannedBidder.model');
 const autionHistoryModel = require('../../models/auctionHistory.model');
+const commentModel = require('../../models/comment.model');
 const emailHelper = require('../../helpers/email.helper');
 const router = express.Router();
 
@@ -71,25 +72,23 @@ router.get('/bidding', async (req, res) => {
   products = [];
   authUser = req.session.authUser;
   const biddingList = await autionHistoryModel.allByIDBidder(authUser.id);
-  for(i=0;i<biddingList.length;i++)
-  {
+  for (i = 0; i < biddingList.length; i++) {
     p = await productModel.single(biddingList[i].id_product);
-    if(p[0].p_status == 1)
-    {
-      if(p[0].id_bidder == authUser.id)
-      {
+    if (p[0].p_status == 1) {
+      if (p[0].id_bidder == authUser.id) {
         p[0].holdNowBid = true;
       }
-      else
-      {
+      else {
         p[0].holdNowBid = false;
       }
       products.push(p[0]);
     }
   }
 
-  res.render('vwBidder/bidding',{products, 
-                                empty: products.length === 0});
+  res.render('vwBidder/bidding', {
+    products,
+    empty: products.length === 0
+  });
 });
 
 router.post('/bidding', async (req, res) => {
@@ -109,14 +108,13 @@ router.post('/bidding', async (req, res) => {
     const sellerEmail = seller[0].email;
     const holdNowBid = await userModel.single(p[0].id_bidder);
     const holdNowBidEmail = 'none';
-    if(holdNowBid.length > 0)
-    {
+    if (holdNowBid.length > 0) {
       holdNowBidMail = holdNowBid[0].email;
     }
     const bidderEmail = authUser.email;
-    emailArray.push(sellerEmail,holdNowBidEmail,bidderEmail);
+    emailArray.push(sellerEmail, holdNowBidEmail, bidderEmail);
 
-    
+
 
     const isBanned = await bannedBidderModel.singleByProAndBidder(item.id, authUser.id);
     console.log(isBanned);
@@ -146,7 +144,7 @@ router.post('/bidding', async (req, res) => {
       }
     }
   }
-  
+
   if (item.action === 'banned') {
     item.id = item.idProduct; //để xuống dưới báo lỗi 2 banned và add cho dễ
     count = parseInt(item.bidCount) - 1;//số lượt ra giá cộng thêm 1
@@ -196,7 +194,7 @@ router.post('/bidding', async (req, res) => {
   console.log(emailArray);
 
   if (status == 1) {
-    emailHelper.sendmail(emailArray[0],'[Banner]Thông báo cho người bán có người bị đá','<p>Người bị đá</p>');
+    emailHelper.sendmail(emailArray[0], '[Banner]Thông báo cho người bán có người bị đá', '<p>Người bị đá</p>');
     res.json({
       success: true,
       message: 'Cấm thành công',
@@ -205,10 +203,9 @@ router.post('/bidding', async (req, res) => {
   }
   else {
     if (status == 2) {
-      emailHelper.sendmail(emailArray[0],'[Seller]Thông báo cho người bán có người đặt giá','<p>Nguòi bán</p>');
-      if(emailArray[1] != 'none')
-      {emailHelper.sendmail(emailArray[1],'[OldBidder]Thông báo cho người bán có người đặt giá','<p>Nguòi tiền bid</p>');}
-      emailHelper.sendmail(emailArray[2],'[Bidder]Thông báo cho người bán có người đặt giá','<p>Nguòi giữ giá</p>');
+      emailHelper.sendmail(emailArray[0], '[Seller]Thông báo cho người bán có người đặt giá', '<p>Nguòi bán</p>');
+      if (emailArray[1] != 'none') { emailHelper.sendmail(emailArray[1], '[OldBidder]Thông báo cho người bán có người đặt giá', '<p>Nguòi tiền bid</p>'); }
+      emailHelper.sendmail(emailArray[2], '[Bidder]Thông báo cho người bán có người đặt giá', '<p>Nguòi giữ giá</p>');
       res.json({
         success: true,
         message: 'Bidd thành công',
@@ -239,6 +236,51 @@ router.post('/bidding', async (req, res) => {
 router.get('/evaluate', async (req, res) => {
   res.render('vwBidder/evaluate');
 });
+
+router.get('/:id/addComment', async (req, res) => {
+  const ProID = req.params.id;
+  console.log(ProID);
+  product = await productModel.single(ProID);
+  seller = await userModel.single(product[0].id_seller);
+
+  res.render('vwBidder/addComment', { product: product[0], seller: seller[0] });
+});
+
+router.post('/addComment', async (req, res) => {
+  console.log(req.body);
+  reviewer = req.session.authUser;
+
+
+
+  entity = req.body;
+  product = await productModel.single(entity.id_product);
+  if (reviewer.id != product[0].id_bidder) {
+    res.render('vwBidder/addComment',{err_message: 'Bạn không thắng món hàng này'});
+  }
+  else {
+    entity.id_reviewer = reviewer.id;
+    if (entity.point == '0') {
+      entity.good_or_not = 0;
+    }
+    else {
+      entity.good_or_not = 1;
+    }
+
+    entity.created_at = moment().format('YYYY-MM-DD HH:mm:ss');
+    delete entity.point;
+
+    console.log(entity);
+    const result = await commentModel.add(entity);
+    //console.log(result);
+    success = false; //0 thất bại //1 thành công
+    if (result.affectedRows == 1) {
+      success = true;
+    }
+    res.render('vwBidder/addComment');
+  }
+
+  //res.redirect('/biider/evaluate');
+})
 
 //DANH SÁCH YÊU THÍCH
 
@@ -347,16 +389,16 @@ router.get('/won', async (req, res) => {
   products = [];
   authUser = req.session.authUser;
   const biddingList = await autionHistoryModel.allByIDBidder(authUser.id);
-  for(i=0;i<biddingList.length;i++)
-  {
+  for (i = 0; i < biddingList.length; i++) {
     p = await productModel.single(biddingList[i].id_product);
-    if(p[0].p_status == 2 && p[0].id_bidder == authUser.id)
-    {
+    if (p[0].p_status == 2 && p[0].id_bidder == authUser.id) {
       products.push(p[0]);
     }
   }
-  res.render('vwBidder/won',{products, 
-                             empty: products.length === 0});
+  res.render('vwBidder/won', {
+    products,
+    empty: products.length === 0
+  });
 });
 
 

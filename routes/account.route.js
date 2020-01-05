@@ -99,7 +99,7 @@ router.post('/login', async (req, res) => {
 
   delete user.u_password;
 
-  wishlist = wishlistModel.allByUserID(user.id);
+  wishlist = await wishlistModel.allByUserID(user.id);
   console.log(wishlist);
   req.session.wishlistLength = wishlist.length;
   req.session.isAuthenticated = true;

@@ -1,0 +1,124 @@
+{{#section 'css'}}
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
+<style>
+    .page-title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .checkbox>label {
+        font-weight: bold;
+        margin-left: 15px;
+    }
+
+    /* .password-group{
+        display: none; */
+    /* } */
+
+    .box-authentication {
+        width: 550px;
+        margin-left: 70px !important;
+    }
+
+    .page-content {
+        width: 90%;
+        margin: auto;
+    }
+</style>
+
+{{/section}}
+
+{{#section 'js'}}
+
+{{!-- NGÀY THÁNG NĂM --}}
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script>
+    $('#txtDOE').datetimepicker({
+        //format: 'd/m/Y H:s'
+        //format: 'd/m/Y',
+        format: 'd/m/Y H:m:s',
+        timepicker: true,
+        mask: true,
+    });
+
+    function validate() {
+        return true;
+    }
+</script>
+{{/section}}
+
+
+<seticon class="main-container col2-right-layout">
+    <div class="main container">
+        <div class="row">
+            <div class="col-main col-sm-12 col-xs-12">
+                <div class="page-content checkout-page">
+                    <div class="page-title">
+                        <h2>Đánh giá người bán hàng</h2>
+                    </div>
+                    <form method="POST" name="frmAddProduct" novalidate>
+                        <div class="box-border">
+                            <ul>
+                                <li class="row" hidden>
+                                    <div class="col-sm-6">
+                                        <label for="first_name" class="required">ID product </label>
+                                        <input type="text" class="input form-control" value="{{this.product.id}}" name="id_product" id="first_name">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="seller_name" class="required">ID seller</label>
+                                        <input type="text" class="input form-control" value="{{this.seller.id}}" name="id_user" id="seller_name" >
+                                    </div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-sm-6">
+                                        <label for="first_name" class="required">Tên sản phẩm: </label>
+                                        <input type="text" readonly class="input form-control" value="{{this.product.p_name}}" id="first_name">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="seller_name" class="required">Đến: </label>
+                                        <input type="text" readonly class="input form-control" value="{{this.seller.username}}"  id="seller_name" >
+                                    </div>
+                                </li>
+
+                                <li class="row">
+                                    <div class="col-sm-6">
+                                        <label for="txtDOE" class="required">Ngày hết hạn: </label>
+                                        <input type="text" class="form-control" id="txtDOE">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="company_name">Điểm đánh giá: </label> <br>
+                                        <label class="radio-inline"><input type="radio" value="1" name="point">Hài lòng</label>
+                                        <label class="radio-inline"><input type="radio" value="0" name="point">Không hài lòng</label>
+                                    </div>
+
+                                </li>
+
+                                <li class="row">
+                                    <div class="col-xs-12">
+
+                                        <label for="txtFullDes" class="required">Bình luận:</label>
+                                        <textarea class="form-control" id="txtFullDes" name="content"></textarea>
+
+                                    </div>
+                                    <!--/ [col] -->
+
+                                </li><!-- / .row -->
+                                <li>
+                                    <a class="continue-btn" href="/bidder/evaluate"><i class="fa fa-arrow-left">
+                                        </i>&nbsp;
+                                        Trở về
+                                        list</a>&nbsp;
+                                    <button class="button" formaction="/bidder/addComment"><i class="fa fa-check "></i>&nbsp; <span>GỬI BÌNH LUẬN</span></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </section>
