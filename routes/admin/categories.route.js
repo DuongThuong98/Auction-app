@@ -19,31 +19,71 @@ const router = express.Router();
 //INFO
 
 router.get('/', async (req, res) => {
-    const seller = req.session.authUser;
-    const rows = await userModel.all();
-    for(i=0;i<rows.length;i++)
-    {
-        if(rows[i].u_status == 2)
-        {
-        rows[i].status = 'Yêu cầu nâng cấp';
-        }
-        else
-        {
-            if(rows[i].u_status == 1)
-            {
-                rows[i].status = "Đã kích hoạt"; 
-            }
-            else
-            {
-                rows[i].status = "Chưa kích hoạt"; 
-            }
-        }
-    }
-    console.log(rows);
-    res.render('vwAdmin/indexUsers', {
-        users: rows,
-        empty: rows.length ===0
-    });
+    
+    categories = await categoryModel.all();
+
+    res.render('vwAdmin/indexCategories',{categories,
+                                         empty: categories.length === 0});
 });
 
+
+router.get('/add', async (req, res) => {
+    cap1 = await categoryModel.cap1();
+    res.render('vwAdmin/addCategory',{cap1});
+})
+
+router.post('/add', async (req, res) => {
+    console.log(req.body);
+
+    var form_category = req.body;
+    await categoryModel.add(form_category);
+    res.render('vwAdmin/addCategory');
+})
+
+router.get('/edit/:id', async (req, res) => {
+    const rows = await categoryModel.single(req.params.id);
+
+    if (rows.length === 0) {
+        throw new Error('Invalid categories id');
+    }
+
+    const temp = await categoryModel.single(rows[0].cat_level)
+    if(temp.length === 0)
+    {
+        rows[0].cate_level_name = 'Cấp 1';
+    }
+    else
+    {
+        rows[0].cate_level_name = temp[0].cate_name;
+    }
+    
+    console.log(rows[0]);
+    //console.log(type);
+
+    res.render('vwAdmin/editCategory', {category: rows[0]});
+})
+
+router.post('/patch', async (req, res) => {
+    
+    var form_cate = req.body;
+   
+    console.log(form_cate);
+
+    categoryModel.patch(form_cate);
+    res.redirect('/admin/categories');
+})
+
+router.post('/del', async (req, res) => {
+
+    const productIsExist = await productModel.allByIDtype(req.body.CatID);
+    if(productIsExist.length === 0)
+    {
+        const result = await categoryModel.del(req.body.CatID);
+        res.redirect('/admin/categories');
+    }
+    else
+    {
+        res.redirect(`/admin/categories/edit/${req.body.CatID}`);
+    }    
+  })
 module.exports = router;

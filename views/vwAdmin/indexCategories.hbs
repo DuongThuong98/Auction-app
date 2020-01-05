@@ -1,0 +1,119 @@
+{{#section 'css'}}
+<!-- style CSS -->
+<link rel="stylesheet" type="text/css" href="/css/blog.css" media="all">
+<style>
+  .item-brief {
+    padding-left: 3px;
+
+  }
+
+  .product-item {
+    /* margin-top: 10px; */
+    /* background-color: rgb(245, 240, 139); */
+    border-style: groove;
+    /* border-color: honeydew; */
+    border-width: 1px;
+  }
+
+  .form-control {
+    width: 200px;
+  }
+
+  .page-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-group {
+    width: fit-content;
+  }
+
+  td {
+    margin: auto;
+    vertical-align: middle;
+  }
+
+  .th-delete {
+    font-size: x-large;
+  }
+</style>
+{{/section}}
+
+{{#section 'js'}}
+
+
+{{/section}}
+
+<!-- Main Container -->
+<section class="main-container col1-right-layout">
+  <div class="main container">
+    <div class="row cart">
+      <div class="col-main col-sm-9 col-xs-12">
+        <div class="my-account cart">
+          <div class="page-title">
+            <h2>Sản phẩm của tôi</h2>
+            <a class="btn btn-success" href="/admin/categories/add" role="button" style="margin-left: 1px; margin-bottom:10px;">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              Add Category
+            </a>
+          </div>
+          {{#if this.empty}}
+          <div class="card-body">
+            <p style="color:#fed700; font-size:25px">Danh sách rỗng</p>
+            <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
+          </div>
+          {{else}}
+
+
+          <div class="order-detail-content">
+            <div class="table-responsive">
+              <table class="table table-bordered cart_summary">
+                <thead>
+                  <tr>
+                    <th class="cart_product">Mã số</th>
+                    <th>Tên Loại</th>
+                    <th>Cấp độ</th>
+                    <th>Trạng thái</th>
+                    <th class="action">Sửa</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each this.categories}}
+                  <tr>
+                    <td class="cart_product"><a href="#">{{id}}</a>
+                    </td>
+                    <td class="cart_description">
+                      <p class="product-name"><a href="#">{{cate_name}} </a></p>
+                    </td>
+                    <td class="availability in-stock"><span class="label">{{cat_level}}</span></td>
+                    <td class="price"><span>{{cat_status}}</span></td>
+                    <td class="action"><a href="/admin/categories/edit/{{id}}"><i class="fa fa-edit"></i></a></td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+          {{/if}}
+        </div>
+      </div>
+      <aside class="right sidebar col-sm-3 col-xs-12">
+        <div class="sidebar-account block">
+          <div class="sidebar-bar-title">
+            <h3>Danh mục</h3>
+          </div>
+          <div class="block-content">
+            <ul>
+              <li ><a href="/admin/users">Quản lý User</a></li>
+              <li class="current last"><a href="javascript:;"> Quản lý danh mục</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>
+<!-- Main Container End -->

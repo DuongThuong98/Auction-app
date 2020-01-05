@@ -22,12 +22,12 @@ module.exports = {
 
   takeCap2fromCap1: (id) => { db.load(`select * from categories where cate_level = ${id}`)},
 
-  all: () =>  db.load('select * from categories order by CatID'),
+  all: () =>  db.load('select * from categories where cat_status = 1 order by id'),
   single: id => db.load(`select * from categories where id = ${id}`),
   add: entity => db.add('categories', entity),
-  del: id => db.del('categories', { CatID: id }),
+  del: c_id => db.del('categories', { id: c_id }),
   patch: entity => {
-    const condition = { CatID: entity.CatID };
+    const condition = { id: entity.CatID };
     delete entity.CatID;
     // console.log(condition, entity);
     return db.patch('categories', entity, condition);

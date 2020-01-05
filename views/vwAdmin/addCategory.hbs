@@ -1,0 +1,127 @@
+{{#section 'css'}}
+<style>
+    .page-title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .checkbox>label {
+        font-weight: bold;
+        margin-left: 15px;
+    }
+
+    /* .password-group{
+        display: none; */
+    /* } */
+
+    .box-authentication {
+        width: 550px;
+        margin-left: 70px !important;
+    }
+
+    .page-content {
+        width: 90%;
+        margin: auto;
+    }
+</style>
+
+{{#section 'js'}}
+<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+        $('.password-group').hide();
+        // console.log('a');
+    });
+    jQuery(document).ready(function () {
+        $('#is_change_pass').click(function () {
+            $('.password-group').toggle(500);
+            // alert("fdf");
+        })
+    });
+
+    function validate() {
+        if ($('#is_change_pass').is(":checked")) {
+            if ($('#new_password').val() == "") {
+                alert("Nhập lại Password")
+                return false;
+            }
+        }
+
+        return true;
+    }
+</script>
+{{/section}}
+
+{{!-- Textarea cho mô tả chi tiết --}}
+
+{{/section}}
+
+
+<seticon class="main-container col2-right-layout">
+    <div class="main container">
+        <div class="row">
+            <div class="col-main col-sm-12 col-xs-12">
+                <div class="page-content checkout-page">
+                    <div class="page-title">
+                        <h2>Tạo danh danh mục sản phẩm</h2>
+                    </div>
+                    <form onsubmit="return validate();" method="POST" name="frmAddCategories" novalidate>
+                        <div class="box-border">
+                            <ul>
+
+                                <li class="row">
+                                    <div class="col-sm-3">
+                                        <label for="first_name" class="required">Tên: </label>
+                                        <input type="text" class="input form-control" name="cate_name" id="txtusername"
+                                            value="{{user.u_role}}">
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <label for="last_name" class="required">Cấp: </label>
+                                        <select class="input form-control" name="cat_level">
+                                            <option value="0"> CẤP 1 </option>
+                                            {{#each lcCategories}}
+                                            <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="first_name" class="required">Icon:</label>
+                                        <select class="input form-control" name="icon">
+                                            <option selected="true" value="fa-desktop"> fa-desktop </option>
+                                            <option value="fa-location-arrow"> fa-location-arrow </option>
+                                            <option value="fa-gamepad"> fa-gamepad </option>
+                                            <option value="fa-lightbulb-o"> fa-lightbulb-o </option>
+                                            <option value="fa-gamepad"> fa-gamepad </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <label for="last_name" class="required">Status</label>
+                                        <input type="text" name="cat_status" class="input form-control"
+                                            id="txtfullname">
+                                    </div>
+
+                                </li>
+
+                                <br>
+
+
+
+                                <li>
+                                    <a class="continue-btn" href="/admin/categories"><i class="fa fa-arrow-left">
+                                        </i>&nbsp;
+                                        Trở về
+                                        list</a>&nbsp;
+                                    <button class="button" formaction="/admin/categories/add"><i
+                                            class="fa fa-check "></i>&nbsp; <span>BỔ SUNG</span></button> 
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </section>

@@ -8,6 +8,8 @@ module.exports = {
   allByIDSeller: s_id => db.load(`select * from products where  id_seller = ${s_id}`),
   allSoldOutByIDSeller: s_id => db.load(`select * from products 
                                         where  id_seller = ${s_id} and p_status = 2`),
+  allByIDtype: (type) => db.load(`select * from products 
+                                        where  id_type = ${type} or id_type_1 = ${type}`),
   
   countByCat: async catId => {
     const rows = await db.load(`select count(*) as total from products where id_type = ${catId}`)
