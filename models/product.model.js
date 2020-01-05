@@ -93,6 +93,8 @@ module.exports = {
                                   order by bid_count desc
                                   limit 5 offset 0`),
 
+  
+
   single: p_id => db.load(`select * from products where id = ${p_id}`),
   add: entity => db.add('products', entity),
   del: p_id => db.del('products', { id: p_id }),

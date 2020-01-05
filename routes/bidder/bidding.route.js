@@ -68,7 +68,28 @@ router.post('/levelup', async (req, res) => {
 //DANH SÁCH ĐANG ĐẤU GIÁ
 
 router.get('/bidding', async (req, res) => {
-  res.render('vwBidder/bidding');
+  products = [];
+  authUser = req.session.authUser;
+  const biddingList = await autionHistoryModel.allByIDBidder(authUser.id);
+  for(i=0;i<biddingList.length;i++)
+  {
+    p = await productModel.single(biddingList[i].id_product);
+    if(p[0].p_status == 1)
+    {
+      if(p[0].id_bidder == authUser.id)
+      {
+        p[0].holdNowBid = true;
+      }
+      else
+      {
+        p[0].holdNowBid = false;
+      }
+      products.push(p[0]);
+    }
+  }
+
+  res.render('vwBidder/bidding',{products, 
+                                empty: products.length === 0});
 });
 
 router.post('/bidding', async (req, res) => {
@@ -323,21 +344,21 @@ router.post('/wishlist', async (req, res) => {
 
 //DANH SÁCH SẢN OHẨM ĐÃ THẮNG
 router.get('/won', async (req, res) => {
-  res.render('vwBidder/won');
+  products = [];
+  authUser = req.session.authUser;
+  const biddingList = await autionHistoryModel.allByIDBidder(authUser.id);
+  for(i=0;i<biddingList.length;i++)
+  {
+    p = await productModel.single(biddingList[i].id_product);
+    if(p[0].p_status == 2 && p[0].id_bidder == authUser.id)
+    {
+      products.push(p[0]);
+    }
+  }
+  res.render('vwBidder/won',{products, 
+                             empty: products.length === 0});
 });
-
 
 
 module.exports = router;
 
-
-//  if (response.success) {
-//               $('.modal-title').text(response.message)
-//               $('.modal-body ').html("<p> Đấu giá sp " + response.data + " thành công</p>")
-//             }
-//             else {
-//               $('.modal-title').text('Error!')
-//               $('.modal-body').text(response.message)
-//             }
-//             $('#myMessage').modal('show');
-//             $('.reload_page_button').click(function () { window.location = '/products/' + response.data; });

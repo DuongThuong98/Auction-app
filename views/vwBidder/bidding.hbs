@@ -1,5 +1,3 @@
-
-
 {{#section 'css'}}
 <style>
   .item-brief {
@@ -47,11 +45,18 @@
           <div class="page-title">
             <h2>Danh sách sản phẩm đang đấu</h2>
           </div>
+          {{!-- Danh sách --}}
+          {{#if this.empty}}
+          <div class="card-body">
+            <p style="color:#fed700; font-size:25px">Danh sách yêu thích rỗng</p>
+            <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Về trang chủ</a>
+          </div>
+          {{else}}
           <div class="wishlist-item table-responsive">
             <table class="col-md-12">
               <thead>
                 <tr>
-                  <th class="th-delate">Xóa</th>
+                  <th class="th-delate">Bạn là</th>
                   <th class="th-product">Ảnh đại diện</th>
                   <th class="th-details">Thông tin sản phẩm</th>
                   <th class="th-price">Giá đấu</th>
@@ -59,46 +64,33 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
-                  <td class="th-product"><a href="#"><img src="/images/products/img03.jpg" alt="cart"></a></td>
+                {{#each this.products}}
+                <tr class="parent-{{id}}">
+                  {{#if holdNowBid}}
+                  <td class="th-delete" data-id="{{id}}"><a href="javascript:;">
+                    <i class="fas fa-crown" style="color: rgb(255, 235, 57);
+                                                   font-size:xx-large   "></i></a></td>
+
+                  {{else}}
+                  <td class="th-delete" data-id="{{id}}"><a href="javascript:;">
+                    <i class="fas fa-crow" style="color: rgb(26, 2, 90);
+                                                   font-size:xx-large   "></i></a></td>
+                  {{/if}}
+                  <td class="th-product"><a href="/products/{{id}}"><img src="/images/products-images/{{image}}"
+                        alt="cart"></a></td>
                   <td class="th-details">
-                    <h2><a href="#">Lorem Ipsum is simply</a></h2>
+                    <h2><a href="/products/{{id}}">{{p_name}}</a></h2>
                   </td>
-                  <td class="th-price">$125.00</td>
+                  <td class="th-price">{{format current_bid}}</td>
 
                 </tr>
-                <tr>
-                  <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
-                  <td class="th-product"><a href="#"><img src="/images/products/img13.jpg" alt="cart"></a></td>
-                  <td class="th-details">
-                    <h2><a href="#">Leo quis molestie</a></h2>
-                  </td>
-                  <td class="th-price">$99.00</td>
-
-                </tr>
-                <tr>
-                  <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
-                  <td class="th-product"><a href="#"><img src="/images/products/img02.jpg" alt="cart"></a></td>
-                  <td class="th-details">
-                    <h2><a href="#">Lorem Ipsum is simply</a></h2>
-                  </td>
-                  <td class="th-price">$179.89</td>
-
-                </tr>
-                <tr>
-                  <td class="th-delate"><a href="#"><i class="fas fa-times-circle"></i></a></td>
-                  <td class="th-product"><a href="#"><img src="/images/products/img01.jpg" alt="cart"></a></td>
-                  <td class="th-details">
-                    <h2><a href="#">Leo quis molestie</a></h2>
-                  </td>
-                  <td class="th-price">$199.00</td>
-
-                </tr>
+                {{/each}}
               </tbody>
             </table>
             <a href="checkout.html" class="delete-all">Xóa tất cả</a>
           </div>
+          {{/if}}
+
         </div>
       </div>
       <aside class="right sidebar col-sm-3 col-xs-12">
@@ -111,7 +103,7 @@
               <li><a href="info">Thông tin tài khoản</a></li>
               <li><a href="wishlist">Danh sách yêu thích</a></li>
               <li class="current"><a href="bidding">Sản phẩm đang tham gia đấu giá</a></li>
-              <li ><a href="won">Sản phẩm đã thắng</a></li>
+              <li><a href="won">Sản phẩm đã thắng</a></li>
               <li class="last"><a href="evaluate">Xem nhận xét</a></li>
             </ul>
           </div>

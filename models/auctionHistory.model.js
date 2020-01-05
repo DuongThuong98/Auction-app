@@ -5,7 +5,11 @@ const config = require('../config/default.json');
 module.exports = {
   //: u_id => db.load(`select * from auctionhistory where id_user = ${u_id} `),
   all: () => db.load(`select * from auctionhistory`),         
-  allByIDPro: (p_id) => db.load(`select * from auctionhistory where id_product=${p_id}`),  
+  allByIDPro: (p_id) => db.load(`select * from auctionhistory where id_product=${p_id}`), 
+  allByIDBidder: (b_id) => db.load(`select distinct id_product, id_bidder
+                                    from auctionhistory
+                                    where id_bidder = ${b_id}`),  
+  
   single: p_id => db.load(`select * from auctionhistory where id = ${p_id}`),
   //singleByIDBidder: b_id => db.load(`select * from auctionhistory where id = ${b_id}`),
   add: entity => db.add('auctionhistory', entity),
