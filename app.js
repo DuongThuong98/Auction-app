@@ -5,7 +5,7 @@ const session = require('express-session');
 const morgan = require('morgan');
 const numeral = require('numeral');
 const cron = require('node-cron');
-
+const moment = require('moment');
 
 require('express-async-errors');
 
@@ -47,18 +47,21 @@ require('./middlewares/locals.mdw')(app);
 require('./middlewares/routes.mdw')(app);
 
 const productModel = require('./models/product.model');
-const moment = require('moment');
 
 app.get('/', async (req, res) => {
   // res.end('hello from expressjs');
   if (req.session.task !== 1) {
-    cron.schedule('*/30 * * * *', async () => {
+    cron.schedule('*/10 * * * * *', async () => {
       temp = await productModel.all();
       // var now = new Date;
-      var now = new Date();
-      //console.log(now.valueOf());
+      var now = new Date(moment());
+      // console.log(now.valueOf());
+      // console.log(moment().format('YYYY-MM-DD HH:mm:ss'))
       for (i = 0; i < temp.length; i++) {
         var expired = new Date(temp[i].expired_at);
+        //console.log(expired.valueOf());
+        // console.log(moment(temp[i].expired_at).format('YYYY-MM-DD HH:mm:ss'));
+        // console.log(moment(expired).format('YYYY-MM-DD HH:mm:ss'));
         var created = new Date(temp[i].created_at);
         var newTime = now - created;
         if (now >= expired && temp[i].id_bidder != 0) {
@@ -67,18 +70,22 @@ app.get('/', async (req, res) => {
             p_status: temp[i].p_status,
             ProID: temp[i].id
           };
-          await productModel.patch(entity);
+           productModel.patch(entity);
+          console.log(temp[i].id + ' 2')
         }
         else {
           if (now >= expired && temp[i].id_bidder == 0) {
             temp[i].p_status = 0;
             var entity = {
               p_status: temp[i].p_status,
-              id: temp[i].id
+              ProID: temp[i].id
             };
-            await productModel.patch(entity);
+             productModel.patch(entity);
+            console.log(temp[i].id + ' 0')
           }
           //console.log("còn hạn");
+          else{
+          console.log(temp[i].id + ' 1')}
         }
 
         if (newTime > 43200000)//thời gian thêm vào đã qua 12h = 43200000
@@ -87,7 +94,7 @@ app.get('/', async (req, res) => {
             is_new: 0,
             ProID: temp[i].id
           };
-          await productModel.patch(entity);
+           productModel.patch(entity);
         }
         //console.log(newTime.valueOf())
       }
