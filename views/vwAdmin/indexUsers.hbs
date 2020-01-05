@@ -52,7 +52,7 @@
         <div class="my-account cart">
           <div class="page-title">
             <h2>Sản phẩm của tôi</h2>
-            <a class="btn btn-success" href="/admin/users/add" role="button" style="margin-left: 1px;">
+            <a class="btn btn-success" href="/admin/users/add" role="button" style="margin-left: 1px; margin-bottom:10px;">
               <i class="fa fa-plus" aria-hidden="true"></i>
               Add Category
             </a>
@@ -86,7 +86,7 @@
                       <p class="product-name"><a href="#">{{username}} </a></p>
                     </td>
                     <td class="availability in-stock"><span class="label">{{u_role}}</span></td>
-                    <td class="price"><span>{{u_status}}</span></td>
+                    <td class="price"><span>{{status}}</span></td>
                     <td class="action"><a href="/admin/users/edit/{{id}}"><i class="fa fa-edit"></i></a></td>
                   </tr>
                   {{/each}}
@@ -107,9 +107,7 @@
           <div class="block-content">
             <ul>
               <li class="current"><a href="javascript:;">Quản lý User</a></li>
-              <li><a href="/admin/categories">Quản lý danh mục</a></li>
-
-
+              <li class="last"><a href="/admin/categories">Quản lý danh mục</a></li>
             </ul>
           </div>
         </div>

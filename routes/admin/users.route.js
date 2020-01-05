@@ -21,6 +21,24 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const seller = req.session.authUser;
     const rows = await userModel.all();
+    for(i=0;i<rows.length;i++)
+    {
+        if(rows[i].u_status == 2)
+        {
+        rows[i].status = 'Yêu cầu nâng cấp';
+        }
+        else
+        {
+            if(rows[i].u_status == 1)
+            {
+                rows[i].status = "Đã kích hoạt"; 
+            }
+            else
+            {
+                rows[i].status = "Chưa kích hoạt"; 
+            }
+        }
+    }
     console.log(rows);
     res.render('vwAdmin/indexUsers', {
         users: rows,
@@ -29,6 +47,18 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/add', (req, res) => {
+    res.render('vwAdmin/addUser');
+})
+
+router.post('/add', async (req, res) => {
+    console.log(req.body);
+
+    var form_user = req.body;
+    const hash = bcrypt.hashSync(form_user.new_password, 10);
+    form_user.u_password = hash;  
+    
+    delete form_user.new_password;
+    await userModel.add(form_user);
     res.render('vwAdmin/addUser');
 })
 
@@ -66,4 +96,6 @@ router.post('/patch', async (req, res) => {
     userModel.patch(form_user);
     res.redirect('/admin/users');
 })
+
+
 module.exports = router;
