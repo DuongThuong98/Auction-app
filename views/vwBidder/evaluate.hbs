@@ -55,53 +55,28 @@
                                             <th class="th-product">Nội dung bình luận</th>
                                             <th class="th-details">Sản phẩm giao dịch</th>
                                             <th class="th-price">Thời gian đăng</th>
+                                            <th class="th-delete">Thái độ</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {{#each this.comment}}
                                         <tr>
-                                            <td class="th-evaluate"><a href="#"><i class="fas fa-gavel"></i>Van
-                                                    Thuong</a></td>
+                                            <td class="th-evaluate"><a href="#"><i class="fas fa-gavel"></i>{{reviewerName}}</a></td>
                                             <td class="th-details">
-                                                <h2><a href="#">Lorem Ipsum is simply</a></h2>
+                                                <h2><a href="#">{{content}}</a></h2>
                                             </td>
-                                            <td class="th-product"><a href="#"><img src="/images/products/img03.jpg"
-                                                        alt="cart"></a>Apple</td>
-                                            <td class="th-price">11/02/2019</td>
-
+                                            <td class="th-product"><a href="/products/{{id_product}}"><img src="/images/products-images/{{image}}"
+                                                        alt="cart"></a> <br>{{proName}}</td>
+                                            <td class="th-price">{{createdDay}}</td>
+                                            {{#if good_or_not}}
+                                            <td class="th-delete"><i class="fas fa-thumbs-up" style="font-size: xx-large;
+                                                                                                    color: rgb(233, 255, 35)"></i></td>
+                                            {{else}}
+                                            <td class="th-delete"><i class="fas fa-thumbs-down" style="font-size: xx-large;
+                                                                                                    color: rgb(85, 0, 155)" ></i></td>
+                                            {{/if}}
                                         </tr>
-                                        <tr>
-                                            <td class="th-evaluate"><a href="#"><i class="fas fa-gavel"></i>Van
-                                                    Thuong</a></td>
-                                            <td class="th-details">
-                                                <h2><a href="#">Lorem Ipsum is simply</a></h2>
-                                            </td>
-                                            <td class="th-product"><a href="#"><img src="/images/products/img03.jpg"
-                                                        alt="cart"></a>Apple</td>
-                                            <td class="th-price">11/02/2019</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="th-evaluate"><a href="#"><i class="fas fa-gavel"></i>Van
-                                                    Thuong</a></td>
-                                            <td class="th-details">
-                                                <h2><a href="#">Lorem Ipsum is simply</a></h2>
-                                            </td>
-                                            <td class="th-product"><a href="#"><img src="/images/products/img13.jpg"
-                                                        alt="cart"></a>Apple</td>
-                                            <td class="th-price">11/02/2019</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="th-evaluate"><a href="#"><i class="fas fa-gavel"></i>Van
-                                                    Thuong</a></td>
-                                            <td class="th-details">
-                                                <h2><a href="#">Lorem Ipsum is simply</a></h2>
-                                            </td>
-                                            <td class="th-product"><a href="#"><img src="/images/products/img04.jpg"
-                                                        alt="cart"></a>Apple</td>
-                                            <td class="th-price">11/02/2019</td>
-
-                                        </tr>
+                                        {{/each}}
                                     </tbody>
                                 </table>
                                 <a href="checkout.html" class="delete-all">Xóa tất cả</a>

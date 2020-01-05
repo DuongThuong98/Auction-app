@@ -11,7 +11,6 @@ const emailHelper = require('../../helpers/email.helper');
 const router = express.Router();
 
 //INFO
-
 router.get('/', async (req, res) => {
   res.render('vwBidder/info');
 });
@@ -234,7 +233,21 @@ router.post('/bidding', async (req, res) => {
 //DANH SÁCH ĐÁNH GIÁ
 
 router.get('/evaluate', async (req, res) => {
-  res.render('vwBidder/evaluate');
+  reviewer = req.session.authUser;
+  const comment = await commentModel.allByUserID(reviewer.id);
+
+  for(i=0;i<comment.length;i++)
+  {
+    product = await productModel.single(comment[i].id_product);
+    user = await userModel.single(comment[i].id_reviewer);
+    comment[i].proName = product[0].p_name;
+    comment[i].image = product[0].image;
+    comment[i].reviewerName = user[0].username;
+    comment[i].createdDay = moment(comment[i].created_at).format('DD/MM/YYYY hh:mm');
+  }
+
+   console.log(comment);
+  res.render('vwBidder/evaluate',{comment});
 });
 
 router.get('/:id/addComment', async (req, res) => {
@@ -250,23 +263,31 @@ router.post('/addComment', async (req, res) => {
   console.log(req.body);
   reviewer = req.session.authUser;
 
-
-
   entity = req.body;
   product = await productModel.single(entity.id_product);
   if (reviewer.id != product[0].id_bidder) {
     res.render('vwBidder/addComment',{err_message: 'Bạn không thắng món hàng này'});
   }
   else {
+    user = await userModel.single(entity.id_user);
     entity.id_reviewer = reviewer.id;
     if (entity.point == '0') {
       entity.good_or_not = 0;
+      badPoint = user[0].bad_point + 1;
+      p = {id: user[0].id,
+            bad_point: badPoint}
+      await userModel.patch(p);
     }
     else {
       entity.good_or_not = 1;
+      goodPoint = user[0].good_point + 1;
+      p = {id: user[0].id,
+            good_point: goodPoint}
+      await userModel.patch(p);
     }
 
     entity.created_at = moment().format('YYYY-MM-DD HH:mm:ss');
+    entity.deleted = 0;
     delete entity.point;
 
     console.log(entity);
@@ -281,6 +302,8 @@ router.post('/addComment', async (req, res) => {
 
   //res.redirect('/biider/evaluate');
 })
+
+
 
 //DANH SÁCH YÊU THÍCH
 

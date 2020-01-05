@@ -9,7 +9,7 @@ module.exports = {
     if(req.session.isAuthenticated === false||
       typeof(req.session.u_role) === 'undefined' || 
       req.session.u_role !== 1)
-      return res.redirect(` /account/login?retUrl=${req.originalUrl}`);
+      return res.redirect(`/account/login?retUrl=${req.originalUrl}`);
     next();
   },
 
@@ -17,7 +17,7 @@ module.exports = {
     if(req.session.isAuthenticated === false||
       typeof(req.session.u_role) === 'undefined' || 
       req.session.u_role !== 0)
-      return res.redirect(` /account/login?retUrl=${req.originalUrl}`);
+      return res.redirect(`/account/login?retUrl=${req.originalUrl}`);
     next();
   }
 
