@@ -133,12 +133,12 @@ module.exports = {
 
   topFiveBidCount: () => db.load(`select * from products 
                                   where p_status = 1 
-                                  order by current_bid desc
+                                  order by bid_count desc
                                   limit 5 offset 0`),
 
   topFiveHighBid: () => db.load(`select * from products 
                                   where p_status = 1 
-                                  order by bid_count desc
+                                  order by current_bid desc
                                   limit 5 offset 0`),
 
 
