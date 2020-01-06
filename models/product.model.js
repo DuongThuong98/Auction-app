@@ -11,6 +11,10 @@ module.exports = {
   allByIDtype: (type) => db.load(`select * from products 
                                         where  id_type = ${type} or id_type_1 = ${type}`),
 
+  allByIDtypeLimit: (type) => db.load(`select * from products 
+                                        where  id_type = ${type} or id_type_1 = ${type}
+                                        limit 5 offset 0`),
+
   countByCat: async catId => {
     const rows = await db.load(`select count(*) as total from products where id_type = ${catId}`)
     return rows[0].total;

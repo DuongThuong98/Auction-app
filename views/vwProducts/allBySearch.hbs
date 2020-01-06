@@ -60,11 +60,11 @@
             <ul class="products-grid">
               {{#each this.products}}
               <li class="item item col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                <div class="product-item">
+                 <div class="product-item">
                   <div class="item-inner">
                     <div class="product-thumbnail">
                       {{#if is_new}}
-                      <div class="icon-hot-label hot-right">HOT</div>
+                      <div class="icon-hot-label hot-right">NEW</div>
                       {{/if}}
                       <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="/products/{{id}}">
                           <figure> <img class="first-img" src="/images/products-images/{{image}}" alt="html template">
@@ -103,19 +103,15 @@
                           </div>
                         </div>
                         <div class="item-brief" style="text-align: left;">
-                          
                           <label>MBidder: </label>
-                          <span>Thưởng</span>
+                          <span>{{bidder_name}}</span>
+                          {{#if purchase_bid}}
                           <br>
                           <label>Mua ngay: </label>
-                          <span class="price">$1050.00</span>
+                          <span class="price">{{purchase_bid}} đ</span>
+                          {{/if}}
                           <br>
-                          <label>Ngày đăng: </label>
-                          <span
-                            style="padding: 5px; background-color: rgb(5, 27, 126); color: cornsilk;">11/11/2019</span>
-                          <br>
-
-                          <label>Số lượt ra giá: </label> <span style="font-weight: bold;">{{bid_count}}</span>
+                          <label>Số lượt ra giá: &nbsp; </label><span style="font-weight: bold;">{{bid_count}}</span>
                         </div>
                       </div>
                     </div>

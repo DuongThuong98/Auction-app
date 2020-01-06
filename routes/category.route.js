@@ -97,7 +97,7 @@ router.get('/:id/products', async (req, res) => {
     })
   }
 
-  //format time hợp lệ
+  //format time hợp lệ và mask tên
   for (i = 0; i < rows.length; i++) {
     //console.log(rows[i].expired_at);
     bidder = await userModel.single(rows[i].id_bidder);

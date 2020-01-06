@@ -165,18 +165,71 @@ app.get('/', async (req, res) => {
   topFiveBidCount = await productModel.topFiveBidCount();
   topFiveHighBid = await productModel.topFiveHighBid();
   current_time = moment().format('MM/DD/YYYY LTS');
+
   //thời gian hợp lệ
   for (i = 0; i < topFiveDeadline.length; i++) {
+    bidder = await userModel.single(topFiveDeadline[i].id_bidder);
+    if (bidder.length > 0) {
+      len = bidder[0].username.length;
+      pos = parseInt(len / 2);
+      mask = '*';
+      for (x = 0; x < pos; x++) {
+        mask = mask + '*';
+      }
+      //rows[i].bidder_name = 'Có';
+      temp = mask + bidder[0].username.substr(pos, len - pos);
+      topFiveDeadline[i].bidder_name = temp;
+      //console.log(temp);
+      //console.log(pos + '' + len + ' ' +mask);
+    }
+    else {
+      topFiveDeadline[i].bidder_name = 'Chưa có'
+    }
+
     //console.log(rows[i].expired_at);
     topFiveDeadline[i].f_expired_at = moment(topFiveDeadline[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
   }
 
   for (i = 0; i < topFiveBidCount.length; i++) {
+    bidder = await userModel.single(topFiveBidCount[i].id_bidder);
+    if (bidder.length > 0) {
+      len = bidder[0].username.length;
+      pos = parseInt(len / 2);
+      mask = '*';
+      for (x = 0; x < pos; x++) {
+        mask = mask + '*';
+      }
+      //rows[i].bidder_name = 'Có';
+      temp = mask + bidder[0].username.substr(pos, len - pos);
+      topFiveBidCount[i].bidder_name = temp;
+      //console.log(temp);
+      //console.log(pos + '' + len + ' ' +mask);
+    }
+    else {
+      topFiveBidCount[i].bidder_name = 'Chưa có'
+    }
     //console.log(rows[i].expired_at);
     topFiveBidCount[i].f_expired_at = moment(topFiveBidCount[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
   }
 
   for (i = 0; i < topFiveHighBid.length; i++) {
+    bidder = await userModel.single(topFiveHighBid[i].id_bidder);
+    if (bidder.length > 0) {
+      len = bidder[0].username.length;
+      pos = parseInt(len / 2);
+      mask = '*';
+      for (x = 0; x < pos; x++) {
+        mask = mask + '*';
+      }
+      //rows[i].bidder_name = 'Có';
+      temp = mask + bidder[0].username.substr(pos, len - pos);
+      topFiveHighBid[i].bidder_name = temp;
+      //console.log(temp);
+      //console.log(pos + '' + len + ' ' +mask);
+    }
+    else {
+      topFiveHighBid[i].bidder_name = 'Chưa có'
+    }
     //console.log(rows[i].expired_at);
     topFiveHighBid[i].f_expired_at = moment(topFiveHighBid[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
   }

@@ -14,6 +14,33 @@ router.get('/:id', async (req, res) => {
   const rows = await productModel.single(proId);
   console.log(rows);
 
+  const relevantPro = await productModel.allByIDtypeLimit(rows[0].id_type);
+  //format time hợp lệ và mask tên
+  for (i = 0; i < relevantPro.length; i++) {
+    //console.log(rows[i].expired_at);
+    const bidder = await userModel.single(relevantPro[i].id_bidder);
+    if (bidder.length > 0) {
+      len = bidder[0].username.length;
+      pos = parseInt(len / 2);
+      mask = '*';
+      for (x = 0; x < pos; x++) {
+        mask = mask + '*';
+      }
+      //rows[i].bidder_name = 'Có';
+      temp = mask + bidder[0].username.substr(pos, len - pos);
+      relevantPro[i].bidder_name = temp;
+      //console.log(temp);
+      //console.log(pos + '' + len + ' ' +mask);
+    }
+    else {
+      relevantPro[i].bidder_name = 'Chưa có'
+    }
+    relevantPro[i].f_expired_at = moment(relevantPro[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
+  }
+
+
+
+
   const subImages = await subImageModel.allByProID(proId);
   //console.log(subImages);
 
@@ -51,7 +78,7 @@ router.get('/:id', async (req, res) => {
     }
   }
 
-
+  //chỉ số vui vẻ của nguòi đang chuẩn bị đấu guiá (người đang đăng nhập)
   if (seller != null && seller.good_point != 0 && seller.bad_point != 0) {
     chiSoVuiVe = parseFloat(seller.good_point) / (parseFloat(seller.bad_point) + parseFloat(seller.good_point));
     seller.chiSoVuiVe = Math.round(chiSoVuiVe * 1000) / 1000;
@@ -117,7 +144,8 @@ router.get('/:id', async (req, res) => {
     history,
     empty_his: history.length === 0,
     subImages,
-    is_the_owner
+    is_the_owner,
+    relevantPro
   });
   // res.render('vwProducts/detail');
 
@@ -334,6 +362,23 @@ router.post('/search/key', async (req, res) => {
     }
 
     for (i = 0; i < rows.length; i++) {
+      bidder = await userModel.single(rows[i].id_bidder);
+      if (bidder.length > 0) {
+        len = bidder[0].username.length;
+        pos = parseInt(len / 2);
+        mask = '*';
+        for (x = 0; x < pos; x++) {
+          mask = mask + '*';
+        }
+        //rows[i].bidder_name = 'Có';
+        temp = mask + bidder[0].username.substr(pos, len - pos);
+        rows[i].bidder_name = temp;
+        //console.log(temp);
+        //console.log(pos + '' + len + ' ' +mask);
+      }
+      else {
+        rows[i].bidder_name = 'Chưa có'
+      }
       //console.log(rows[i].expired_at);
       rows[i].f_expired_at = moment(rows[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
     }
