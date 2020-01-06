@@ -114,6 +114,7 @@
   }
 
   function bidValidate() {
+
     var myAcc = $('.my-acc').text();
     if (myAcc === 'My Account') {
       window.location = "../../account/login";
@@ -135,7 +136,7 @@
         else {
           var a = parseInt($('#current_bid').attr('value'));// giá cao nhât hiện tại
           var b = parseInt($('#qty').val()); //giá mà người dùng bid
-          if (b < a && b % 100000 != 0) {
+          if (b <= a || b % 100000 != 0) {
             alert('Giá đấu phải lớn hơn giá hiện tại và là bội số của 100k');
             return false;
           }
@@ -144,43 +145,54 @@
     }
     return true;
   }
+
+  function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }
 </script>
 
 <script type="text/javascript">
   jQuery(document).ready(function () {
     $('.add_to_bid').click(function () {
-      if (bidValidate()) {
-        var idProduct = $(this).attr('data-id');
-        var bidPrice = $('.qty').val();
-        var bidCount = parseInt($('.product-name').attr('data-bid-count'));
-        //console.log(123 % 100000);
-        //console.log(bidPrice);
-        $.ajax({
-          url: '/bidder/bidding',
-          type: 'POST',
-          data: {
-            id: idProduct, // $_POST['id'] = 22
-            action: 'add',
-            bidPrice,
-            bidCount,
-          },
-          dataType: 'JSON',
-          success: function (response) {
-            // response : obj
-            //console.log(response);
-            if (response.success) {
-              $('.modal-title').text(response.message)
-              $('.modal-body ').html("<p> Đấu giá sp " + response.data + " thành công</p>")
-            }
-            else {
-              $('.modal-title').text('Error!')
-              $('.modal-body').text(response.message)
-            }
-            $('#myMessage').modal('show');
-            $('.reload_page_button').click(function () { window.location = '/products/' + response.data; });
+      var bidPrice = $('.qty').val();
+      var bidFormat = formatNumber(bidPrice);
+      if (confirm('Bạn có muốn đấu với mức giá ' + bidFormat + 'đ này?')) {
+        //alert('đồng ý');
+        if (bidValidate()) {
+          var idProduct = $(this).attr('data-id');
+          var bidPrice = $('.qty').val();
+          var bidCount = parseInt($('.product-name').attr('data-bid-count'));
+          //console.log(123 % 100000);
+          //console.log(bidPrice);
+          $.ajax({
+            url: '/bidder/bidding',
+            type: 'POST',
+            data: {
+              id: idProduct, // $_POST['id'] = 22
+              action: 'add',
+              bidPrice,
+              bidCount,
+            },
+            dataType: 'JSON',
+            success: function (response) {
+              // response : obj
+              //console.log(response);
+              if (response.success) {
+                $('.modal-title').text(response.message)
+                $('.modal-body ').html("<p> Đấu giá sp " + response.data + " thành công</p>")
+              }
+              else {
+                $('.modal-title').text('Error!')
+                $('.modal-body').text(response.message)
+              }
+              $('#myMessage').modal('show');
+              $('.reload_page_button').click(function () { window.location = '/products/' + response.data; });
 
-          }
-        })
+            }
+          })
+        }
+      } else {
+        // Do nothing!
       }
     });
 

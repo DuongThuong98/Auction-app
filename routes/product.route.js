@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
 
   const seller = await userModel.singleByID(rows[0].id_seller);
   const bidder = await userModel.singleByID(rows[0].id_bidder);
-  if (bidder != null && bidder.good_point != 0 && bidder.bad_point != 0) {
+  if (bidder != null && (bidder.good_point != 0 || bidder.bad_point != 0)) {
     chiSoVuiVe = parseFloat(bidder.good_point) / (parseFloat(bidder.bad_point) + parseFloat(bidder.good_point));
     bidder.chiSoVuiVe = Math.round(chiSoVuiVe * 1000) / 1000;
     //console.log(bidder.chiSoVuiVe);
@@ -108,6 +108,7 @@ router.get('/:id', async (req, res) => {
   }
   console.log(is_the_owner);
 
+ 
   res.render('vwProducts/detail', {
     product: rows[0],
     seller,

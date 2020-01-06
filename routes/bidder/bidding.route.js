@@ -96,6 +96,18 @@ router.post('/bidding', async (req, res) => {
   item = req.body;
   //const pr = productModel.single(item.id);
   authUser = req.session.authUser;
+  //gửi chỉ số vui vẻ cảu thằng đang đăng nhập
+
+  if (authUser.good_point != 0 || authUser.bad_point != 0) {
+    chiSoVuiVe = parseFloat(authUser.good_point) / (parseFloat(authUser.bad_point) + parseFloat(authUser.good_point));
+    authUser.chiSoVuiVe = Math.round(chiSoVuiVe * 1000) / 1000;
+
+    console.log(authUser.chiSoVuiVe);
+  }
+  else {
+    authUser.chiSoVuiVe = 1.1;
+  }
+
 
   current_time = moment().format('YYYY-MM-DD HH:mm:ss');
 
@@ -120,26 +132,31 @@ router.post('/bidding', async (req, res) => {
     //console.log(item.bidCount);
     count = parseInt(item.bidCount) + 1;//số lượt ra giá cộng thêm 1
     //console.log(count);
-    if (isBanned.length > 0) {
-      status = 3;
+    if (authUser.chiSoVuiVe < 0.8) {
+      status = 4;
     }
     else {
-      var entity = {
-        id_bidder: authUser.id,
-        id_product: item.id,
-        bid_price: item.bidPrice,
-        h_time: current_time
-      };
-      const result = await autionHistoryModel.add(entity);
-      const thayDoiCurrentBidVaBidder = await productModel.patch({
-        ProID: item.id,
-        current_bid: item.bidPrice,
-        id_bidder: authUser.id,
-        bid_count: count
-      });
-      console.log(result);
-      if (result.affectedRows == 1 && thayDoiCurrentBidVaBidder.affectedRows == 1) {
-        status = 2;
+      if (isBanned.length > 0) {
+        status = 3;
+      }
+      else {
+        var entity = {
+          id_bidder: authUser.id,
+          id_product: item.id,
+          bid_price: item.bidPrice,
+          h_time: current_time
+        };
+        const result = await autionHistoryModel.add(entity);
+        const thayDoiCurrentBidVaBidder = await productModel.patch({
+          ProID: item.id,
+          current_bid: item.bidPrice,
+          id_bidder: authUser.id,
+          bid_count: count
+        });
+        console.log(result);
+        if (result.affectedRows == 1 && thayDoiCurrentBidVaBidder.affectedRows == 1) {
+          status = 2;
+        }
       }
     }
   }
@@ -220,11 +237,21 @@ router.post('/bidding', async (req, res) => {
         });
       }
       else {
-        res.json({
-          success: false,
-          message: 'Có lỗi xảy ra, Bid/cấm không thành công',
-          data: item.id
-        });
+        if (status == 4) {
+          res.json({
+            success: false,
+            message: 'Chỉ số vui vẻ của bạn dưới mức 80%',
+            data: item.id
+          });
+        }
+        else {
+          res.json({
+            success: false,
+            message: 'Có lỗi xảy ra, Bid/cấm không thành công',
+            data: item.id
+          });
+        }
+
       }
     }
   }
@@ -234,10 +261,21 @@ router.post('/bidding', async (req, res) => {
 
 router.get('/evaluate', async (req, res) => {
   reviewer = req.session.authUser;
+  authUser = req.session.authUser;
+  //gửi chỉ số vui vẻ cảu thằng đang đăng nhập
+
+  if (authUser.good_point != 0 || authUser.bad_point != 0) {
+    chiSoVuiVe = parseFloat(authUser.good_point) / (parseFloat(authUser.bad_point) + parseFloat(authUser.good_point));
+    authUser.chiSoVuiVe = Math.round(chiSoVuiVe * 1000) / 1000;
+    console.log(authUser.chiSoVuiVe);
+  }
+  else {
+    authUser.chiSoVuiVe = 1.1;
+  }
+
   const comment = await commentModel.allByUserID(reviewer.id);
 
-  for(i=0;i<comment.length;i++)
-  {
+  for (i = 0; i < comment.length; i++) {
     product = await productModel.single(comment[i].id_product);
     user = await userModel.single(comment[i].id_reviewer);
     comment[i].proName = product[0].p_name;
@@ -246,8 +284,8 @@ router.get('/evaluate', async (req, res) => {
     comment[i].createdDay = moment(comment[i].created_at).format('DD/MM/YYYY hh:mm');
   }
 
-   console.log(comment);
-  res.render('vwBidder/evaluate',{comment});
+  console.log(comment);
+  res.render('vwBidder/evaluate', { comment, chiSoVuiVe: authUser.chiSoVuiVe });
 });
 
 router.get('/:id/addComment', async (req, res) => {
@@ -266,7 +304,7 @@ router.post('/addComment', async (req, res) => {
   entity = req.body;
   product = await productModel.single(entity.id_product);
   if (reviewer.id != product[0].id_bidder) {
-    res.render('vwBidder/addComment',{err_message: 'Bạn không thắng món hàng này'});
+    res.render('vwBidder/addComment', { err_message: 'Bạn không thắng món hàng này' });
   }
   else {
     user = await userModel.single(entity.id_user);
@@ -274,15 +312,19 @@ router.post('/addComment', async (req, res) => {
     if (entity.point == '0') {
       entity.good_or_not = 0;
       badPoint = user[0].bad_point + 1;
-      p = {id: user[0].id,
-            bad_point: badPoint}
+      p = {
+        id: user[0].id,
+        bad_point: badPoint
+      }
       await userModel.patch(p);
     }
     else {
       entity.good_or_not = 1;
       goodPoint = user[0].good_point + 1;
-      p = {id: user[0].id,
-            good_point: goodPoint}
+      p = {
+        id: user[0].id,
+        good_point: goodPoint
+      }
       await userModel.patch(p);
     }
 
@@ -304,7 +346,7 @@ router.post('/addComment', async (req, res) => {
 })
 
 router.get('/:id/publicComment', async (req, res) => {
-  
+
   const bidderID = req.params.id;
   const commentOwner = await userModel.single(bidderID);
   if (commentOwner[0].good_point != 0 || commentOwner[0].bad_point != 0) {
@@ -312,17 +354,15 @@ router.get('/:id/publicComment', async (req, res) => {
     commentOwner[0].chiSoVuiVe = Math.round(chiSoVuiVe * 1000) / 1000;
     console.log(commentOwner[0].good_point);
   }
-  else
-  {
+  else {
     commentOwner[0].chiSoVuiVe = 1.1;
   }
-  
+
   //console.log(bidderID);
   //reviewer = req.session.authUser;
   const comment = await commentModel.allByUserID(bidderID);
 
-  for(i=0;i<comment.length;i++)
-  {
+  for (i = 0; i < comment.length; i++) {
     product = await productModel.single(comment[i].id_product);
     user = await userModel.single(comment[i].id_reviewer);
     comment[i].proName = product[0].p_name;
@@ -331,10 +371,12 @@ router.get('/:id/publicComment', async (req, res) => {
     comment[i].createdDay = moment(comment[i].created_at).format('DD/MM/YYYY hh:mm');
   }
 
-   console.log(comment);
-  res.render('vwBidder/publicComment',{comment,
-                                      empty: comment.length ===0,
-                                      commentOwner:commentOwner[0]});
+  console.log(comment);
+  res.render('vwBidder/publicComment', {
+    comment,
+    empty: comment.length === 0,
+    commentOwner: commentOwner[0]
+  });
 });
 
 

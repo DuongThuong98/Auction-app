@@ -86,25 +86,23 @@
       <div class="account-login">
         <div class="box-authentication">
 
+          {{#if success_message}}
           <div class="alert alert-success alert-dismissible" style="width:300px">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Success!</strong> This alert box could indicate a successful or positive action.
+            <strong>Thành công!</strong> {{success_message}}
           </div>
-
-          <div class="alert alert-danger alert-dismissible" style="width:300px">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
-          </div>
-          <h2 style="font-weight: bold;">ĐĂNG KÝ TÀI KHOẢN</h2>
-
-          {{#if err_message}}
-
-          {{err_message}}
-
           {{/if}}
 
+          {{#if err_message}}
+          <div class="alert alert-danger alert-dismissible" style="width:300px">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Lỗi!</strong> {{err_message}}
+          </div>
+          {{/if}}
+
+          <h2 style="font-weight: bold;">ĐĂNG KÝ TÀI KHOẢN</h2>
           <form onsubmit="return validate();" method="POST" id="frmRegister" name="frmRegister">
-            <h5 class="mb-3">Account</h5>
+           
 
             <div class="form-group">
               <label for="txtUsername">Username</label>
@@ -135,9 +133,8 @@
             </div>
 
             <div class="g-recaptcha" data-sitekey="6LcjNswUAAAAAP41Ew0r-yzS4K__xHX3APgs3yHk" name="capcha"></div>
-            <button type="submit" class="btn btn-outline-success">
-              <i class="fa fa-check" aria-hidden="true"></i>
-              Register
+            <button type="submit" class="btn btn-warning" style="margin-top: 10px;">
+              <i class="fa fa-check" aria-hidden="true"></i>ĐĂNG KÝ
             </button>
           </form>
         </div>
