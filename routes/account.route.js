@@ -9,6 +9,7 @@ const restrict = require('../middlewares/auth.mdw');
 const productModel = require('../models/product.model');
 const mailingSystemModel = require('../models/mailingSystem.model');
 const emailHelper = require('../helpers/email.helper');
+const functionHelper = require('../helpers/function.helper');
 
 const router = express.Router();
 
@@ -131,7 +132,7 @@ router.post('/register', async (req, res) => {
       entity.u_status = 0;
       entity.u_dob = dob;
       entity.u_role = 2;//bidder  
-      entity.u_status = 1; //active 
+      entity.u_status = 0; //1:active 0: un-active  2:dang yêu cầu nâng cấp level role 
       entity.good_point = 0;
       entity.bad_point = 0;
 
@@ -140,7 +141,20 @@ router.post('/register', async (req, res) => {
       delete entity['g-recaptcha-response'];
 
       const result = await userModel.add(entity);
-      console.log(entity);
+      console.log(result);
+     
+      var tokenEmail = functionHelper.createToken();
+      var tokenDate = moment().format('YYYY-MM-DD HH:mm:ss');
+      entityEmail = {
+        id_receiver: result.insertId,
+        id_product: 0,
+        content: '<h1>Link: <a href="http://localhost:3000/authemail/' + tokenEmail +'">vào đây</a></h1>',
+        status_mail: 1,
+        token_date: tokenDate,
+        token_email: tokenEmail
+      };
+      await mailingSystemModel.add(entityEmail);
+      emailHelper.sendmail(entity.email, '[Beginer] Xác nhận tài khoản', entityEmail.content);
       res.render('vwAccount/register', { success_message: "Tạo tk thành công, vào email xác nhận" });
     }
   }
@@ -186,8 +200,6 @@ router.post('/logout', (req, res) => {
 });
 
 
-// router.get('/profile', restrict, (req, res) => {
-//   res.render('vwAccount/profile');
-// });
+
 module.exports = router;
 

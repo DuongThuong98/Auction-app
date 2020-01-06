@@ -7,6 +7,7 @@ module.exports = {
   all: () => db.load(`select * from mailingsystem`),                
   single: p_id => db.load(`select * from mailingsystem where id = ${p_id}`),
   singleByProID: p_id => db.load(`select * from mailingsystem where id_product = ${p_id}`),
+  singleByTokenEmail: token => db.load(`select * from mailingsystem where token_email = '${token}'`),
   add: entity => db.add('mailingsystem', entity),
   
   patch: entity => {
