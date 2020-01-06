@@ -34,6 +34,11 @@
     margin-bottom: 15px
   }
 
+  .created-day {
+    font-size: 15px;
+    margin-bottom: 15px
+  }
+
   .product-cart-option {
     border-top: 1px solid #e5e5e5;
     display: inline-block;
@@ -44,7 +49,8 @@
   }
 
   .bidder-name h2,
-  .seller-name h2 {
+  .seller-name h2,
+  .created-day h2 {
     font-size: 15px;
     text-transform: uppercase;
     color: #333e48;
@@ -113,8 +119,7 @@
       window.location = "../../account/login";
     }
     else {
-      if($('.product-name').attr('data-pro-status') != 1 )
-      {
+      if ($('.product-name').attr('data-pro-status') != 1) {
         alert("Sản phẩm đã hết phiên đấu giá");
         return false;
       }
@@ -180,40 +185,40 @@
     });
 
     $('.banned_bidder').click(function () {
-        var idProduct = $('.product-name').attr('data-pro-id');
-        var idBidder = $(this).attr('data-bidder-id');
-        var idHis = $(this).attr('data-his-id');
-        var bidCount = parseInt($('.product-name').attr('data-bid-count'));
-        console.log(idProduct);
-        console.log(idBidder);
-        $.ajax({
-          url: '/bidder/bidding',
-          type: 'POST',
-          data: {
-            idProduct, // $_POST['id'] = 22
-            action: 'banned',
-            idBidder,
-            idHis,
-            bidCount,
-          },
-          dataType: 'JSON',
-          success: function (response) {
-            // response : obj
-            //console.log(response);
-            if (response.success) {
-              $('.modal-title').text(response.message)
-              $('.modal-body ').html("<p>Cấm thành công</p>")
-            }
-            else {
-              $('.modal-title').text('Error!')
-              $('.modal-body').text(response.message)
-            }
-            $('#myMessage').modal('show');
-            $('.reload_page_button').click(function () { window.location = '/products/' + response.data; });
-
+      var idProduct = $('.product-name').attr('data-pro-id');
+      var idBidder = $(this).attr('data-bidder-id');
+      var idHis = $(this).attr('data-his-id');
+      var bidCount = parseInt($('.product-name').attr('data-bid-count'));
+      console.log(idProduct);
+      console.log(idBidder);
+      $.ajax({
+        url: '/bidder/bidding',
+        type: 'POST',
+        data: {
+          idProduct, // $_POST['id'] = 22
+          action: 'banned',
+          idBidder,
+          idHis,
+          bidCount,
+        },
+        dataType: 'JSON',
+        success: function (response) {
+          // response : obj
+          //console.log(response);
+          if (response.success) {
+            $('.modal-title').text(response.message)
+            $('.modal-body ').html("<p>Cấm thành công</p>")
           }
-        })
-      
+          else {
+            $('.modal-title').text('Error!')
+            $('.modal-body').text(response.message)
+          }
+          $('#myMessage').modal('show');
+          $('.reload_page_button').click(function () { window.location = '/products/' + response.data; });
+
+        }
+      })
+
     });
   })
 </script>
@@ -226,7 +231,9 @@
       <div class="col-main">
         <div class="product-view-area">
           <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
-            <div class="icon-sale-label sale-left">Sale</div>
+            {{#if this.product.is_new}}
+            <div class="icon-sale-label sale-left">NEW</div>
+            {{/if}}
             <div class="large-image"> <a href="/images/products-images/{{this.product.image}}" class="cloud-zoom"
                 id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20" style="position: relative; display: block;">
                 <img class="zoom-img" src="/images/products-images/{{this.product.image}}" alt="products"
@@ -264,7 +271,8 @@
           </div>
           <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7 product-details-area">
 
-            <div class="product-name" data-pro-status="{{this.product.p_status}}" data-pro-id="{{this.product.id}}" data-bid-count="{{this.product.bid_count}}">
+            <div class="product-name" data-pro-status="{{this.product.p_status}}" data-pro-id="{{this.product.id}}"
+              data-bid-count="{{this.product.bid_count}}">
               <h1>{{this.product.p_name}}</h1>
             </div>
             <div class="price-box">
@@ -287,9 +295,11 @@
               <span>
                 <label>Người mua:</label>
                 {{#if this.bidder}}
-                <span class="bidder-user" data-id="{{this.bidder.id}}">{{this.bidder.username}}</span>
+                <span class="bidder-user" data-id="{{this.bidder.id}}">
+                  <a href="/bidder/{{this.seller.id}}/publicComment">{{this.bidder.bidder_name}}</a>
+                </span>
                 {{else}}
-                <span>Chưa có mua</span>
+                <span>Chưa có ai mua</span>
                 {{/if}}
               </span>
               <span>
@@ -303,7 +313,9 @@
             <div class="seller-name">
               <span>
                 <label>Người bán:</label>
-                <span class="seller-user" data-id="{{this.seller.id}}">{{this.seller.username}}</span>
+                <span class="seller-user" data-id="{{this.seller.id}}">
+                  <a href="/bidder/{{this.seller.id}}/publicComment">{{this.seller.seller_name}}</a>
+                </span>
               </span>
               <span>
                 <i class="far fa-heart" style="color: rgb(44, 5, 216); font-size: 20px;"></i> {{this.seller.chiSoVuiVe}}
@@ -324,6 +336,13 @@
                 <button class="button pro-add-to-cart add_to_bid" data-id="{{this.product.id}}" title="Add to Cart"
                   type="button"><span><i class="fa fa-shopping-cart"></i>RA GIÁ<span></button>
               </form>
+            </div>
+            <div class="created-day">
+              <span>
+                <label>Ngày đăng: </label>
+                <span class="seller-user">{{this.product.f_created_at}}</span>
+              </span>
+
             </div>
             <div hidden class="current_time" content="{{current_time}}"></div>
             <div class="upload-date">
@@ -368,7 +387,11 @@
                 </ul>
                 <div id="productTabContent" class="tab-content">
                   <div class="tab-pane fade in active" id="description">
-                    <div class="std">
+                    <div class="std" style="height: 500px; 
+                                                                  background-color: rgb(242, 243, 237);
+                                                                    overflow: auto;
+                                                                    margin-top:10px;
+                                                                    margin-bottom:5px">
                       {{{this.product.detail}}}
                     </div>
                   </div>
@@ -394,8 +417,8 @@
                           <td><span>***</span>{{fullname}}</td>
                           <td>{{time}}</td>
                           <td> {{format bidPrice}} đ</td>
-                          <td><i class="fas fa-share-square banned_bidder" 
-                                   data-bidder-id='{{id_bidder}}' data-his-id='{{id_his}}'></i></td>
+                          <td><i class="fas fa-share-square banned_bidder" data-bidder-id='{{id_bidder}}'
+                              data-his-id='{{id_his}}'></i></td>
                         </tr>
                         {{/each}}
                         {{else}}

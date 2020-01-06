@@ -27,10 +27,28 @@ router.get('/:id', async (req, res) => {
     bidder.chiSoVuiVe = Math.round(chiSoVuiVe * 1000) / 1000;
     //console.log(bidder.chiSoVuiVe);
     //console.log(bidder.good_point);
+
+    len = bidder.username.length;
+    pos = parseInt(len / 2);
+    mask = '*';
+    for (x = 0; x < pos; x++) {
+      mask = mask + '*';
+    }
+    temp = mask + bidder.username.substr(pos, len - pos);
+    bidder.bidder_name = temp;
   }
   else {
-    if (bidder != null)
+    if (bidder != null) {
       bidder.chiSoVuiVe = 1.1;//giá trị khởi tạo ban đầu cho bidder chưa có điểm đánh giá
+      len = bidder.username.length;
+      pos = parseInt(len / 2);
+      mask = '*';
+      for (x = 0; x < pos; x++) {
+        mask = mask + '*';
+      }
+      temp = mask + bidder.username.substr(pos, len - pos);
+      bidder.bidder_name = temp;
+    }
   }
 
 
@@ -39,8 +57,24 @@ router.get('/:id', async (req, res) => {
     seller.chiSoVuiVe = Math.round(chiSoVuiVe * 1000) / 1000;
     //console.log(bidder.chiSoVuiVe);
     //console.log(bidder.good_point);
+    len = seller.username.length;
+    pos = parseInt(len / 2);
+    mask = '*';
+    for (x = 0; x < pos; x++) {
+      mask = mask + '*';
+    }
+    temp = mask + seller.username.substr(pos, len - pos);
+    seller.seller_name = temp;
   }
   else {
+    len = seller.username.length;
+    pos = parseInt(len / 2);
+    mask = '*';
+    for (x = 0; x < pos; x++) {
+      mask = mask + '*';
+    }
+    temp = mask + seller.username.substr(pos, len - pos);
+    seller.seller_name = temp;
     seller.chiSoVuiVe = 1.1;//giá trị khởi tạo ban đầu cho bidder chưa có điểm đánh giá
   }
 
@@ -60,6 +94,7 @@ router.get('/:id', async (req, res) => {
   //console.log(history);
 
   rows[0].f_expired_at = moment(rows[0].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
+  rows[0].f_created_at = moment(rows[0].created_at, 'YYYY-MM-DD HH:mm:ss').format('LLLL');
   rows[0].advise_bid = rows[0].current_bid + 100000;
   current_time = moment().format('MM/DD/YYYY LTS');
 
@@ -116,7 +151,7 @@ router.get('/search/key', async (req, res) => {
         total = totalTemp;
         rows = rowsTemp;
       }
-      else{
+      else {
         let [totalTemp, rowsTemp] = await Promise.all([
           productModel.countSearchByKeyCate_2(searching.searchkey, cate.id),
           productModel.pageBySearchkeyCate_2(searching.searchkey, cate.id, offset)
@@ -196,8 +231,10 @@ router.post('/search/key', async (req, res) => {
     ]);
 
     if (cate != 0) {
-      req.session.searchkey = { searchkey: searching.searchkey,
-                                cate };
+      req.session.searchkey = {
+        searchkey: searching.searchkey,
+        cate
+      };
       if (cate.cap1) {
         let [totalTemp, rowsTemp] = await Promise.all([
           productModel.countSearchByKeyCate_1(searching.searchkey, cate.id),
@@ -206,7 +243,7 @@ router.post('/search/key', async (req, res) => {
         total = totalTemp;
         rows = rowsTemp;
       }
-      else{
+      else {
         let [totalTemp, rowsTemp] = await Promise.all([
           productModel.countSearchByKeyCate_2(searching.searchkey, cate.id),
           productModel.pageBySearchkeyCate_2(searching.searchkey, cate.id, offset)

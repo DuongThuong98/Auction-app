@@ -1,0 +1,97 @@
+    
+    {{#section 'css'}}
+<style>
+  .item-brief {
+    padding-left: 3px;
+
+  }
+
+  .product-item {
+    /* margin-top: 10px; */
+    /* background-color: rgb(245, 240, 139); */
+    border-style: groove;
+    /* border-color: honeydew; */
+    border-width: 1px;
+  }
+
+  .form-control {
+    width: 200px;
+  }
+
+  .page-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-group {
+    width: fit-content;
+  }
+
+  td {
+    margin: auto;
+    vertical-align: middle;
+  }
+
+  .th-delate {
+    font-size: x-large;
+  }
+</style>
+{{/section}}
+    
+    <!-- Main Container -->
+        <section class="main-container col2-right-layout">
+            <div class="main container">
+                <div class="row">
+                    <div class="col-main col-sm-9 col-xs-12">
+                        <div class="my-account">
+                            <div class="page-title">
+                                <h2>Bảng đánh giá của {{this.commentOwner.username}}</h2> <br>
+                                <h4>Rating: {{this.commentOwner.chiSoVuiVe}}</h4>
+                            </div>
+                            <div class="wishlist-item table-responsive">
+                                <table class="col-md-12">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-evaluator">Người bình luận</th>
+                                            <th class="th-product">Nội dung bình luận</th>
+                                            <th class="th-details">Sản phẩm giao dịch</th>
+                                            <th class="th-price">Thời gian đăng</th>
+                                            <th class="th-delete">Thái độ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each this.comment}}
+                                        <tr>
+                                            <td class="th-evaluate"><a href="#"><i class="fas fa-gavel"></i>{{reviewerName}}</a></td>
+                                            <td class="th-details">
+                                                <h2><a href="#">{{content}}</a></h2>
+                                            </td>
+                                            <td class="th-product"><a href="/products/{{id_product}}"><img src="/images/products-images/{{image}}"
+                                                        alt="cart"></a> <br>{{proName}}</td>
+                                            <td class="th-price">{{createdDay}}</td>
+                                            {{#if good_or_not}}
+                                            <td class="th-delete"><i class="fas fa-thumbs-up" style="font-size: xx-large;
+                                                                                                    color: rgb(233, 255, 35)"></i></td>
+                                            {{else}}
+                                            <td class="th-delete"><i class="fas fa-thumbs-down" style="font-size: xx-large;
+                                                                                                    color: rgb(85, 0, 155)" ></i></td>
+                                            {{/if}}
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                                <ul style ="list-style-type: none;">
+                               <li>
+                                    <a class="continue-btn" href="/bidder"><i class="fa fa-arrow-left"> </i>&nbsp;
+                                        Trở về trang cá nhân</a>&nbsp;
+                                </li>
+                                </ul>
+                        </div>
+                    </div>                  
+                    
+                </div>
+            </div>
+        </section>
+        <!-- Main Container End -->

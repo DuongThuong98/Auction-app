@@ -303,6 +303,40 @@ router.post('/addComment', async (req, res) => {
   //res.redirect('/biider/evaluate');
 })
 
+router.get('/:id/publicComment', async (req, res) => {
+  
+  const bidderID = req.params.id;
+  const commentOwner = await userModel.single(bidderID);
+  if (commentOwner[0].good_point != 0 || commentOwner[0].bad_point != 0) {
+    chiSoVuiVe = parseFloat(commentOwner[0].good_point) / (parseFloat(commentOwner[0].bad_point) + parseFloat(commentOwner[0].good_point));
+    commentOwner[0].chiSoVuiVe = Math.round(chiSoVuiVe * 1000) / 1000;
+    console.log(commentOwner[0].good_point);
+  }
+  else
+  {
+    commentOwner[0].chiSoVuiVe = 1.1;
+  }
+  
+  //console.log(bidderID);
+  //reviewer = req.session.authUser;
+  const comment = await commentModel.allByUserID(bidderID);
+
+  for(i=0;i<comment.length;i++)
+  {
+    product = await productModel.single(comment[i].id_product);
+    user = await userModel.single(comment[i].id_reviewer);
+    comment[i].proName = product[0].p_name;
+    comment[i].image = product[0].image;
+    comment[i].reviewerName = user[0].username;
+    comment[i].createdDay = moment(comment[i].created_at).format('DD/MM/YYYY hh:mm');
+  }
+
+   console.log(comment);
+  res.render('vwBidder/publicComment',{comment,
+                                      empty: comment.length ===0,
+                                      commentOwner:commentOwner[0]});
+});
+
 
 
 //DANH SÁCH YÊU THÍCH

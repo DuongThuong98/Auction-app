@@ -57,7 +57,7 @@ router.post('/add', upload.array('fuMain', 4), async (req, res) => {
     const seller = req.session.authUser;
     const cate = await categoryModel.single(req.body.id_type);
     const entity = req.body;
-    entity.auto_time_extend = 0;
+    //entity.auto_time_extend = 0;
     entity.id_seller = seller.id;
     entity.p_status = 1;
     entity.deleted = 0;
@@ -68,12 +68,12 @@ router.post('/add', upload.array('fuMain', 4), async (req, res) => {
     entity.current_bid = parseInt(req.body.current_bid);
     entity.purchase_bid = parseInt(req.body.purchase_bid);
     entity.created_at = moment().format('YYYY-MM-DD HH:mm:ss');
-    entity.expired_at = moment(req.body.doe, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    entity.expired_at = moment(req.body.doe, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
     entity.image = req.files[0].filename;
     entity.id_bidder = 0;
 
-    console.log(cate[0]);
-    console.log(cate[0].cat_level);
+    //console.log(cate[0]);
+    //console.log(cate[0].cat_level);
     delete entity.doe;
     console.log(entity);
     //console.log(req.files);

@@ -3,6 +3,7 @@ const moment = require('moment');
 const productModel = require('../models/product.model');
 const categoryModel = require('../models/category.model');
 const subImageModel = require('../models/subImage.model')
+const userModel = require('../models/user.model');
 const config = require('../config/default.json');
 
 
@@ -94,6 +95,26 @@ router.get('/:id/products', async (req, res) => {
   //format time hợp lệ
   for (i = 0; i < rows.length; i++) {
     //console.log(rows[i].expired_at);
+    bidder = await userModel.single(rows[i].id_bidder);
+    if(bidder.length > 0)
+    {
+      len = bidder[0].username.length;
+      pos = parseInt(len / 2);
+      mask = '*';
+      for(x=0;x<pos;x++)
+      {
+        mask = mask + '*';
+      }
+      //rows[i].bidder_name = 'Có';
+      temp =  mask + bidder[0].username.substr(pos,len-pos);
+      rows[i].bidder_name = temp;
+      //console.log(temp);
+      //console.log(pos + '' + len + ' ' +mask);
+    }
+    else
+    {
+      rows[i].bidder_name = 'Chưa có'
+    }
     rows[i].f_expired_at = moment(rows[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
   }
 

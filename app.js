@@ -51,10 +51,10 @@ const productModel = require('./models/product.model');
 app.get('/', async (req, res) => {
   // res.end('hello from expressjs');
   if (req.session.task !== 1) {
-    cron.schedule('*/10 * * * * *', async () => {
+    cron.schedule('*/10 * * * *', async () => {
       temp = await productModel.all();
-      // var now = new Date;
-      var now = new Date(moment());
+       var now = new Date;
+      //var now = new Date(moment());
       // console.log(now.valueOf());
       // console.log(moment().format('YYYY-MM-DD HH:mm:ss'))
       for (i = 0; i < temp.length; i++) {

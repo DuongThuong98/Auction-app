@@ -57,8 +57,8 @@
 <script>
     $('#txtDOE').datetimepicker({
         //format: 'd/m/Y H:s'
-        format: 'd/m/Y',
-        timepicker: false,
+        format: 'd/m/Y H:m:s',
+        timepicker: true,
         mask: true,
     });
 
@@ -119,37 +119,43 @@
                                         <input type="text" class="input form-control" name="purchase_bid"
                                             id="email_address">
                                     </div>
-                                    <!--/ [col] -->
+
                                 </li>
-                                <!--/ .row -->
 
 
                                 <li class="row">
-                                    <!--/ [col] -->
 
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-3">
                                         <label class="required">Loại:</label>
                                         <select class="input form-control" name="id_type">
                                             <option selected="true" disabled="disabled">Chọn </option>
                                             {{#each lcCategories}}
-                                                {{#if mangcap2}}
-                                                <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
-                                                    {{#each mangcap2}}
-                                                    <option value="{{cap2_id}}">&nbsp;&nbsp;&nbsp;{{cap2_name}} </option>
-                                                    {{/each}}
-                                                {{else}}
-                                                <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
-                                                {{/if}}
+                                            {{#if mangcap2}}
+                                            <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
+                                            {{#each mangcap2}}
+                                            <option value="{{cap2_id}}">&nbsp;&nbsp;&nbsp;{{cap2_name}} </option>
+                                            {{/each}}
+                                            {{else}}
+                                            <option value="{{cap1.id}}">{{cap1.cate_name}}</option>
+                                            {{/if}}
                                             {{/each}}
                                         </select>
                                     </div>
-                                    <!--/ [col] -->
+
+                                    <div class="col-sm-3">
+                                        <label class="required">Tự động kéo dài:</label>
+                                        <select class="input form-control" name="auto_time_extend">
+                                            <option selected="true" value="0">Không </option>
+                                            <option value="1">Có </option>
+                                        </select>
+                                    </div>
+
                                     <div class="col-sm-6">
                                         <label for="fuMain" class="required">Ảnh: </label>
                                         <input id="fuMain" name="fuMain" type="file" multiple>
                                     </div>
                                 </li>
-                                <!--/ .row -->
+
                                 <li class="row">
                                     <div class="col-xs-12">
 
@@ -161,10 +167,11 @@
 
                                 </li><!-- / .row -->
                                 <li>
-                                    <a class="continue-btn" href="/seller/product"><i class="fa fa-arrow-left"> </i>&nbsp;
+                                    <a class="continue-btn" href="/seller/product"><i class="fa fa-arrow-left">
+                                        </i>&nbsp;
                                         Trở về
                                         list</a>&nbsp;
-                                    <button class="button" ><i class="fa fa-check "></i>&nbsp; <span>THÊM</span></button>
+                                    <button class="button"><i class="fa fa-check "></i>&nbsp; <span>THÊM</span></button>
                                 </li>
                             </ul>
                         </div>
