@@ -49,16 +49,9 @@ module.exports = function (app) {
       res.locals.isAdmin = true;
     }
 
-
     //cập nhật chỉ mục trên wishlist
     res.locals.wishlistLength = req.session.wishlistLength;
     next();
   })
 };
-
-// module.exports = async (req, res, next) => {
-//   const rows = await categoryModel.allWithDetails();
-//   res.locals.lcCategories = rows;
-//   next();
-// }
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const moment = require('moment');
-let request = require('request'); 
+let request = require('request');
 const userModel = require('../models/user.model');
 const wishlistModel = require('../models/wishlist.model');
 const restrict = require('../middlewares/auth.mdw');
@@ -14,6 +14,7 @@ router.get('/register', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
+  status = 1;
   let data = req.body;  // Dữ liệu từ form submit lên bao gồm thông tin đăng ký và captcha response
   let captchaResponse = data['g-recaptcha-response'];
 
@@ -32,52 +33,67 @@ router.post('/register', async (req, res) => {
       } catch (err) {
         body = {};
       }
-
       if (!error && response.statusCode == 200 && body.success) {
         // Captcha hợp lệ, xử lý tiếp phần đăng ký tài khoản 
-        console.log("thành công")      
+        console.log("thành công");
       } else {
         // Xử lý lỗi nếu Captcha không hợp lệ
-       
+        status = 2;
       }
     });
   } else {
-    // Xử lý lỗi nếu không có Captcha
+    // Xử lý lỗi nếu không có 
+    status = 3;
     console.log("lỗi capcha");
+    
   }
 
-console.log("captcha: " + data['g-recaptcha-response'])
+  console.log("captcha: " + data['g-recaptcha-response'])
+  console.log(data);
 
+  if(status == 2)
+  {
+    res.render('vwAccount/register', { err_message: "Captcha ko hợp lệ" });
+  }
+
+  if(status==3)
+  {
+    res.render('vwAccount/register', { err_message: "Yêu cầu điền Captcha" });
+  }
   //kiểm tra username, email
-  // const username = await userModel.singleByUsername(req.body.username);
-  // const email = await userModel.singleByEmail(req.body.email);
-  // if (username !== null || email !== null) {
-  //   console.log(email);
-  //   return res.render('vwAccount/register', { err_message: 'Username hoặc email bị trùng' });
-  // }
-  // else {
+  if (status == 1) {
+    const username = await userModel.singleByUsername(req.body.username);
+    const email = await userModel.singleByEmail(req.body.email);
+    //  || email !==null
+    if (username !== null ) {
+      console.log(email);
+      return res.render('vwAccount/register', { err_message: 'Username hoặc email đã có người dùng' });
+    }
+    else {
 
-  //   const N = 10;
-  //   const hash = bcrypt.hashSync(req.body.raw_password, N);
-  //   const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      const N = 10;
+      const hash = bcrypt.hashSync(req.body.raw_password, N);
+      const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
-  //   const entity = req.body;
-  //   entity.u_password = hash;
-  //   entity.u_status = 0;
-  //   entity.u_dob = dob;
-  //   entity.u_role = 2;//bidder  
-  //   entity.u_status = 1; //active 
-  //   entity.good_point = 0;
-  //   entity.bad_point = 0;
+      const entity = req.body;
+      entity.u_password = hash;
+      entity.u_status = 0;
+      entity.u_dob = dob;
+      entity.u_role = 2;//bidder  
+      entity.u_status = 1; //active 
+      entity.good_point = 0;
+      entity.bad_point = 0;
 
-  //   delete entity.raw_password;//xóa đi để vào nó không add vô database
-  //   delete entity.dob;
+      delete entity.raw_password;//xóa đi để vào nó không add vô database
+      delete entity.dob;
+      delete entity['g-recaptcha-response'];
 
-  //const result = await userModel.add(entity);
-  //console.log(entity);
-  res.render('vwAccount/register');
-  //}
-
+      const result = await userModel.add(entity);
+      console.log(entity);
+      res.render('vwAccount/register', { success_message: "Tạo tk thành công, vào email xác nhận" });
+    }
+  }
+  
 });
 
 

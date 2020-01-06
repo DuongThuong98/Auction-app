@@ -26,6 +26,12 @@
     width: 40%;
     margin: auto;
   }
+
+  label.error {
+    display: inline-block;
+    color: red;
+    width: 200px;
+  }
 </style>
 
 {{/section}}
@@ -44,18 +50,33 @@
   function validate() {
     if ($('#txtPassword').val() == "" ||
       $('#txtPassword').val() !== $('#txtConfirm').val()) {
-      alert("Nhập lại Password hoặc RePassword")
+      alert("Password và RePassword không khớp ")
       return false;
     }
     return true;
-  }
+  };
+
+  $(document).ready(function () {
+    $("#frmRegister").validate({
+      rules: {
+        username: "required",
+        raw_password: {
+          required: true,
+          minlength: 2,
+        },
+
+      },
+      messages: {
+        username: "Vui lòng nhập tên user",
+        raw_password: {
+          required: "Vui lòng nhập password",
+          minlength: "Mật kẩu quá ngắn",
+        },
+      }
+    });
+  });
 </script>
 {{/section}}
-
-
-
-
-
 
 
 <!-- Main Container -->
@@ -69,7 +90,7 @@
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Success!</strong> This alert box could indicate a successful or positive action.
           </div>
-     
+
           <div class="alert alert-danger alert-dismissible" style="width:300px">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
@@ -82,9 +103,9 @@
 
           {{/if}}
 
-          <form onsubmit="return validate();" method="POST" novalidate id="frmRegister" name="frmRegister">
+          <form onsubmit="return validate();" method="POST" id="frmRegister" name="frmRegister">
             <h5 class="mb-3">Account</h5>
-            
+
             <div class="form-group">
               <label for="txtUsername">Username</label>
               <input type="text" class="form-control" id="txtUsername" name="username" placeholder="john" autofocus>
