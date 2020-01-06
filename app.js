@@ -204,17 +204,18 @@ app.get('/about', (req, res) => {
 // app.use('/admin/categories', require('./routes/admin/category.route'));
 
 app.use((req, res, next) => {
-  // res.render('vwError/404');
-  res.send('You\'re lost');
+   res.render('vwError/404');
+  //res.send('You\'re lost');
 })
 
 
 //
 // default error handler
 app.use((err, req, res, next) => {
-  // res.render('vwError/index');
+   
   console.error(err.stack);
-  res.status(500).send('View error on console.');
+  res.render('vwError/500');
+  //res.status(500).send('View error on console.');
 })
 
 
