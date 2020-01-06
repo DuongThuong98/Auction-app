@@ -6,10 +6,63 @@ const userModel = require('../models/user.model');
 const wishlistModel = require('../models/wishlist.model');
 const restrict = require('../middlewares/auth.mdw');
 
+const productModel = require('../models/product.model');
+const mailingSystemModel = require('../models/mailingSystem.model');
+const emailHelper = require('../helpers/email.helper');
 
 const router = express.Router();
 
 router.get('/register', async (req, res) => {
+  // products = await productModel.all();
+  // for (i = 0; i < products.length; i++) {
+  //   if (products[i].p_status == 0) {
+  //     var daGuiMail = await mailingSystemModel.singleByProID(products[i].id);
+  //     if (daGuiMail.length > 0) {
+
+  //     }
+  //     else {
+  //       seller = await userModel.single(products[i].id_seller);
+  //       entity = {
+  //         id_receiver: seller[0].id,
+  //         id_product: products[i].id,
+  //         content: '<h1>Thông báo không có ai mua hàng</h1>',
+  //         status_mail: 4
+  //       };
+  //       await mailingSystemModel.add(entity);
+  //       emailHelper.sendmail(seller[0].email, '[Seller] Không ai đấu giá', entity.content);
+  //     }
+  //   }
+  //   if (products[i].p_status == 2) {
+  //     var daGuiMail = await mailingSystemModel.singleByProID(products[i].id);
+  //     if (daGuiMail.length > 0) {
+
+  //     }
+  //     else {
+  //       seller = await userModel.single(products[i].id_seller);
+  //       bidder = await userModel.single(products[i].id_bidder);
+  //       content_1 = '<h1>Thông báo sản phẩm' + products[i].p_name + 'có người mua </h1>';
+  //       content_2 = '<h1>Thông báo đã đấu giá thàng công sản phẩm ' +  products[i].p_name +'</h1>';
+  //       entity_1 = {
+  //         id_receiver: seller[0].id,
+  //         id_product: products[i].id,
+  //         content: content_1,
+  //         status_mail: 5
+  //       };
+  //       entity_2 = {
+  //         id_receiver: bidder[0].id,
+  //         id_product: products[i].id,
+  //         content: content_2,
+  //         status_mail: 6
+  //       };
+
+  //       await mailingSystemModel.add(entity_1);
+  //       await mailingSystemModel.add(entity_2);
+  //       emailHelper.sendmail(seller[0].email, '[Seller] Đấu giá thành công', entity_1.content);
+  //       emailHelper.sendmail(bidder[0].email, '[Bidder] Đấu giá thành công', entity_2.content);
+  //     }
+  //   }
+  // }
+
   res.render('vwAccount/register');
 });
 
@@ -45,19 +98,17 @@ router.post('/register', async (req, res) => {
     // Xử lý lỗi nếu không có 
     status = 3;
     console.log("lỗi capcha");
-    
+
   }
 
   console.log("captcha: " + data['g-recaptcha-response'])
   console.log(data);
 
-  if(status == 2)
-  {
+  if (status == 2) {
     res.render('vwAccount/register', { err_message: "Captcha ko hợp lệ" });
   }
 
-  if(status==3)
-  {
+  if (status == 3) {
     res.render('vwAccount/register', { err_message: "Yêu cầu điền Captcha" });
   }
   //kiểm tra username, email
@@ -65,7 +116,7 @@ router.post('/register', async (req, res) => {
     const username = await userModel.singleByUsername(req.body.username);
     const email = await userModel.singleByEmail(req.body.email);
     //  || email !==null
-    if (username !== null ) {
+    if (username !== null) {
       console.log(email);
       return res.render('vwAccount/register', { err_message: 'Username hoặc email đã có người dùng' });
     }
@@ -93,7 +144,7 @@ router.post('/register', async (req, res) => {
       res.render('vwAccount/register', { success_message: "Tạo tk thành công, vào email xác nhận" });
     }
   }
-  
+
 });
 
 

@@ -56,13 +56,12 @@
 
     function validate() {
         if ($('#is_change_pass').is(":checked")) {
-            if ($('#old_password').val() == "" || 
-                $('#new_password').val()=="" || 
-                $('#re_new_password').val()!==$('#new_password').val() )
-                {
-                    alert("Nhập lại Password")
+            if ($('#old_password').val() == "" ||
+                $('#new_password').val() == "" ||
+                $('#re_new_password').val() !== $('#new_password').val()) {
+                alert("Nhập lại Password")
                 return false;
-                }
+            }
         }
 
         return true;
@@ -76,12 +75,15 @@
     <div class="main container">
         <div class="row">
             <div class="col-main col-sm-9 col-xs-12">
-{{#if this.err_message}}
-{{this.err_message}}
-{{/if}}
-{{#if this.success_message}}
-{{this.success_message}}
-{{/if}}
+                {{#if this.err_message}}
+                {{this.err_message}}
+                {{/if}}
+                {{#if successMessage}}
+                <div class="alert alert-success alert-dismissible" style="width:300px">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Thành công!</strong> {{successMessage}}
+                </div>
+                {{/if}}
                 <!-- <div class="col-main col-sm-12 col-xs-12"></div> -->
                 {{#if authUser}}
                 <div class="page-content checkout-page">
@@ -164,9 +166,8 @@
                                     <div class="form-group">
                                         <label class="control-label" for="re_new_password">Nhập lại</label>
                                         <div class="input-wrap">
-                                            <input type="password" name="" class="form-control"
-                                                id="re_new_password" value="" autocomplete="off"
-                                                placeholder="Nhập lại mật khẩu mới">
+                                            <input type="password" name="" class="form-control" id="re_new_password"
+                                                value="" autocomplete="off" placeholder="Nhập lại mật khẩu mới">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>

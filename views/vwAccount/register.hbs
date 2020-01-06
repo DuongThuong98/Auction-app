@@ -86,14 +86,14 @@
       <div class="account-login">
         <div class="box-authentication">
 
-          {{#if success_message}}
+          {{#if this.success_message}}
           <div class="alert alert-success alert-dismissible" style="width:300px">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Thành công!</strong> {{success_message}}
           </div>
           {{/if}}
 
-          {{#if err_message}}
+          {{#if this.err_message}}
           <div class="alert alert-danger alert-dismissible" style="width:300px">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Lỗi!</strong> {{err_message}}

@@ -50,6 +50,7 @@ module.exports = function (app) {
     }
 
     //cập nhật chỉ mục trên wishlist
+    res.locals.successMessage = req.session.successMessage;
     res.locals.wishlistLength = req.session.wishlistLength;
     next();
   })

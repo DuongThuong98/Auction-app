@@ -61,6 +61,7 @@ router.post('/levelup', async (req, res) => {
     u_status: 2
   };
   await userModel.patch(entity);
+  req.session.successMessage = 'Đang đợi phê duyệt';
   res.redirect('/bidder/info');
 })
 
