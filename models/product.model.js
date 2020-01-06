@@ -10,7 +10,7 @@ module.exports = {
                                         where  id_seller = ${s_id} and p_status = 2`),
   allByIDtype: (type) => db.load(`select * from products 
                                         where  id_type = ${type} or id_type_1 = ${type}`),
-  
+
   countByCat: async catId => {
     const rows = await db.load(`select count(*) as total from products where id_type = ${catId}`)
     return rows[0].total;
@@ -59,6 +59,18 @@ module.exports = {
                                             against ('${key}')
                                             limit ${config.paginate.limit} offset ${offset}`),
 
+  pageBySearchkey_A2: (key, offset) => db.load(`select * from products 
+                                            where match (p_name,detail)
+                                            against ('${key}')
+                                            order by current_bid
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
+  pageBySearchkey_A1: (key, offset) => db.load(`select * from products 
+                                            where match (p_name,detail)
+                                            against ('${key}')
+                                            order by expired_at desc
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
   countSearchByKeyCate_1: async (key, id) => {
     const rows = await db.load(`select count(*) as total
                                  from products where match (p_name,detail)against ('${key}') 
@@ -69,6 +81,18 @@ module.exports = {
   pageBySearchkeyCate_1: (key, id, offset) => db.load(`select * from products 
                                             where match (p_name,detail)
                                             against ('${key}') and id_type_1 = ${id}
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
+  pageBySearchkeyCate_1_A2: (key, id, offset) => db.load(`select * from products 
+                                            where match (p_name,detail)
+                                            against ('${key}') and id_type_1 = ${id}
+                                            order by current_bid
+                                            limit ${config.paginate.limit} offset ${offset}`),
+
+  pageBySearchkeyCate_1_A1: (key, id, offset) => db.load(`select * from products 
+                                            where match (p_name,detail)
+                                            against ('${key}') and id_type_1 = ${id}
+                                            order by expired_at desc
                                             limit ${config.paginate.limit} offset ${offset}`),
 
 
@@ -83,6 +107,21 @@ module.exports = {
                                                        where match (p_name,detail)
                                                        against ('${key}') and id_type = ${id}
                                                        limit ${config.paginate.limit} offset ${offset}`),
+
+  pageBySearchkeyCate_2_A2: (key, id, offset) => db.load(`select * from products 
+                                                       where match (p_name,detail)
+                                                       against ('${key}') and id_type = ${id}
+                                                       order by current_bid
+                                                       limit ${config.paginate.limit} offset ${offset}`),
+
+  pageBySearchkeyCate_2_A1: (key, id, offset) => db.load(`select * from products 
+                                                       where match (p_name,detail)
+                                                       against ('${key}') and id_type = ${id}
+                                                       order by expired_at desc
+                                                       limit ${config.paginate.limit} offset ${offset}`),
+
+
+
   topFiveDeadline: () => db.load(`select * from products 
                                   where p_status = 1 
                                   order by expired_at
@@ -98,7 +137,7 @@ module.exports = {
                                   order by bid_count desc
                                   limit 5 offset 0`),
 
-  
+
 
   single: p_id => db.load(`select * from products where id = ${p_id}`),
   add: entity => db.add('products', entity),

@@ -108,7 +108,7 @@ router.get('/:id', async (req, res) => {
   }
   console.log(is_the_owner);
 
- 
+
   res.render('vwProducts/detail', {
     product: rows[0],
     seller,
@@ -124,13 +124,22 @@ router.get('/:id', async (req, res) => {
 })
 
 router.get('/search/key', async (req, res) => {
+  if (typeof (req.session.arrange) === 'undefined' && typeof (req.query.arrange) === 'undefined') {
+    req.session.arrange = 0;
+  }
+  else {
+    if (typeof (req.session.arrange) !== 'undefined' && typeof (req.query.arrange) !== 'undefined') {
+      req.session.arrange = req.query.arrange;
+    }
+  }
+  const arrange = req.session.arrange;
+
   searching = req.session.searchkey
 
   if (searching.searchkey == '') {
     res.redirect(req.headers.referer);
   }
   else {
-
     const limit = config.paginate.limit;
 
     let page = req.query.page || 1;
@@ -141,6 +150,26 @@ router.get('/search/key', async (req, res) => {
       productModel.countSearchByKey(searching.searchkey),
       productModel.pageBySearchkey(searching.searchkey, offset)
     ]);
+    console.log(rows);
+
+    if (arrange == 2) {
+      const [totalTemp, rowsTemp] = await Promise.all([
+        productModel.countSearchByKey(searching.searchkey),
+        productModel.pageBySearchkey_A2(searching.searchkey, offset)
+      ]);
+      total = totalTemp;
+      rows = rowsTemp;
+    }
+
+    if (arrange == 1) {
+      const [totalTemp, rowsTemp] = await Promise.all([
+        productModel.countSearchByKey(searching.searchkey),
+        productModel.pageBySearchkey_A1(searching.searchkey, offset)
+      ]);
+      total = totalTemp;
+      rows = rowsTemp;
+      console.log(rows);
+    }
 
     if (searching.cate != null) {
       cate = searching.cate;
@@ -151,6 +180,25 @@ router.get('/search/key', async (req, res) => {
         ]);
         total = totalTemp;
         rows = rowsTemp;
+
+        if (arrange == 2) {
+          const [totalTemp, rowsTemp] = await Promise.all([
+            productModel.countSearchByKeyCate_1(searching.searchkey, cate.id),
+            productModel.pageBySearchkeyCate_1_A2(searching.searchkey, cate.id, offset)
+          ]);
+          total = totalTemp;
+          rows = rowsTemp;
+        }
+
+        if (arrange == 1) {
+          const [totalTemp, rowsTemp] = await Promise.all([
+            productModel.countSearchByKeyCate_1(searching.searchkey, cate.id),
+            productModel.pageBySearchkeyCate_1_A1(searching.searchkey, cate.id, offset)
+          ]);
+          total = totalTemp;
+          rows = rowsTemp;
+        }
+
       }
       else {
         let [totalTemp, rowsTemp] = await Promise.all([
@@ -159,6 +207,25 @@ router.get('/search/key', async (req, res) => {
         ]);
         total = totalTemp;
         rows = rowsTemp;
+
+
+        if (arrange == 2) {
+          const [totalTemp, rowsTemp] = await Promise.all([
+            productModel.countSearchByKeyCate_2(searching.searchkey, cate.id),
+            productModel.pageBySearchkeyCate_2_A2(searching.searchkey, cate.id, offset)
+          ]);
+          total = totalTemp;
+          rows = rowsTemp;
+        }
+
+        if (arrange == 1) {
+          const [totalTemp, rowsTemp] = await Promise.all([
+            productModel.countSearchByKeyCate_2(searching.searchkey, cate.id),
+            productModel.pageBySearchkeyCate_2_A1(searching.searchkey, cate.id, offset)
+          ]);
+          total = totalTemp;
+          rows = rowsTemp;
+        }
       }
     }
 

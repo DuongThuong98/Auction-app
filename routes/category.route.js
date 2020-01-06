@@ -13,14 +13,19 @@ const router = express.Router();
 // xem ds sản phẩm thuộc danh mục :id
 
 router.get('/:id/products', async (req, res) => {
-
-  const arrange = req.query.arrange || '0';
-  //console.log(url);
-  for (const c of res.locals.lcCategories) {
-    if (c.CatID === +req.params.id) {
-      c.isActive = true;
+  
+  if (typeof (req.session.arrange) === 'undefined' && typeof (req.query.arrange) === 'undefined') {
+    req.session.arrange = 0;
+  }
+  else {
+    if (typeof (req.session.arrange) !== 'undefined' && typeof (req.query.arrange) !== 'undefined') {
+      req.session.arrange = req.query.arrange;
     }
   }
+  const arrange = req.session.arrange;
+
+  console.log(req.query.arrange);
+  //console.log(url);
 
   const catId = req.params.id;
   const limit = config.paginate.limit;
@@ -53,7 +58,7 @@ router.get('/:id/products', async (req, res) => {
   }
 
 
-//nếu ko tìm được trong loại 2 thỉ tìm loại 1
+  //nếu ko tìm được trong loại 2 thỉ tìm loại 1
   if (rows.length === 0) {
     const [total1, rows1] = await Promise.all([
       productModel.countByCat_1(catId),
@@ -96,23 +101,20 @@ router.get('/:id/products', async (req, res) => {
   for (i = 0; i < rows.length; i++) {
     //console.log(rows[i].expired_at);
     bidder = await userModel.single(rows[i].id_bidder);
-    if(bidder.length > 0)
-    {
+    if (bidder.length > 0) {
       len = bidder[0].username.length;
       pos = parseInt(len / 2);
       mask = '*';
-      for(x=0;x<pos;x++)
-      {
+      for (x = 0; x < pos; x++) {
         mask = mask + '*';
       }
       //rows[i].bidder_name = 'Có';
-      temp =  mask + bidder[0].username.substr(pos,len-pos);
+      temp = mask + bidder[0].username.substr(pos, len - pos);
       rows[i].bidder_name = temp;
       //console.log(temp);
       //console.log(pos + '' + len + ' ' +mask);
     }
-    else
-    {
+    else {
       rows[i].bidder_name = 'Chưa có'
     }
     rows[i].f_expired_at = moment(rows[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');

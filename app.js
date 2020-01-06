@@ -54,7 +54,7 @@ const userModel = require('./models/user.model');
 app.get('/', async (req, res) => {
   // res.end('hello from expressjs');
   if (req.session.task !== 1) {
-    cron.schedule('*/10 * * * * *', async () => {
+    cron.schedule('*/30 * * * *', async () => {
       temp = await productModel.all();
       var now = new Date;
       //var now = new Date(moment());
@@ -181,7 +181,8 @@ app.get('/', async (req, res) => {
     topFiveHighBid[i].f_expired_at = moment(topFiveHighBid[i].expired_at, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY LTS');
   }
 
-
+  //không còn sắp xếp nữa (cho trang lọc sản phẩm theo tìm kiếm và loại)
+  req.session.arrange = null;
   res.render('home', { topFiveDeadline, topFiveBidCount, topFiveHighBid, current_time });
 })
 
