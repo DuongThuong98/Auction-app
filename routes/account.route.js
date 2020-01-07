@@ -115,10 +115,10 @@ router.post('/register', async (req, res) => {
   //kiểm tra username, email
   if (status == 1) {
     const username = await userModel.singleByUsername(req.body.username);
-    const email = await userModel.singleByEmail(req.body.email);
+   // const email = await userModel.singleByEmail(req.body.email);
     //  || email !==null
     if (username !== null) {
-      console.log(email);
+      //console.log(email);
       return res.render('vwAccount/register', { err_message: 'Username hoặc email đã có người dùng' });
     }
     else {
