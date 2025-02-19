@@ -5,7 +5,6 @@ let request = require('request');
 const userModel = require('../models/user.model');
 const wishlistModel = require('../models/wishlist.model');
 const restrict = require('../middlewares/auth.mdw');
-
 const productModel = require('../models/product.model');
 const mailingSystemModel = require('../models/mailingSystem.model');
 const emailHelper = require('../helpers/email.helper');
